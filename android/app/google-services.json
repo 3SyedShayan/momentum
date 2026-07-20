@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "427028685090",
+    "project_id": "momentum-app-shayan",
+    "storage_bucket": "momentum-app-shayan.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427028685090:android:02d12872a1fcc3ff95857b",
+        "android_client_info": {
+          "package_name": "com.example.momentum"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnBAP--NTTIUD2gIx4S5xjAoalk2avGFs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
