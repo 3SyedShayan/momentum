@@ -3,13 +3,14 @@ import '../models/category_model.dart';
 import '../models/task_model.dart';
 import '../models/goal_model.dart';
 import '../models/user_profile_model.dart';
+import '../service/firebase/collections.dart';
 
 class MomentumRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // --- Profile Operations ---
   Future<UserProfileModel> getUserProfile(String uid) async {
-    final doc = await _firestore.collection('users').doc(uid).get();
+    final doc = await _firestore.collection(usersCollection).doc(uid).get();
     if (!doc.exists) {
       // Initialize default profile
       final newProfile = UserProfileModel(
@@ -23,7 +24,10 @@ class MomentumRepository {
         defaultReminderMinutes: 15,
         themeMode: 'light',
       );
-      await _firestore.collection('users').doc(uid).set(newProfile.toMap());
+      await _firestore
+          .collection(usersCollection)
+          .doc(uid)
+          .set(newProfile.toMap());
 
       // Seed default categories
       await seedDefaultCategories(uid);
@@ -34,15 +38,18 @@ class MomentumRepository {
   }
 
   Future<void> updateUserProfile(UserProfileModel profile) async {
-    await _firestore.collection('users').doc(profile.uid).set(profile.toMap());
+    await _firestore
+        .collection(usersCollection)
+        .doc(profile.uid)
+        .set(profile.toMap());
   }
 
   // --- Category Operations ---
   Stream<List<CategoryModel>> getCategories(String uid) {
     return _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('categories')
+        .collection(categoriesCollection)
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
@@ -53,18 +60,18 @@ class MomentumRepository {
 
   Future<String> addCategory(String uid, CategoryModel category) async {
     final docRef = await _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('categories')
+        .collection(categoriesCollection)
         .add(category.toMap());
     return docRef.id;
   }
 
   Future<void> deleteCategory(String uid, String categoryId) async {
     await _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('categories')
+        .collection(categoriesCollection)
         .doc(categoryId)
         .delete();
   }
@@ -72,9 +79,9 @@ class MomentumRepository {
   // --- Task Operations ---
   Stream<List<TaskModel>> getTasks(String uid) {
     return _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('tasks')
+        .collection(tasksCollection)
         .orderBy('startTime')
         .snapshots()
         .map(
@@ -86,27 +93,27 @@ class MomentumRepository {
 
   Future<String> addTask(String uid, TaskModel task) async {
     final docRef = await _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('tasks')
+        .collection(tasksCollection)
         .add(task.toMap());
     return docRef.id;
   }
 
   Future<void> updateTask(String uid, TaskModel task) async {
     await _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('tasks')
+        .collection(tasksCollection)
         .doc(task.id)
         .set(task.toMap());
   }
 
   Future<void> deleteTask(String uid, String taskId) async {
     await _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('tasks')
+        .collection(tasksCollection)
         .doc(taskId)
         .delete();
   }
@@ -114,9 +121,9 @@ class MomentumRepository {
   // --- Goal Operations ---
   Stream<List<GoalModel>> getGoals(String uid) {
     return _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('goals')
+        .collection(goalsCollection)
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
@@ -127,57 +134,57 @@ class MomentumRepository {
 
   Future<String> addGoal(String uid, GoalModel goal) async {
     final docRef = await _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('goals')
+        .collection(goalsCollection)
         .add(goal.toMap());
     return docRef.id;
   }
 
   Future<void> updateGoal(String uid, GoalModel goal) async {
     await _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('goals')
+        .collection(goalsCollection)
         .doc(goal.id)
         .set(goal.toMap());
   }
 
   Future<void> deleteGoal(String uid, String goalId) async {
     await _firestore
-        .collection('users')
+        .collection(usersCollection)
         .doc(uid)
-        .collection('goals')
+        .collection(goalsCollection)
         .doc(goalId)
         .delete();
   }
 
   // --- Seeding Default Data ---
   Future<void> seedDefaultCategories(String uid) async {
-    final categoriesCollection = _firestore
-        .collection('users')
+    final categoriesRef = _firestore
+        .collection(usersCollection)
         .doc(uid)
-        .collection('categories');
-    final tasksCollection = _firestore
-        .collection('users')
+        .collection(categoriesCollection);
+    final tasksRef = _firestore
+        .collection(usersCollection)
         .doc(uid)
-        .collection('tasks');
-    final goalsCollection = _firestore
-        .collection('users')
+        .collection(tasksCollection);
+    final goalsRef = _firestore
+        .collection(usersCollection)
         .doc(uid)
-        .collection('goals');
+        .collection(goalsCollection);
 
     // Create Category documents and get their IDs
-    final workRef = await categoriesCollection.add(
+    final workRef = await categoriesRef.add(
       CategoryModel(id: '', name: 'Work', colorHex: '#1A56DB').toMap(),
     );
-    final healthRef = await categoriesCollection.add(
+    final healthRef = await categoriesRef.add(
       CategoryModel(id: '', name: 'Health', colorHex: '#10B981').toMap(),
     );
-    final learningRef = await categoriesCollection.add(
+    final learningRef = await categoriesRef.add(
       CategoryModel(id: '', name: 'Learning', colorHex: '#F59E0B').toMap(),
     );
-    final restRef = await categoriesCollection.add(
+    final restRef = await categoriesRef.add(
       CategoryModel(id: '', name: 'Rest', colorHex: '#8B5CF6').toMap(),
     );
 
@@ -253,7 +260,7 @@ class MomentumRepository {
     ];
 
     for (final task in defaultTasks) {
-      await tasksCollection.add(task.toMap());
+      await tasksRef.add(task.toMap());
     }
 
     // Default Goals
@@ -309,7 +316,7 @@ class MomentumRepository {
     ];
 
     for (final goal in defaultGoals) {
-      await goalsCollection.add(goal.toMap());
+      await goalsRef.add(goal.toMap());
     }
   }
 }

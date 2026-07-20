@@ -1,3 +1,4 @@
-abstract class Collection {
-  static const String users = 'users';
-}
+const String usersCollection = 'users';
+const String categoriesCollection = 'categories';
+const String tasksCollection = 'tasks';
+const String goalsCollection = 'goals';
