@@ -32,23 +32,23 @@ sealed class AppColorsLight {
 }
 
 /// Color tokens for the dark theme.
-sealed class AppColorsDark {
-  /// Action / interactive color. Distinct warm teal — clearly visible on the
-  /// dark background and used as the primary button surface + focus indicator.
-  static const primary = Color(0xff286680);
-  static const accent = Color(0xffD4A574);
+// sealed class AppColorsDark {
+//   /// Action / interactive color. Distinct warm teal — clearly visible on the
+//   /// dark background and used as the primary button surface + focus indicator.
+//   static const primary = Color(0xff286680);
+//   static const accent = Color(0xffD4A574);
 
-  static const text = Color(0xffFAF7F2);
-  static const subText = Color(0xff8AA4A9);
-  static const background = Color(0xff0E2128);
+//   static const text = Color(0xffFAF7F2);
+//   static const subText = Color(0xff8AA4A9);
+//   static const background = Color(0xff0E2128);
 
-  /// Warm gold surface — creamy button and warm-accent card surfaces.
-  /// Mirrors the role that cream (#F4EFE6) plays in the light theme.
-  static const subBackground = Color(0xffD4A574);
+//   /// Warm gold surface — creamy button and warm-accent card surfaces.
+//   /// Mirrors the role that cream (#F4EFE6) plays in the light theme.
+//   static const subBackground = Color(0xffD4A574);
 
-  /// Further-elevated surface — form inputs and neutral cards.
-  static const specBackground = Color(0xff1E3F50);
+//   /// Further-elevated surface — form inputs and neutral cards.
+//   static const specBackground = Color(0xff1E3F50);
 
-  /// Subtle border for cards, inputs, and dividers.
-  static const border = Color(0xff1E3E4E);
-}
+//   /// Subtle border for cards, inputs, and dividers.
+//   static const border = Color(0xff1E3E4E);
+// }

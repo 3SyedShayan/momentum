@@ -6,7 +6,7 @@ class AppTheme {
   static late bool isDark;
 
   static void init(BuildContext context) {
-    isDark = Theme.of(context).brightness == Brightness.dark;
-    c = isDark ? _darkTheme : _lightTheme;
+    // isDark = Theme.of(context).brightness == Brightness.dark;
+    // c = isDark ? _darkTheme : _lightTheme;
   }
 }
