@@ -46,48 +46,48 @@ final materialLightTheme = ThemeData(
   ),
 );
 
-final materialDarkTheme = ThemeData(
-  brightness: Brightness.dark,
-  useMaterial3: false,
-  primaryColor: _darkTheme.primary,
-  colorScheme: ColorScheme.dark(
-    primary: _darkTheme.primary,
-    secondary: _darkTheme.accent,
-    surface: _darkTheme.background,
-    error: _darkTheme.error,
-    onPrimary: _darkTheme.background,
-    onError: _darkTheme.background,
-  ),
-  scaffoldBackgroundColor: _darkTheme.background,
-  textTheme: TextTheme(
-    displayLarge: TextStyle(color: _darkTheme.text),
-    displayMedium: TextStyle(color: _darkTheme.text),
-    displaySmall: TextStyle(color: _darkTheme.text),
-    headlineLarge: TextStyle(color: _darkTheme.text),
-    headlineMedium: TextStyle(color: _darkTheme.text),
-    headlineSmall: TextStyle(color: _darkTheme.text),
-    titleLarge: TextStyle(color: _darkTheme.text),
-    titleMedium: TextStyle(color: _darkTheme.text),
-    titleSmall: TextStyle(color: _darkTheme.text),
-    bodyLarge: TextStyle(color: _darkTheme.text),
-    bodyMedium: TextStyle(color: _darkTheme.text),
-    bodySmall: TextStyle(color: _darkTheme.text),
-    labelLarge: TextStyle(color: _darkTheme.subText),
-    labelMedium: TextStyle(color: _darkTheme.subText),
-    labelSmall: TextStyle(color: _darkTheme.subText),
-  ),
-  textButtonTheme: TextButtonThemeData(
-    style: TextButton.styleFrom(
-      foregroundColor: _darkTheme.text,
-      textStyle: AppText.b1b,
-    ),
-  ),
-  floatingActionButtonTheme: FloatingActionButtonThemeData(
-    foregroundColor: _darkTheme.background,
-  ),
-  textSelectionTheme: TextSelectionThemeData(
-    cursorColor: _darkTheme.accent,
-    selectionColor: _darkTheme.accent.withValues(alpha: 0.3),
-    selectionHandleColor: _darkTheme.accent,
-  ),
-);
+// final materialDarkTheme = ThemeData(
+//   brightness: Brightness.dark,
+//   useMaterial3: false,
+//   primaryColor: _darkTheme.primary,
+//   colorScheme: ColorScheme.dark(
+//     primary: _darkTheme.primary,
+//     secondary: _darkTheme.accent,
+//     surface: _darkTheme.background,
+//     error: _darkTheme.error,
+//     onPrimary: _darkTheme.background,
+//     onError: _darkTheme.background,
+//   ),
+//   scaffoldBackgroundColor: _darkTheme.background,
+//   textTheme: TextTheme(
+//     displayLarge: TextStyle(color: _darkTheme.text),
+//     displayMedium: TextStyle(color: _darkTheme.text),
+//     displaySmall: TextStyle(color: _darkTheme.text),
+//     headlineLarge: TextStyle(color: _darkTheme.text),
+//     headlineMedium: TextStyle(color: _darkTheme.text),
+//     headlineSmall: TextStyle(color: _darkTheme.text),
+//     titleLarge: TextStyle(color: _darkTheme.text),
+//     titleMedium: TextStyle(color: _darkTheme.text),
+//     titleSmall: TextStyle(color: _darkTheme.text),
+//     bodyLarge: TextStyle(color: _darkTheme.text),
+//     bodyMedium: TextStyle(color: _darkTheme.text),
+//     bodySmall: TextStyle(color: _darkTheme.text),
+//     labelLarge: TextStyle(color: _darkTheme.subText),
+//     labelMedium: TextStyle(color: _darkTheme.subText),
+//     labelSmall: TextStyle(color: _darkTheme.subText),
+//   ),
+//   textButtonTheme: TextButtonThemeData(
+//     style: TextButton.styleFrom(
+//       foregroundColor: _darkTheme.text,
+//       textStyle: AppText.b1b,
+//     ),
+//   ),
+//   floatingActionButtonTheme: FloatingActionButtonThemeData(
+//     foregroundColor: _darkTheme.background,
+//   ),
+//   textSelectionTheme: TextSelectionThemeData(
+//     cursorColor: _darkTheme.accent,
+//     selectionColor: _darkTheme.accent.withValues(alpha: 0.3),
+//     selectionHandleColor: _darkTheme.accent,
+//   ),
+// );

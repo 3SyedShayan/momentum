@@ -4,26 +4,27 @@ import 'dart:math';
 
 // import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-// import 'package:intl/intl.dart';
+import 'package:intl/intl.dart';
+import 'package:momentum/configs/configs.dart';
 // import 'package:taleemmate/configs/configs.dart';
 import 'package:momentum/gen/assets/fonts.gen.dart';
 // import 'package:taleemmate/services/fault/faults.dart';
 // import 'package:navigation_history_observer/navigation_history_observer.dart';
 
 export 'package:recase/recase.dart';
-// export 'package:supercharged/supercharged.dart';
+export 'package:supercharged/supercharged.dart';
 // export 'package:themed/themed.dart';
 
-// part '_props.dart';
+part '_props.dart';
 
-// part 'extension/_date.dart';
+part 'extension/_date.dart';
 // part 'extension/_double.dart';
 // part 'extension/_int.dart';
 // part 'extension/_num.dart';
 // part 'extension/_space.dart';
 // part 'extension/_string.dart';
 // part 'extension/_typography.dart';
-// part 'extension/_context.dart';
+part 'extension/_context.dart';
 // part 'extension/_list.dart';
 // part 'extension/_global_key.dart';
 // part 'extension/_map.dart';
@@ -43,20 +44,20 @@ part 'theme/_theme_model.dart';
 part 'theme/_theme.dart';
 part 'theme/_typography.dart';
 
-// part 'ui/_breakpoints.dart';
-// part 'ui/_media.dart';
-// part 'ui/_screen.dart';
-// part 'ui/_unit.dart';
+part 'ui/_breakpoints.dart';
+part 'ui/_media.dart';
+part 'ui/_screen.dart';
+part 'ui/_unit.dart';
 
 // part 'bloc/_action.dart';
 // part 'bloc/_state.dart';
 
 class App {
   static void init(BuildContext context, [VoidCallback? callback]) {
-    // AppMedia.init(context);
+    AppMedia.init(context);
     AppTheme.init(context);
-    // AppScreen.init();
-    // AppUnit.init();
+    AppScreen.init();
+    AppUnit.init();
     AppText.init();
     // Space.init();
 
