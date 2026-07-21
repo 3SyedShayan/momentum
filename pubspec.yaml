@@ -15,11 +15,68 @@ dependencies:
   cloud_firestore: ^6.7.1
   flutter_bloc: ^9.1.1
   go_router: ^17.3.0
+  freezed: ^3.2.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  build_runner: ^2.4.0
+  json_serializable: ^6.11.3
+  flutter_gen_runner: ^5.12.0
+  drift_dev: 2.34.0
+flutter_gen:
+  output: lib/gen/assets/ # Optional (default: lib/gen/)
+  line_length: 80 # Optional (default: 80)
+
+  integrations:
+    flutter_svg: true
+
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Fraunces
+      fonts:
+        - asset: fonts/Fraunces/Fraunces_72pt-Regular.ttf
+        - asset: fonts/Fraunces/Fraunces_72pt-Bold.ttf
+          weight: 700
+        - asset: fonts/Fraunces/Fraunces_72pt-SemiBold.ttf
+          weight: 600
+    - family: Geist
+      fonts:
+        - asset: fonts/Geist/Geist-Regular.ttf
+        - asset: fonts/Geist/Geist-Bold.ttf
+          weight: 700
+        - asset: fonts/Geist/Geist-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: fonts/Geist/Geist-Italic.ttf
+          style: italic
+        - asset: fonts/Geist/Geist-Light.ttf
+          weight: 300
+        - asset: fonts/Geist/Geist-Medium.ttf
+          weight: 500
+        - asset: fonts/Geist/Geist-SemiBold.ttf
+          weight: 600
+        - asset: fonts/Geist/Geist-Thin.ttf
+          weight: 100
+    - family: GeistMono
+      fonts:
+        - asset: fonts/Geist_Mono/GeistMono-Regular.ttf
+        - asset: fonts/Geist_Mono/GeistMono-Bold.ttf
+          weight: 700
+        - asset: fonts/Geist_Mono/GeistMono-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: fonts/Geist_Mono/GeistMono-Italic.ttf
+          style: italic
+        - asset: fonts/Geist_Mono/GeistMono-Light.ttf
+          weight: 300
+        - asset: fonts/Geist_Mono/GeistMono-Medium.ttf
+          weight: 500
+        - asset: fonts/Geist_Mono/GeistMono-SemiBold.ttf
+          weight: 600
+        - asset: fonts/Geist_Mono/GeistMono-Thin.ttf
+          weight: 100
+
