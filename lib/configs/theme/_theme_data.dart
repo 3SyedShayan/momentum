@@ -16,18 +16,18 @@ const _lightTheme = _ThemeModel(
   error: AppColors.error,
 );
 
-// const _darkTheme = _ThemeModel(
-//   primary: AppColorsDark.primary,
-//   accent: AppColorsDark.accent,
-//   onPrimary: AppColors.onPrimary,
-//   onAccent: AppColors.onAccent,
-//   text: AppColorsDark.text,
-//   subText: AppColorsDark.subText,
-//   background: AppColorsDark.background,
-//   subBackground: AppColorsDark.subBackground,
-//   specBackground: AppColorsDark.specBackground,
-//   border: AppColorsDark.border,
-//   success: AppColors.success,
-//   warning: AppColors.warning,
-//   error: AppColors.error,
-// );
+const _darkTheme = _ThemeModel(
+  primary: AppColorsDark.primary,
+  accent: AppColorsDark.accent,
+  onPrimary: AppColors.onPrimary,
+  onAccent: AppColors.onAccent,
+  text: AppColorsDark.text,
+  subText: AppColorsDark.subText,
+  background: AppColorsDark.background,
+  subBackground: AppColorsDark.subBackground,
+  specBackground: AppColorsDark.specBackground,
+  border: AppColorsDark.border,
+  success: AppColors.success,
+  warning: AppColors.warning,
+  error: AppColors.error,
+);

@@ -2,17 +2,14 @@ import 'dart:core';
 import 'dart:io';
 import 'dart:math';
 
-// import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:momentum/configs/configs.dart';
 import 'package:momentum/gen/assets/fonts.gen.dart';
-// import 'package:taleemmate/services/fault/faults.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
 
 export 'package:recase/recase.dart';
-export 'package:supercharged/supercharged.dart';
-export 'package:themed/themed.dart';
+import 'package:supercharged/supercharged.dart';
+import 'package:themed/themed.dart';
 
 part '_props.dart';
 
