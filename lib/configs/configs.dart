@@ -6,36 +6,35 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum/configs/configs.dart';
-// import 'package:taleemmate/configs/configs.dart';
 import 'package:momentum/gen/assets/fonts.gen.dart';
 // import 'package:taleemmate/services/fault/faults.dart';
-// import 'package:navigation_history_observer/navigation_history_observer.dart';
+import 'package:navigation_history_observer/navigation_history_observer.dart';
 
 export 'package:recase/recase.dart';
 export 'package:supercharged/supercharged.dart';
-// export 'package:themed/themed.dart';
+export 'package:themed/themed.dart';
 
 part '_props.dart';
 
 part 'extension/_date.dart';
-// part 'extension/_double.dart';
-// part 'extension/_int.dart';
-// part 'extension/_num.dart';
-// part 'extension/_space.dart';
-// part 'extension/_string.dart';
-// part 'extension/_typography.dart';
+part 'extension/_double.dart';
+part 'extension/_int.dart';
+part 'extension/_num.dart';
+part 'extension/_space.dart';
+part 'extension/_string.dart';
+part 'extension/_typography.dart';
 part 'extension/_context.dart';
-// part 'extension/_list.dart';
-// part 'extension/_global_key.dart';
-// part 'extension/_map.dart';
-// part 'extension/_enum.dart';
-// part 'extension/_name.dart';
+part 'extension/_list.dart';
+part 'extension/_global_key.dart';
+part 'extension/_map.dart';
+part 'extension/_enum.dart';
+part 'extension/_name.dart';
 
-// part 'space/_data.dart';
-// part 'space/_model_edge_insets.dart';
-// part 'space/_model_widget.dart';
-// part 'space/_space.dart';
-// part 'space/_tokens.dart';
+part 'space/_data.dart';
+part 'space/_model_edge_insets.dart';
+part 'space/_model_widget.dart';
+part 'space/_space.dart';
+part 'space/_tokens.dart';
 
 part 'theme/_colors.dart';
 part 'theme/_material.dart';
@@ -59,7 +58,7 @@ class App {
     AppScreen.init();
     AppUnit.init();
     AppText.init();
-    // Space.init();
+    Space.init();
 
     if (callback != null) {
       callback();
