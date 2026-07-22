@@ -89,7 +89,7 @@ class PlannerScreen extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
-                            backgroundColor: Colors.blue.withOpacity(0.1),
+                            backgroundColor: Colors.blue.withValues(alpha: 0.1),
                             side: BorderSide.none,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
@@ -167,7 +167,7 @@ class PlannerScreen extends StatelessWidget {
     
     Color itemColor = task.isCompleted
         ? (isDark ? Colors.grey.shade900 : Colors.grey.shade100)
-        : (isActive ? category.color.withOpacity(0.08) : theme.cardColor);
+        : (isActive ? category.color.withValues(alpha: 0.08) : theme.cardColor);
 
     Color borderSideColor = isActive ? category.color : (isDark ? Colors.grey.shade800 : Colors.grey.shade200);
 
@@ -281,7 +281,7 @@ class PlannerScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                       child: LinearProgressIndicator(
                         value: 0.65, // simulated active progress
-                        backgroundColor: category.color.withOpacity(0.2),
+                        backgroundColor: category.color.withValues(alpha: 0.2),
                         valueColor: AlwaysStoppedAnimation<Color>(category.color),
                         minHeight: 6,
                       ),
@@ -393,7 +393,7 @@ class PlannerScreen extends StatelessWidget {
                   onPressed: () {
                     final name = nameController.text.trim();
                     if (name.isNotEmpty) {
-                      final hex = '#${selectedColor.value.toRadixString(16).substring(2).toUpperCase()}';
+                      final hex = '#${selectedColor.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
                       final cat = CategoryModel(id: '', name: name, colorHex: hex);
                       context.read<CategoriesBloc>().add(AddCategoryRequested(uid, cat));
                       Navigator.pop(diagContext);
@@ -457,7 +457,7 @@ class PlannerScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: 'Task Title',
                       filled: true,
-                      fillColor: Colors.grey.withOpacity(0.08),
+                      fillColor: Colors.grey.withValues(alpha: 0.08),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -468,10 +468,10 @@ class PlannerScreen extends StatelessWidget {
                   const Text('Category', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
-                    value: selectedCategoryId,
+                    initialValue: selectedCategoryId,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.grey.withOpacity(0.08),
+                      fillColor: Colors.grey.withValues(alpha: 0.08),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -526,7 +526,7 @@ class PlannerScreen extends StatelessWidget {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 decoration: BoxDecoration(
-                                  color: Colors.grey.withOpacity(0.08),
+                                  color: Colors.grey.withValues(alpha: 0.08),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text('${startTime.hourOfPeriod}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.period == DayPeriod.am ? 'AM' : 'PM'}'),
@@ -557,7 +557,7 @@ class PlannerScreen extends StatelessWidget {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 decoration: BoxDecoration(
-                                  color: Colors.grey.withOpacity(0.08),
+                                  color: Colors.grey.withValues(alpha: 0.08),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text('${endTime.hourOfPeriod}:${endTime.minute.toString().padLeft(2, '0')} ${endTime.period == DayPeriod.am ? 'AM' : 'PM'}'),

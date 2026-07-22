@@ -127,7 +127,7 @@ class GoalsScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: isDark ? Colors.black26 : Colors.grey.withOpacity(0.06),
+                color: isDark ? Colors.black26 : Colors.grey.withValues(alpha: 0.06),
                 blurRadius: 15,
                 offset: const Offset(0, 5),
               ),
@@ -142,7 +142,7 @@ class GoalsScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: category.color.withOpacity(0.12),
+                      color: category.color.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -207,7 +207,7 @@ class GoalsScreen extends StatelessWidget {
                     label: const Text('Add to Today', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: category.color,
-                      side: BorderSide(color: category.color.withOpacity(0.5)),
+                      side: BorderSide(color: category.color.withValues(alpha: 0.5)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -268,7 +268,7 @@ class GoalsScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: 'Goal Title (e.g. Read 3 chapters)',
                       filled: true,
-                      fillColor: Colors.grey.withOpacity(0.08),
+                      fillColor: Colors.grey.withValues(alpha: 0.08),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
@@ -279,10 +279,10 @@ class GoalsScreen extends StatelessWidget {
                   const Text('Category', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
-                    value: selectedCategoryId,
+                    initialValue: selectedCategoryId,
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Colors.grey.withOpacity(0.08),
+                      fillColor: Colors.grey.withValues(alpha: 0.08),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,

@@ -17,13 +17,14 @@ class ProgressScreen extends StatelessWidget {
         title: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Progress',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
+            Text('Progress', style: TextStyle(fontWeight: FontWeight.bold)),
             Text(
               'Your consistency over time',
-              style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+                fontWeight: FontWeight.normal,
+              ),
             ),
           ],
         ),
@@ -94,7 +95,9 @@ class ProgressScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: isDark ? Colors.black26 : Colors.grey.withOpacity(0.06),
+                        color: isDark
+                            ? Colors.black26
+                            : Colors.grey.withValues(alpha: 0.06),
                         blurRadius: 20,
                         offset: const Offset(0, 6),
                       ),
@@ -117,7 +120,10 @@ class ProgressScreen extends StatelessWidget {
                             children: [
                               Text(
                                 'Less ',
-                                style: TextStyle(fontSize: 10, color: Colors.grey.shade500),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.grey.shade500,
+                                ),
                               ),
                               _buildLegendDot(Colors.grey.shade200, isDark),
                               _buildLegendDot(Colors.blue.shade100, isDark),
@@ -126,7 +132,10 @@ class ProgressScreen extends StatelessWidget {
                               _buildLegendDot(Colors.blue.shade800, isDark),
                               Text(
                                 ' More',
-                                style: TextStyle(fontSize: 10, color: Colors.grey.shade500),
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Colors.grey.shade500,
+                                ),
                               ),
                             ],
                           ),
@@ -137,11 +146,12 @@ class ProgressScreen extends StatelessWidget {
                       GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 7,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 7,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                            ),
                         itemCount: 31,
                         itemBuilder: (context, index) {
                           final day = index + 1;
@@ -150,7 +160,9 @@ class ProgressScreen extends StatelessWidget {
                           Color cellColor;
                           switch (level) {
                             case 0:
-                              cellColor = isDark ? Colors.grey.shade900 : Colors.grey.shade100;
+                              cellColor = isDark
+                                  ? Colors.grey.shade900
+                                  : Colors.grey.shade100;
                               break;
                             case 1:
                               cellColor = Colors.blue.shade100;
@@ -171,7 +183,9 @@ class ProgressScreen extends StatelessWidget {
                               onTap: () {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text('July $day Completion: ${level * 25}%'),
+                                    content: Text(
+                                      'July $day Completion: ${level * 25}%',
+                                    ),
                                     duration: const Duration(seconds: 1),
                                     behavior: SnackBarBehavior.floating,
                                   ),
@@ -190,7 +204,9 @@ class ProgressScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color: level > 2
                                         ? Colors.white
-                                        : (isDark ? Colors.grey.shade400 : Colors.grey.shade700),
+                                        : (isDark
+                                              ? Colors.grey.shade400
+                                              : Colors.grey.shade700),
                                   ),
                                 ),
                               ),
@@ -215,7 +231,9 @@ class ProgressScreen extends StatelessWidget {
       width: 8,
       height: 8,
       decoration: BoxDecoration(
-        color: color == Colors.grey.shade200 && isDark ? Colors.grey.shade900 : color,
+        color: color == Colors.grey.shade200 && isDark
+            ? Colors.grey.shade900
+            : color,
         shape: BoxShape.circle,
       ),
     );
@@ -236,10 +254,7 @@ class ProgressScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: color.withOpacity(0.2),
-          width: 1.5,
-        ),
+        border: Border.all(color: color.withOpacity(0.2), width: 1.5),
       ),
       child: Column(
         children: [

@@ -100,7 +100,7 @@ class ProfileScreen extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.orange.withOpacity(0.12),
+                              color: Colors.orange.withValues(alpha: 0.12),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Row(
@@ -134,7 +134,7 @@ class ProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: isDark ? Colors.black26 : Colors.grey.withOpacity(0.06),
+                        color: isDark ? Colors.black26 : Colors.grey.withValues(alpha: 0.06),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),
@@ -187,7 +187,7 @@ class ProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: isDark ? Colors.black26 : Colors.grey.withOpacity(0.06),
+                        color: isDark ? Colors.black26 : Colors.grey.withValues(alpha: 0.06),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),
@@ -199,7 +199,7 @@ class ProfileScreen extends StatelessWidget {
                         value: profile.notificationsEnabled,
                         title: const Text('Notifications', style: TextStyle(fontWeight: FontWeight.w600)),
                         subtitle: Text('Receive daily reminders & logs', style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
-                        activeColor: Colors.blue.shade600,
+                        activeTrackColor: Colors.blue.shade600,
                         onChanged: (val) {
                           context.read<ProfileCubit>().updateProfileSettings(
                                 uid: uid,
@@ -264,7 +264,7 @@ class ProfileScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: isDark ? Colors.black26 : Colors.grey.withOpacity(0.06),
+                        color: isDark ? Colors.black26 : Colors.grey.withValues(alpha: 0.06),
                         blurRadius: 15,
                         offset: const Offset(0, 5),
                       ),

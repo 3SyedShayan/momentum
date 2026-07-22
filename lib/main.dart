@@ -16,7 +16,7 @@ import 'blocs/goals/goals_event.dart';
 import 'blocs/profile/profile_cubit.dart';
 import 'blocs/profile/profile_state.dart';
 import 'core/router/app_router.dart';
-import 'core/theme/app_theme.dart';
+import 'package:momentum/configs/configs.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -99,6 +99,10 @@ class _MomentumAppState extends State<MomentumApp> {
             themeMode: themeMode,
             routerConfig: _router,
             debugShowCheckedModeBanner: false,
+            builder: (context, child) {
+              App.init(context);
+              return child ?? const SizedBox.shrink();
+            },
           );
         },
       ),

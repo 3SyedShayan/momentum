@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:momentum/configs/configs.dart';
 
 class NavigationShell extends StatelessWidget {
   final Widget child;
@@ -41,16 +42,17 @@ class NavigationShell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentIndex = _getSelectedIndex(context);
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
+    final isDark = AppTheme.isDark;
 
     return Scaffold(
       body: child,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
+          color: AppTheme.c.subBackground,
+          border: Border(top: BorderSide(color: AppTheme.c.border, width: 1)),
           boxShadow: [
             BoxShadow(
-              color: isDark ? Colors.black38 : Colors.grey.withOpacity(0.15),
+              color: isDark ? Colors.black38 : Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, -3),
             ),
@@ -60,13 +62,13 @@ class NavigationShell extends StatelessWidget {
           currentIndex: currentIndex,
           onTap: (index) => _onItemTapped(index, context),
           type: BottomNavigationBarType.fixed,
-          backgroundColor: theme.cardColor,
-          selectedItemColor: isDark ? Colors.blue.shade300 : Colors.blue.shade700,
-          unselectedItemColor: isDark ? Colors.grey.shade600 : Colors.grey.shade400,
+          backgroundColor: AppTheme.c.subBackground,
+          selectedItemColor: AppTheme.c.primary,
+          unselectedItemColor: AppTheme.c.subText,
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
-          unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+          selectedLabelStyle: AppText.l1b,
+          unselectedLabelStyle: AppText.l1,
           elevation: 0,
           items: const [
             BottomNavigationBarItem(

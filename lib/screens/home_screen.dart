@@ -163,7 +163,7 @@ class HomeScreen extends StatelessWidget {
                                 BoxShadow(
                                   color: isDark
                                       ? Colors.black26
-                                      : Colors.grey.withOpacity(0.08),
+                                      : Colors.grey.withValues(alpha: 0.08),
                                   blurRadius: 20,
                                   offset: const Offset(0, 8),
                                 ),
@@ -291,17 +291,17 @@ class HomeScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(24),
                                 border: Border.all(
                                   color:
-                                      nextTaskCategory?.color.withOpacity(
+                                      nextTaskCategory?.color.withValues(alpha: 
                                         0.3,
                                       ) ??
-                                      Colors.blue.withOpacity(0.3),
+                                      Colors.blue.withValues(alpha: 0.3),
                                   width: 1.5,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
                                     color:
                                         (nextTaskCategory?.color ?? Colors.blue)
-                                            .withOpacity(0.05),
+                                            .withValues(alpha: 0.05),
                                     blurRadius: 15,
                                     offset: const Offset(0, 6),
                                   ),
@@ -323,7 +323,7 @@ class HomeScreen extends StatelessWidget {
                                           color:
                                               (nextTaskCategory?.color ??
                                                       Colors.blue)
-                                                  .withOpacity(0.12),
+                                                  .withValues(alpha: 0.12),
                                           borderRadius: BorderRadius.circular(
                                             8,
                                           ),

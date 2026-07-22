@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:momentum/configs/configs.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_event.dart';
 import '../blocs/auth/auth_state.dart';
@@ -9,18 +10,15 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: AppTheme.c.background,
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
-                backgroundColor: Colors.red,
+                backgroundColor: AppTheme.c.error,
               ),
             );
           }
@@ -28,7 +26,7 @@ class LoginScreen extends StatelessWidget {
         builder: (context, state) {
           return Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              padding: Space.h.t32,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -38,47 +36,44 @@ class LoginScreen extends StatelessWidget {
                     width: 96,
                     height: 96,
                     decoration: BoxDecoration(
-                      color: Colors.blue.shade600,
-                      borderRadius: BorderRadius.circular(24),
+                      color: AppTheme.c.primary,
+                      borderRadius: AppProps.radiusXl.radius(),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.blue.withOpacity(0.3),
+                          color: AppTheme.c.primary.withValues(alpha: 0.3),
                           blurRadius: 20,
                           offset: const Offset(0, 8),
                         ),
                       ],
                     ),
                     alignment: Alignment.center,
-                    child: const Text(
+                    child: Text(
                       'M',
-                      style: TextStyle(
+                      style: AppText.h1b.copyWith(
                         fontSize: 48,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: AppColors.onPrimary,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  Space.y.t32,
                   // App Name
                   Text(
                     'Momentum',
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.w800,
+                    style: AppText.h1b.copyWith(
                       letterSpacing: -1,
+                      color: AppTheme.c.text,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  Space.y.t08,
                   Text(
                     'Build consistency and direct your days with intention.',
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: isDark
-                          ? Colors.grey.shade400
-                          : Colors.grey.shade600,
+                    style: AppText.b1.copyWith(
+                      color: AppTheme.c.subText,
                     ),
                   ),
-                  const SizedBox(height: 48),
+                  Space.y.t32,
 
                   // Text fields for visual premium polish
                   TextField(
@@ -86,32 +81,28 @@ class LoginScreen extends StatelessWidget {
                       hintText: 'Email address',
                       prefixIcon: const Icon(Icons.email_outlined),
                       filled: true,
-                      fillColor: isDark
-                          ? Colors.grey.shade900
-                          : Colors.grey.shade100,
+                      fillColor: AppTheme.c.subBackground,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: AppProps.radiusXl.radius(),
                         borderSide: BorderSide.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  Space.y.t16,
                   TextField(
                     obscureText: true,
                     decoration: InputDecoration(
                       hintText: 'Password',
                       prefixIcon: const Icon(Icons.lock_outlined),
                       filled: true,
-                      fillColor: isDark
-                          ? Colors.grey.shade900
-                          : Colors.grey.shade100,
+                      fillColor: AppTheme.c.subBackground,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: AppProps.radiusXl.radius(),
                         borderSide: BorderSide.none,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  Space.y.t32,
 
                   if (state is AuthLoading)
                     const Center(child: CircularProgressIndicator())
@@ -123,23 +114,20 @@ class LoginScreen extends StatelessWidget {
                         );
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue.shade600,
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        backgroundColor: AppTheme.c.primary,
+                        foregroundColor: AppTheme.c.onPrimary,
+                        padding: Space.v.t16,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: AppProps.radiusXl.radius(),
                         ),
                         elevation: 0,
                       ),
-                      child: const Text(
+                      child: Text(
                         'Get Started Now',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppText.b1b.copyWith(color: AppTheme.c.onPrimary),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    Space.y.t16,
                     OutlinedButton.icon(
                       onPressed: () {
                         context.read<AuthBloc>().add(
@@ -147,19 +135,15 @@ class LoginScreen extends StatelessWidget {
                         );
                       },
                       style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        padding: Space.v.t16,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: AppProps.radiusXl.radius(),
                         ),
                         side: BorderSide(
-                          color: isDark
-                              ? Colors.grey.shade800
-                              : Colors.grey.shade300,
+                          color: AppTheme.c.border,
                         ),
-                        backgroundColor: isDark
-                            ? Colors.grey.shade900
-                            : Colors.white,
-                        foregroundColor: isDark ? Colors.white : Colors.black87,
+                        backgroundColor: AppTheme.c.subBackground,
+                        foregroundColor: AppTheme.c.text,
                         elevation: 0,
                       ),
                       icon: Image.network(
@@ -170,31 +154,24 @@ class LoginScreen extends StatelessWidget {
                           return Container(
                             width: 24,
                             height: 24,
-                            decoration: const BoxDecoration(
-                              color: Colors.red,
+                            decoration: BoxDecoration(
+                              color: AppTheme.c.error,
                               shape: BoxShape.circle,
                             ),
                             alignment: Alignment.center,
-                            child: const Text(
+                            child: Text(
                               'G',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
+                              style: AppText.b2b.copyWith(color: Colors.white),
                             ),
                           );
                         },
                       ),
-                      label: const Text(
+                      label: Text(
                         'Continue with Google',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppText.b1b,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    Space.y.t16,
                     TextButton(
                       onPressed: () {
                         context.read<AuthBloc>().add(
@@ -203,11 +180,8 @@ class LoginScreen extends StatelessWidget {
                       },
                       child: Text(
                         'Continue as Guest',
-                        style: TextStyle(
-                          color: isDark
-                              ? Colors.blue.shade300
-                              : Colors.blue.shade700,
-                          fontWeight: FontWeight.bold,
+                        style: AppText.b1b.copyWith(
+                          color: AppTheme.c.primary,
                         ),
                       ),
                     ),
