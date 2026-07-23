@@ -73,6 +73,8 @@ class _MomentumAppState extends State<MomentumApp> {
 
   @override
   Widget build(BuildContext context) {
+    App.init(context);
+
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is Authenticated) {
