@@ -5,10 +5,7 @@ import 'package:momentum/configs/configs.dart';
 class NavigationShell extends StatelessWidget {
   final Widget child;
 
-  const NavigationShell({
-    super.key,
-    required this.child,
-  });
+  const NavigationShell({super.key, required this.child});
 
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
@@ -52,7 +49,9 @@ class NavigationShell extends StatelessWidget {
           border: Border(top: BorderSide(color: AppTheme.c.border, width: 1)),
           boxShadow: [
             BoxShadow(
-              color: isDark ? Colors.black38 : Colors.black.withValues(alpha: 0.05),
+              color: isDark
+                  ? Colors.black38
+                  : Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, -3),
             ),
