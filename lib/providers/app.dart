@@ -8,10 +8,7 @@ final themeMap = {
   'light': ThemeMode.light,
 };
 
-enum Cache {
-  theme,
-  firstOpen,
-}
+enum Cache { theme, firstOpen }
 
 extension ThemeModeX on ThemeMode {
   bool get isDark => this == ThemeMode.dark;
