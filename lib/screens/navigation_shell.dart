@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:momentum/configs/configs.dart';
+import '../core/router/routes.dart';
 
 class NavigationShell extends StatelessWidget {
   final Widget child;
@@ -9,29 +10,29 @@ class NavigationShell extends StatelessWidget {
 
   int _getSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;
-    if (location.startsWith('/planner')) return 1;
-    if (location.startsWith('/goals')) return 2;
-    if (location.startsWith('/progress')) return 3;
-    if (location.startsWith('/profile')) return 4;
+    if (location.startsWith(Routes.planner)) return 1;
+    if (location.startsWith(Routes.goals)) return 2;
+    if (location.startsWith(Routes.progress)) return 3;
+    if (location.startsWith(Routes.profile)) return 4;
     return 0; // default to Home
   }
 
   void _onItemTapped(int index, BuildContext context) {
     switch (index) {
       case 0:
-        context.go('/');
+        context.go(Routes.home);
         break;
       case 1:
-        context.go('/planner');
+        context.go(Routes.planner);
         break;
       case 2:
-        context.go('/goals');
+        context.go(Routes.goals);
         break;
       case 3:
-        context.go('/progress');
+        context.go(Routes.progress);
         break;
       case 4:
-        context.go('/profile');
+        context.go(Routes.profile);
         break;
     }
   }

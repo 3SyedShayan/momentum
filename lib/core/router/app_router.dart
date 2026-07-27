@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'routes.dart';
 import '../../blocs/auth/auth_bloc.dart';
 import '../../blocs/auth/auth_state.dart';
 import '../../screens/login_screen.dart';
@@ -19,19 +20,19 @@ class AppRouter {
   static GoRouter router(AuthBloc authBloc) {
     return GoRouter(
       navigatorKey: rootNavigatorKey,
-      initialLocation: '/login',
+      initialLocation: Routes.login,
       refreshListenable: GoRouterRefreshBloc(authBloc),
       redirect: (context, state) {
         final authState = authBloc.state;
-        final isLoggingIn = state.matchedLocation == '/login';
+        final isLoggingIn = state.matchedLocation == Routes.login;
 
         if (authState is Unauthenticated || authState is AuthInitial) {
-          return '/login';
+          return Routes.login;
         }
 
         if (authState is Authenticated) {
           if (isLoggingIn) {
-            return '/';
+            return Routes.home;
           }
         }
 
@@ -39,7 +40,7 @@ class AppRouter {
       },
       routes: [
         GoRoute(
-          path: '/login',
+          path: Routes.login,
           builder: (context, state) => const LoginScreen(),
         ),
         ShellRoute(
@@ -49,34 +50,29 @@ class AppRouter {
           },
           routes: [
             GoRoute(
-              path: '/',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: HomeScreen(),
-              ),
+              path: Routes.home,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: HomeScreen()),
             ),
             GoRoute(
-              path: '/planner',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: PlannerScreen(),
-              ),
+              path: Routes.planner,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: PlannerScreen()),
             ),
             GoRoute(
-              path: '/goals',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: GoalsScreen(),
-              ),
+              path: Routes.goals,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: GoalsScreen()),
             ),
             GoRoute(
-              path: '/progress',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ProgressScreen(),
-              ),
+              path: Routes.progress,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProgressScreen()),
             ),
             GoRoute(
-              path: '/profile',
-              pageBuilder: (context, state) => const NoTransitionPage(
-                child: ProfileScreen(),
-              ),
+              path: Routes.profile,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProfileScreen()),
             ),
           ],
         ),
