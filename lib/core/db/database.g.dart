@@ -539,8 +539,8 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
     return $GoalTable(attachedDatabase, alias);
   }
 
-  static JsonTypeConverter2<GoalType, String, String> $convertertype =
-      const EnumNameConverter<GoalType>(GoalType.values);
+  static TypeConverter<GoalType, String> $convertertype =
+      const EnumConverter<GoalType>(GoalType.values);
 }
 
 class GoalData extends DataClass implements Insertable<GoalData> {
@@ -613,9 +613,7 @@ class GoalData extends DataClass implements Insertable<GoalData> {
       ),
       color: serializer.fromJson<int>(json['color']),
       details: serializer.fromJson<String?>(json['details']),
-      type: $GoalTable.$convertertype.fromJson(
-        serializer.fromJson<String>(json['type']),
-      ),
+      type: serializer.fromJson<GoalType>(json['type']),
       isCompleted: serializer.fromJson<bool>(json['isCompleted']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
     );
@@ -630,7 +628,7 @@ class GoalData extends DataClass implements Insertable<GoalData> {
       'percentageCompleted': serializer.toJson<double>(percentageCompleted),
       'color': serializer.toJson<int>(color),
       'details': serializer.toJson<String?>(details),
-      'type': serializer.toJson<String>($GoalTable.$convertertype.toJson(type)),
+      'type': serializer.toJson<GoalType>(type),
       'isCompleted': serializer.toJson<bool>(isCompleted),
       'createdAt': serializer.toJson<DateTime>(createdAt),
     };
