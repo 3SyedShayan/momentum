@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:momentum/configs/configs.dart';
-import '../core/router/routes.dart';
+import '../router/routes.dart';
 
 class NavigationShell extends StatelessWidget {
   final Widget child;
