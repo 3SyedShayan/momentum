@@ -4,12 +4,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:momentum/configs/configs.dart';
 import 'package:momentum/gen/assets/fonts.gen.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
 
 export 'package:recase/recase.dart';
 import 'package:supercharged/supercharged.dart';
-import 'package:themed/themed.dart';
+export 'package:themed/themed.dart';
 
 part '_props.dart';
 
