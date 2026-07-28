@@ -15,7 +15,7 @@ import 'blocs/goals/goals_bloc.dart';
 import 'blocs/goals/goals_event.dart';
 import 'blocs/profile/profile_cubit.dart';
 import 'blocs/profile/profile_state.dart';
-import 'core/router/app_router.dart';
+import 'router/app_router.dart';
 import 'package:momentum/configs/configs.dart';
 
 void main() async {
