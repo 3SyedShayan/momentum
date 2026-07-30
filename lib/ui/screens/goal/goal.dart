@@ -11,13 +11,17 @@ part '_state.dart';
 part 'widgets/_header.dart';
 part 'widgets/_dummydata.dart';
 part 'widgets/_goalbody.dart';
+part 'widgets/_tabselector.dart';
+part 'widgets/_goalcard.dart';
 
 class GoalScreen extends StatelessWidget {
   const GoalScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    App.init(context);
+
+    return ChangeNotifierProvider<_ScreenState>(
       create: (_) => _ScreenState(),
       child: const _Body(),
     );
@@ -30,22 +34,29 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     App.init(context);
+    final state = _ScreenState.s(context, true);
 
     return Screen(
       child: SafeArea(
-        child: Column(
-          children: [
-            _Header(),
-            DefaultTabController(
-              length: 2,
-              child: Scaffold(
-                backgroundColor: AppTheme.c.background,
-                appBar: const _Header(),
-                body: const _GoalBody(),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(SpaceToken.t16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const _Header(),
+              Space.y.t16,
+              const _GoalTabSelector(),
+              Space.y.t20,
+
+              // Goals List
+              ...state.currentGoals.map(
+                (goal) => Padding(
+                  padding: Space.b.t12,
+                  child: _GoalCard(goal: goal),
+                ),
               ),
-            ),
-            _GoalBody(),
-          ],
+            ],
+          ),
         ),
       ),
     );

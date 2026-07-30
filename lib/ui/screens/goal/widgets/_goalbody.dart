@@ -1,5 +1,6 @@
 part of '../goal.dart';
 
+// ignore: unused_element
 class _GoalBody extends StatelessWidget {
   const _GoalBody();
 
@@ -14,8 +15,12 @@ class _GoalBody extends StatelessWidget {
         }
 
         if (state is GoalsLoaded && state.goals.isNotEmpty) {
-          final weeklyGoals = state.goals.where((g) => g.type == 'weekly').toList();
-          final monthlyGoals = state.goals.where((g) => g.type == 'monthly').toList();
+          final weeklyGoals = state.goals
+              .where((g) => g.type == 'weekly')
+              .toList();
+          final monthlyGoals = state.goals
+              .where((g) => g.type == 'monthly')
+              .toList();
 
           return TabBarView(
             children: [
@@ -25,8 +30,12 @@ class _GoalBody extends StatelessWidget {
           );
         }
 
-        final weeklyDummy = screenState.goals.where((g) => g.frequency == GoalFrequency.weekly).toList();
-        final monthlyDummy = screenState.goals.where((g) => g.frequency == GoalFrequency.monthly).toList();
+        final weeklyDummy = screenState.goals
+            .where((g) => g.frequency == GoalFrequency.weekly)
+            .toList();
+        final monthlyDummy = screenState.goals
+            .where((g) => g.frequency == GoalFrequency.monthly)
+            .toList();
 
         return TabBarView(
           children: [
@@ -44,11 +53,7 @@ class _GoalListView extends StatelessWidget {
   final List<GoalItem>? items;
   final String title;
 
-  const _GoalListView({
-    this.models,
-    this.items,
-    required this.title,
-  });
+  const _GoalListView({this.models, this.items, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -67,15 +72,25 @@ class _GoalListView extends StatelessWidget {
       padding: Space.a.t16,
       itemCount: count,
       itemBuilder: (context, index) {
-        final titleStr = models != null ? models![index].title : items![index].title;
-        final categoryStr = models != null ? models![index].categoryId : items![index].category;
-        final completed = models != null ? models![index].completedSessions : items![index].completedSessions;
-        final total = models != null ? models![index].totalSessions : items![index].totalSessions;
+        final titleStr = models != null
+            ? models![index].title
+            : items![index].title;
+        final categoryStr = models != null
+            ? models![index].categoryId
+            : items![index].category;
+        final completed = models != null
+            ? models![index].completedSessions
+            : items![index].completedSessions;
+        final total = models != null
+            ? models![index].totalSessions
+            : items![index].totalSessions;
         final progress = models != null
             ? models![index].progressPercentage
             : (total > 0 ? (completed / total).clamp(0.0, 1.0) : 0.0);
         final percentText = '${(progress * 100).toInt()}%';
-        final accent = items != null ? items![index].accentColor : AppTheme.c.primary;
+        final accent = items != null
+            ? items![index].accentColor
+            : AppTheme.c.primary;
 
         return Container(
           margin: Space.z.b(16),
@@ -102,17 +117,11 @@ class _GoalListView extends StatelessWidget {
                       style: AppText.l1b.cl(accent),
                     ),
                   ),
-                  Text(
-                    percentText,
-                    style: AppText.b1b.cl(accent),
-                  ),
+                  Text(percentText, style: AppText.b1b.cl(accent)),
                 ],
               ),
               Space.y.t12,
-              Text(
-                titleStr,
-                style: AppText.b1b,
-              ),
+              Text(titleStr, style: AppText.b1b),
               Space.y.t12,
               ClipRRect(
                 borderRadius: BorderRadius.circular(6),
