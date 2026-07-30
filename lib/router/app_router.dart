@@ -8,7 +8,7 @@ import '../blocs/auth/auth_state.dart';
 import '../screens/login_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/planner_screen.dart';
-import '../screens/goals_screen.dart';
+import '../ui/screens/goal/goal.dart';
 import '../screens/progress_screen.dart';
 import '../screens/profile_screen.dart';
 import '../screens/navigation_shell.dart';
@@ -62,7 +62,7 @@ class AppRouter {
             GoRoute(
               path: Routes.goals,
               pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: GoalsScreen()),
+                  const NoTransitionPage(child: GoalScreen()),
             ),
             GoRoute(
               path: Routes.progress,
