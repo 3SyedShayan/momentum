@@ -1,4 +1,4 @@
-import '../../models/category_model.dart';
+import '../../core/models/category/category.dart';
 
 abstract class CategoriesEvent {
   const CategoriesEvent();
@@ -10,13 +10,13 @@ class SubscribeCategories extends CategoriesEvent {
 }
 
 class CategoriesUpdated extends CategoriesEvent {
-  final List<CategoryModel> categories;
+  final List<Category> categories;
   const CategoriesUpdated(this.categories);
 }
 
 class AddCategoryRequested extends CategoriesEvent {
   final String uid;
-  final CategoryModel category;
+  final Category category;
   const AddCategoryRequested(this.uid, this.category);
 }
 

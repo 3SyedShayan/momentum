@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../models/category_model.dart';
+import '../../core/models/category/category.dart';
 import '../../repositories/momentum_repository.dart';
 import 'categories_event.dart';
 import 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final MomentumRepository _momentumRepository;
-  StreamSubscription<List<CategoryModel>>? _categoriesSubscription;
+  StreamSubscription<List<Category>>? _categoriesSubscription;
 
   CategoriesBloc({required MomentumRepository momentumRepository})
       : _momentumRepository = momentumRepository,
@@ -24,7 +24,8 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   ) async {
     emit(CategoriesLoading());
     await _categoriesSubscription?.cancel();
-    _categoriesSubscription = _momentumRepository.getCategories(event.uid).listen(
+    _categoriesSubscription =
+        _momentumRepository.getCategories(event.uid).listen(
       (categories) {
         add(CategoriesUpdated(categories));
       },

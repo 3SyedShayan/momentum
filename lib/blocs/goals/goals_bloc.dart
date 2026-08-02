@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../models/goal_model.dart';
+import '../../core/models/goal/goal.dart';
 import '../../models/task_model.dart';
 import '../../repositories/momentum_repository.dart';
 import 'goals_event.dart';
@@ -8,7 +8,7 @@ import 'goals_state.dart';
 
 class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
   final MomentumRepository _momentumRepository;
-  StreamSubscription<List<GoalModel>>? _goalsSubscription;
+  StreamSubscription<List<GoalX>>? _goalsSubscription;
 
   GoalsBloc({required MomentumRepository momentumRepository})
       : _momentumRepository = momentumRepository,
@@ -82,8 +82,11 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
     Emitter<GoalsState> emit,
   ) async {
     try {
+      final updatedProgress =
+          (event.goal.percentageCompleted + 0.25).clamp(0.0, 1.0);
       final updatedGoal = event.goal.copyWith(
-        completedSessions: (event.goal.completedSessions + 1).clamp(0, event.goal.totalSessions),
+        percentageCompleted: updatedProgress,
+        isCompleted: updatedProgress >= 1.0,
       );
       await _momentumRepository.updateGoal(event.uid, updatedGoal);
 
@@ -91,7 +94,7 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
       final newTask = TaskModel(
         id: '',
         title: 'Session: ${event.goal.title}',
-        categoryId: event.goal.categoryId,
+        categoryId: event.goal.category.id,
         startTime: DateTime(now.year, now.month, now.day, now.hour + 1, 0),
         endTime: DateTime(now.year, now.month, now.day, now.hour + 2, 0),
         isCompleted: false,

@@ -1,4 +1,4 @@
-import '../../models/goal_model.dart';
+import '../../core/models/goal/goal.dart';
 
 abstract class GoalsState {
   const GoalsState();
@@ -9,7 +9,7 @@ class GoalsInitial extends GoalsState {}
 class GoalsLoading extends GoalsState {}
 
 class GoalsLoaded extends GoalsState {
-  final List<GoalModel> goals;
+  final List<GoalX> goals;
   const GoalsLoaded(this.goals);
 }
 

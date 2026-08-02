@@ -1,4 +1,4 @@
-import '../../models/category_model.dart';
+import '../../core/models/category/category.dart';
 
 abstract class CategoriesState {
   const CategoriesState();
@@ -9,7 +9,7 @@ class CategoriesInitial extends CategoriesState {}
 class CategoriesLoading extends CategoriesState {}
 
 class CategoriesLoaded extends CategoriesState {
-  final List<CategoryModel> categories;
+  final List<Category> categories;
   const CategoriesLoaded(this.categories);
 }
 

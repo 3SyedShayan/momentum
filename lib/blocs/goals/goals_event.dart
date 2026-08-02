@@ -1,4 +1,4 @@
-import '../../models/goal_model.dart';
+import '../../core/models/goal/goal.dart';
 
 abstract class GoalsEvent {
   const GoalsEvent();
@@ -10,19 +10,19 @@ class SubscribeGoals extends GoalsEvent {
 }
 
 class GoalsUpdated extends GoalsEvent {
-  final List<GoalModel> goals;
+  final List<GoalX> goals;
   const GoalsUpdated(this.goals);
 }
 
 class AddGoalRequested extends GoalsEvent {
   final String uid;
-  final GoalModel goal;
+  final GoalX goal;
   const AddGoalRequested(this.uid, this.goal);
 }
 
 class UpdateGoalRequested extends GoalsEvent {
   final String uid;
-  final GoalModel goal;
+  final GoalX goal;
   const UpdateGoalRequested(this.uid, this.goal);
 }
 
@@ -34,6 +34,6 @@ class DeleteGoalRequested extends GoalsEvent {
 
 class AddGoalToTodayRequested extends GoalsEvent {
   final String uid;
-  final GoalModel goal;
+  final GoalX goal;
   const AddGoalToTodayRequested(this.uid, this.goal);
 }
