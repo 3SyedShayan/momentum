@@ -9,7 +9,7 @@ import '../blocs/categories/categories_bloc.dart';
 import '../blocs/categories/categories_event.dart';
 import '../blocs/categories/categories_state.dart';
 import '../models/task_model.dart';
-import '../models/category_model.dart';
+import '../core/models/category/category.dart';
 
 class PlannerScreen extends StatelessWidget {
   const PlannerScreen({super.key});
@@ -37,7 +37,7 @@ class PlannerScreen extends StatelessWidget {
         builder: (context, categoriesState) {
           final categories = categoriesState is CategoriesLoaded
               ? categoriesState.categories
-              : <CategoryModel>[];
+              : <Category>[];
 
           return BlocBuilder<TasksBloc, TasksState>(
             builder: (context, tasksState) {
@@ -60,7 +60,7 @@ class PlannerScreen extends StatelessWidget {
                               padding: const EdgeInsets.only(right: 8.0),
                               child: Chip(
                                 avatar: CircleAvatar(
-                                  backgroundColor: category.color,
+                                  backgroundColor: Color(category.color),
                                   radius: 6,
                                 ),
                                 label: Text(
@@ -118,7 +118,7 @@ class PlannerScreen extends StatelessWidget {
                               final task = tasks[index];
                               final category = categories.firstWhere(
                                 (c) => c.id == task.categoryId,
-                                orElse: () => CategoryModel(id: '', name: 'General', colorHex: '#1A56DB'),
+                                orElse: () => const Category(id: '', name: 'General', icon: 'folder', color: 0xFF1A56DB),
                               );
                               
                               final now = DateTime.now();
@@ -159,17 +159,18 @@ class PlannerScreen extends StatelessWidget {
     BuildContext context, {
     required String uid,
     required TaskModel task,
-    required CategoryModel category,
+    required Category category,
     required bool isActive,
     required ThemeData theme,
   }) {
     final isDark = theme.brightness == Brightness.dark;
+    final catColor = Color(category.color);
     
     Color itemColor = task.isCompleted
         ? (isDark ? Colors.grey.shade900 : Colors.grey.shade100)
-        : (isActive ? category.color.withValues(alpha: 0.08) : theme.cardColor);
+        : (isActive ? catColor.withValues(alpha: 0.08) : theme.cardColor);
 
-    Color borderSideColor = isActive ? category.color : (isDark ? Colors.grey.shade800 : Colors.grey.shade200);
+    Color borderSideColor = isActive ? catColor : (isDark ? Colors.grey.shade800 : Colors.grey.shade200);
 
     return IntrinsicHeight(
       child: Row(
@@ -211,7 +212,7 @@ class PlannerScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: task.isCompleted
                       ? Colors.grey
-                      : category.color,
+                      : catColor,
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: isDark ? Colors.black : Colors.white,
@@ -281,8 +282,8 @@ class PlannerScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                       child: LinearProgressIndicator(
                         value: 0.65, // simulated active progress
-                        backgroundColor: category.color.withValues(alpha: 0.2),
-                        valueColor: AlwaysStoppedAnimation<Color>(category.color),
+                        backgroundColor: catColor.withValues(alpha: 0.2),
+                        valueColor: AlwaysStoppedAnimation<Color>(catColor),
                         minHeight: 6,
                       ),
                     ),
@@ -291,7 +292,7 @@ class PlannerScreen extends StatelessWidget {
                       'In progress...',
                       style: TextStyle(
                         fontSize: 11,
-                        color: category.color,
+                        color: catColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -305,83 +306,66 @@ class PlannerScreen extends StatelessWidget {
     );
   }
 
-  String _formatTimeShort(DateTime time) {
-    final hour = time.hour;
-    final minute = time.minute.toString().padLeft(2, '0');
-    final period = hour >= 12 ? 'PM' : 'AM';
-    final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
-    return '$displayHour:$minute $period';
-  }
-
   void _showAddCategoryDialog(BuildContext context, String uid) {
     final nameController = TextEditingController();
-    Color selectedColor = Colors.blue;
+    Color selectedColor = Colors.blue.shade600;
+
+    final presetColors = [
+      Colors.blue.shade600,
+      Colors.green.shade600,
+      Colors.amber.shade700,
+      Colors.purple.shade600,
+      Colors.pink.shade600,
+      Colors.teal.shade600,
+    ];
 
     showDialog(
       context: context,
       builder: (diagContext) {
-        final colors = [
-          Colors.blue,
-          Colors.green,
-          Colors.orange,
-          Colors.purple,
-          Colors.red,
-          Colors.pink,
-          Colors.teal,
-          Colors.amber,
-        ];
-
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              title: const Text('Add Custom Category', style: TextStyle(fontWeight: FontWeight.bold)),
+              title: const Text('Add Category', style: TextStyle(fontWeight: FontWeight.bold)),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextField(
                     controller: nameController,
-                    decoration: const InputDecoration(
-                      hintText: 'Category Name',
+                    decoration: InputDecoration(
+                      hintText: 'Category Name (e.g. Work, Health)',
+                      filled: true,
+                      fillColor: Colors.grey.withValues(alpha: 0.08),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide.none,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Choose Color:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
-                  const SizedBox(height: 12),
-                  SizedBox(
-                    height: 40,
-                    width: 300,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: colors.length,
-                      itemBuilder: (context, index) {
-                        final color = colors[index];
-                        final isSelected = selectedColor == color;
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedColor = color;
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            width: 35,
-                            height: 35,
-                            decoration: BoxDecoration(
-                              color: color,
-                              shape: BoxShape.circle,
-                              border: isSelected
-                                  ? Border.all(color: Colors.black, width: 2)
-                                  : null,
-                            ),
+                  const SizedBox(height: 16),
+                  const Text('Select Color', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: presetColors.map((color) {
+                      final isSelected = selectedColor == color;
+                      return GestureDetector(
+                        onTap: () => setState(() => selectedColor = color),
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.circle,
+                            border: isSelected
+                                ? Border.all(color: Colors.black87, width: 3)
+                                : null,
                           ),
-                        );
-                      },
-                    ),
-                  )
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ],
               ),
               actions: [
@@ -393,8 +377,7 @@ class PlannerScreen extends StatelessWidget {
                   onPressed: () {
                     final name = nameController.text.trim();
                     if (name.isNotEmpty) {
-                      final hex = '#${selectedColor.toARGB32().toRadixString(16).substring(2).toUpperCase()}';
-                      final cat = CategoryModel(id: '', name: name, colorHex: hex);
+                      final cat = Category(id: '', name: name, icon: 'folder', color: selectedColor.toARGB32());
                       context.read<CategoriesBloc>().add(AddCategoryRequested(uid, cat));
                       Navigator.pop(diagContext);
                     }
@@ -427,7 +410,7 @@ class PlannerScreen extends StatelessWidget {
             final categoriesState = context.watch<CategoriesBloc>().state;
             final categories = categoriesState is CategoriesLoaded
                 ? categoriesState.categories
-                : <CategoryModel>[];
+                : <Category>[];
 
             if (selectedCategoryId == null && categories.isNotEmpty) {
               selectedCategoryId = categories.first.id;
@@ -455,7 +438,7 @@ class PlannerScreen extends StatelessWidget {
                   TextField(
                     controller: titleController,
                     decoration: InputDecoration(
-                      hintText: 'Task Title',
+                      hintText: 'Task Title (e.g. Flutter Dev)',
                       filled: true,
                       fillColor: Colors.grey.withValues(alpha: 0.08),
                       border: OutlineInputBorder(
@@ -486,7 +469,7 @@ class PlannerScreen extends StatelessWidget {
                               width: 12,
                               height: 12,
                               decoration: BoxDecoration(
-                                color: cat.color,
+                                color: Color(cat.color),
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -518,9 +501,7 @@ class PlannerScreen extends StatelessWidget {
                                   initialTime: startTime,
                                 );
                                 if (time != null) {
-                                  setState(() {
-                                    startTime = time;
-                                  });
+                                  setState(() => startTime = time);
                                 }
                               },
                               child: Container(
@@ -529,7 +510,7 @@ class PlannerScreen extends StatelessWidget {
                                   color: Colors.grey.withValues(alpha: 0.08),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: Text('${startTime.hourOfPeriod}:${startTime.minute.toString().padLeft(2, '0')} ${startTime.period == DayPeriod.am ? 'AM' : 'PM'}'),
+                                child: Text(startTime.format(context)),
                               ),
                             ),
                           ],
@@ -549,9 +530,7 @@ class PlannerScreen extends StatelessWidget {
                                   initialTime: endTime,
                                 );
                                 if (time != null) {
-                                  setState(() {
-                                    endTime = time;
-                                  });
+                                  setState(() => endTime = time);
                                 }
                               },
                               child: Container(
@@ -560,7 +539,7 @@ class PlannerScreen extends StatelessWidget {
                                   color: Colors.grey.withValues(alpha: 0.08),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                child: Text('${endTime.hourOfPeriod}:${endTime.minute.toString().padLeft(2, '0')} ${endTime.period == DayPeriod.am ? 'AM' : 'PM'}'),
+                                child: Text(endTime.format(context)),
                               ),
                             ),
                           ],
@@ -573,19 +552,19 @@ class PlannerScreen extends StatelessWidget {
                     onPressed: () {
                       final title = titleController.text.trim();
                       if (title.isNotEmpty && selectedCategoryId != null) {
-                        final today = DateTime.now();
-                        final startDt = DateTime(today.year, today.month, today.day, startTime.hour, startTime.minute);
-                        final endDt = DateTime(today.year, today.month, today.day, endTime.hour, endTime.minute);
-                        final duration = endDt.difference(startDt).inMinutes;
+                        final now = DateTime.now();
+                        final startDateTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
+                        final endDateTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
+                        final plannedMinutes = endDateTime.difference(startDateTime).inMinutes;
 
                         final task = TaskModel(
                           id: '',
                           title: title,
                           categoryId: selectedCategoryId!,
-                          startTime: startDt,
-                          endTime: endDt,
+                          startTime: startDateTime,
+                          endTime: endDateTime,
                           isCompleted: false,
-                          durationPlanned: duration,
+                          durationPlanned: plannedMinutes > 0 ? plannedMinutes : 30,
                           durationCompleted: 0,
                         );
 
@@ -601,7 +580,7 @@ class PlannerScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: const Text('Create Task', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text('Add Task', style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
                   const SizedBox(height: 24),
                 ],
@@ -611,5 +590,12 @@ class PlannerScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _formatTimeShort(DateTime time) {
+    final hour = time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+    final minute = time.minute.toString().padLeft(2, '0');
+    final period = time.hour >= 12 ? 'PM' : 'AM';
+    return '$hour:$minute $period';
   }
 }

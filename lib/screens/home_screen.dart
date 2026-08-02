@@ -10,7 +10,7 @@ import '../blocs/categories/categories_state.dart';
 import '../blocs/profile/profile_cubit.dart';
 import '../blocs/profile/profile_state.dart';
 import '../models/task_model.dart';
-import '../models/category_model.dart';
+import '../core/models/category/category.dart';
 import 'dart:math' as math;
 
 class HomeScreen extends StatelessWidget {
@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
               builder: (context, categoriesState) {
                 final categories = categoriesState is CategoriesLoaded
                     ? categoriesState.categories
-                    : <CategoryModel>[];
+                    : <Category>[];
 
                 return BlocBuilder<TasksBloc, TasksState>(
                   builder: (context, tasksState) {
@@ -92,17 +92,21 @@ class HomeScreen extends StatelessWidget {
                       }
                     }
 
-                    CategoryModel? nextTaskCategory;
+                    Category? nextTaskCategory;
                     if (nextTask != null) {
                       nextTaskCategory = categories.firstWhere(
                         (c) => c.id == nextTask!.categoryId,
-                        orElse: () => CategoryModel(
+                        orElse: () => const Category(
                           id: '',
                           name: 'General',
-                          colorHex: '#1A56DB',
+                          icon: 'folder',
+                          color: 0xFF1A56DB,
                         ),
                       );
                     }
+                    final categoryColor = nextTaskCategory != null
+                        ? Color(nextTaskCategory.color)
+                        : Colors.blue;
 
                     return SingleChildScrollView(
                       padding: const EdgeInsets.all(24.0),
@@ -290,18 +294,12 @@ class HomeScreen extends StatelessWidget {
                                 color: theme.cardColor,
                                 borderRadius: BorderRadius.circular(24),
                                 border: Border.all(
-                                  color:
-                                      nextTaskCategory?.color.withValues(alpha: 
-                                        0.3,
-                                      ) ??
-                                      Colors.blue.withValues(alpha: 0.3),
+                                  color: categoryColor.withValues(alpha: 0.3),
                                   width: 1.5,
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color:
-                                        (nextTaskCategory?.color ?? Colors.blue)
-                                            .withValues(alpha: 0.05),
+                                    color: categoryColor.withValues(alpha: 0.05),
                                     blurRadius: 15,
                                     offset: const Offset(0, 6),
                                   ),
@@ -320,10 +318,7 @@ class HomeScreen extends StatelessWidget {
                                           vertical: 6,
                                         ),
                                         decoration: BoxDecoration(
-                                          color:
-                                              (nextTaskCategory?.color ??
-                                                      Colors.blue)
-                                                  .withValues(alpha: 0.12),
+                                          color: categoryColor.withValues(alpha: 0.12),
                                           borderRadius: BorderRadius.circular(
                                             8,
                                           ),
@@ -331,9 +326,7 @@ class HomeScreen extends StatelessWidget {
                                         child: Text(
                                           nextTaskCategory?.name ?? 'General',
                                           style: TextStyle(
-                                            color:
-                                                nextTaskCategory?.color ??
-                                                Colors.blue,
+                                            color: categoryColor,
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -401,9 +394,7 @@ class HomeScreen extends StatelessWidget {
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          nextTaskCategory?.color ??
-                                          Colors.blue,
+                                      backgroundColor: categoryColor,
                                       foregroundColor: Colors.white,
                                       elevation: 0,
                                       minimumSize: const Size(

@@ -7,8 +7,8 @@ import '../blocs/goals/goals_event.dart';
 import '../blocs/goals/goals_state.dart';
 import '../blocs/categories/categories_bloc.dart';
 import '../blocs/categories/categories_state.dart';
-import '../models/goal_model.dart';
-import '../models/category_model.dart';
+import '../core/models/goal/goal.dart';
+import '../core/models/category/category.dart';
 
 class GoalsScreen extends StatelessWidget {
   const GoalsScreen({super.key});
@@ -35,7 +35,11 @@ class GoalsScreen extends StatelessWidget {
               ),
               Text(
                 'Track your progress over time',
-                style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.normal),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
             ],
           ),
@@ -57,21 +61,35 @@ class GoalsScreen extends StatelessWidget {
           builder: (context, categoriesState) {
             final categories = categoriesState is CategoriesLoaded
                 ? categoriesState.categories
-                : <CategoryModel>[];
+                : <Category>[];
 
             return BlocBuilder<GoalsBloc, GoalsState>(
               builder: (context, goalsState) {
                 final goals = goalsState is GoalsLoaded
                     ? goalsState.goals
-                    : <GoalModel>[];
+                    : <GoalX>[];
 
-                final weeklyGoals = goals.where((g) => g.type == 'weekly').toList();
-                final monthlyGoals = goals.where((g) => g.type == 'monthly').toList();
+                final weeklyGoals =
+                    goals.where((g) => g.type == GoalType.weekly).toList();
+                final monthlyGoals =
+                    goals.where((g) => g.type == GoalType.monthly).toList();
 
                 return TabBarView(
                   children: [
-                    _buildGoalList(context, uid: uid, goals: weeklyGoals, categories: categories, theme: theme),
-                    _buildGoalList(context, uid: uid, goals: monthlyGoals, categories: categories, theme: theme),
+                    _buildGoalList(
+                      context,
+                      uid: uid,
+                      goals: weeklyGoals,
+                      categories: categories,
+                      theme: theme,
+                    ),
+                    _buildGoalList(
+                      context,
+                      uid: uid,
+                      goals: monthlyGoals,
+                      categories: categories,
+                      theme: theme,
+                    ),
                   ],
                 );
               },
@@ -94,8 +112,8 @@ class GoalsScreen extends StatelessWidget {
   Widget _buildGoalList(
     BuildContext context, {
     required String uid,
-    required List<GoalModel> goals,
-    required List<CategoryModel> categories,
+    required List<GoalX> goals,
+    required List<Category> categories,
     required ThemeData theme,
   }) {
     if (goals.isEmpty) {
@@ -114,10 +132,8 @@ class GoalsScreen extends StatelessWidget {
       itemCount: goals.length,
       itemBuilder: (context, index) {
         final goal = goals[index];
-        final category = categories.firstWhere(
-          (c) => c.id == goal.categoryId,
-          orElse: () => CategoryModel(id: '', name: 'General', colorHex: '#1A56DB'),
-        );
+        final accentColor = Color(goal.color);
+        final percentInt = (goal.percentageCompleted.clamp(0.0, 1.0) * 100).toInt();
 
         return Container(
           margin: const EdgeInsets.only(bottom: 16.0),
@@ -142,23 +158,23 @@ class GoalsScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: category.color.withValues(alpha: 0.12),
+                      color: accentColor.withValues(alpha: 0.12),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      category.name,
+                      goal.category.name,
                       style: TextStyle(
-                        color: category.color,
+                        color: accentColor,
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   Text(
-                    '${(goal.progressPercentage * 100).toInt()}%',
+                    '$percentInt%',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: category.color,
+                      color: accentColor,
                     ),
                   ),
                 ],
@@ -174,9 +190,9 @@ class GoalsScreen extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: LinearProgressIndicator(
-                  value: goal.progressPercentage,
+                  value: goal.percentageCompleted.clamp(0.0, 1.0),
                   backgroundColor: isDark ? Colors.grey.shade800 : Colors.grey.shade100,
-                  valueColor: AlwaysStoppedAnimation<Color>(category.color),
+                  valueColor: AlwaysStoppedAnimation<Color>(accentColor),
                   minHeight: 8,
                 ),
               ),
@@ -185,7 +201,7 @@ class GoalsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${goal.completedSessions} of ${goal.totalSessions} sessions',
+                    goal.isCompleted ? 'Completed' : 'In Progress',
                     style: TextStyle(
                       fontSize: 13,
                       color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
@@ -204,10 +220,13 @@ class GoalsScreen extends StatelessWidget {
                       );
                     },
                     icon: const Icon(Icons.add, size: 14),
-                    label: const Text('Add to Today', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                    label: const Text(
+                      'Add Progress',
+                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                    ),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: category.color,
-                      side: BorderSide(color: category.color.withValues(alpha: 0.5)),
+                      foregroundColor: accentColor,
+                      side: BorderSide(color: accentColor.withValues(alpha: 0.5)),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -225,9 +244,8 @@ class GoalsScreen extends StatelessWidget {
 
   void _showAddGoalBottomSheet(BuildContext context, String uid) {
     final titleController = TextEditingController();
-    String? selectedCategoryId;
-    String selectedType = 'weekly';
-    int totalSessions = 5;
+    Category? selectedCategory;
+    GoalType selectedType = GoalType.weekly;
 
     showModalBottomSheet(
       context: context,
@@ -241,10 +259,10 @@ class GoalsScreen extends StatelessWidget {
             final categoriesState = context.watch<CategoriesBloc>().state;
             final categories = categoriesState is CategoriesLoaded
                 ? categoriesState.categories
-                : <CategoryModel>[];
+                : <Category>[];
 
-            if (selectedCategoryId == null && categories.isNotEmpty) {
-              selectedCategoryId = categories.first.id;
+            if (selectedCategory == null && categories.isNotEmpty) {
+              selectedCategory = categories.first;
             }
 
             return Padding(
@@ -278,8 +296,8 @@ class GoalsScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   const Text('Category', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  DropdownButtonFormField<String>(
-                    initialValue: selectedCategoryId,
+                  DropdownButtonFormField<Category>(
+                    initialValue: selectedCategory,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey.withValues(alpha: 0.08),
@@ -289,15 +307,15 @@ class GoalsScreen extends StatelessWidget {
                       ),
                     ),
                     items: categories.map((cat) {
-                      return DropdownMenuItem<String>(
-                        value: cat.id,
+                      return DropdownMenuItem<Category>(
+                        value: cat,
                         child: Row(
                           children: [
                             Container(
                               width: 12,
                               height: 12,
                               decoration: BoxDecoration(
-                                color: cat.color,
+                                color: Color(cat.color),
                                 shape: BoxShape.circle,
                               ),
                             ),
@@ -309,17 +327,17 @@ class GoalsScreen extends StatelessWidget {
                     }).toList(),
                     onChanged: (val) {
                       setState(() {
-                        selectedCategoryId = val;
+                        selectedCategory = val;
                       });
                     },
                   ),
                   const SizedBox(height: 16),
                   const Text('Goal Type', style: TextStyle(fontWeight: FontWeight.bold)),
                   const SizedBox(height: 8),
-                  SegmentedButton<String>(
+                  SegmentedButton<GoalType>(
                     segments: const [
-                      ButtonSegment(value: 'weekly', label: Text('Weekly')),
-                      ButtonSegment(value: 'monthly', label: Text('Monthly')),
+                      ButtonSegment(value: GoalType.weekly, label: Text('Weekly')),
+                      ButtonSegment(value: GoalType.monthly, label: Text('Monthly')),
                     ],
                     selected: {selectedType},
                     onSelectionChanged: (newSelection) {
@@ -333,53 +351,19 @@ class GoalsScreen extends StatelessWidget {
                       selectedForegroundColor: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Total Target Sessions', style: TextStyle(fontWeight: FontWeight.bold)),
-                      Row(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              if (totalSessions > 1) {
-                                setState(() {
-                                  totalSessions--;
-                                });
-                              }
-                            },
-                            icon: const Icon(Icons.remove_circle_outline),
-                            color: Colors.blue,
-                          ),
-                          Text(
-                            '$totalSessions',
-                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                totalSessions++;
-                              });
-                            },
-                            icon: const Icon(Icons.add_circle_outline),
-                            color: Colors.blue,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
                       final title = titleController.text.trim();
-                      if (title.isNotEmpty && selectedCategoryId != null) {
-                        final goal = GoalModel(
-                          id: '',
+                      if (title.isNotEmpty && selectedCategory != null) {
+                        final goal = GoalX(
+                          id: DateTime.now().millisecondsSinceEpoch,
                           title: title,
-                          categoryId: selectedCategoryId!,
-                          totalSessions: totalSessions,
-                          completedSessions: 0,
+                          category: selectedCategory!,
+                          percentageCompleted: 0.0,
+                          color: selectedCategory!.color,
                           type: selectedType,
+                          createdAt: DateTime.now(),
                         );
 
                         context.read<GoalsBloc>().add(AddGoalRequested(uid, goal));
