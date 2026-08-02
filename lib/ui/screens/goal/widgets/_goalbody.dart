@@ -15,26 +15,27 @@ class _GoalBody extends StatelessWidget {
         }
 
         if (state is GoalsLoaded && state.goals.isNotEmpty) {
-          final weeklyGoals = state.goals
-              .where((g) => g.type == 'weekly')
+          final mappedGoals = state.goals.map(_goalModelToGoalX).toList();
+          final weeklyGoals = mappedGoals
+              .where((g) => g.type == GoalType.weekly)
               .toList();
-          final monthlyGoals = state.goals
-              .where((g) => g.type == 'monthly')
+          final monthlyGoals = mappedGoals
+              .where((g) => g.type == GoalType.monthly)
               .toList();
 
           return TabBarView(
             children: [
-              _GoalListView(models: weeklyGoals, title: 'Weekly Progress'),
-              _GoalListView(models: monthlyGoals, title: 'Monthly Progress'),
+              _GoalListView(items: weeklyGoals, title: 'Weekly Progress'),
+              _GoalListView(items: monthlyGoals, title: 'Monthly Progress'),
             ],
           );
         }
 
         final weeklyDummy = screenState.goals
-            .where((g) => g.frequency == GoalFrequency.weekly)
+            .where((g) => g.type == GoalType.weekly)
             .toList();
         final monthlyDummy = screenState.goals
-            .where((g) => g.frequency == GoalFrequency.monthly)
+            .where((g) => g.type == GoalType.monthly)
             .toList();
 
         return TabBarView(
@@ -48,18 +49,38 @@ class _GoalBody extends StatelessWidget {
   }
 }
 
+GoalX _goalModelToGoalX(dynamic model) {
+  final categoryId = (model.categoryId as String?) ?? '';
+  final category = allCategories.firstWhere(
+    (c) => c.id == categoryId,
+    orElse: () => const Category(
+      id: '',
+      name: 'General',
+      icon: 'folder',
+      color: 0xFF1A56DB,
+    ),
+  );
+  return GoalX(
+    id: int.tryParse(model.id.toString()) ?? 0,
+    title: model.title.toString(),
+    category: category,
+    percentageCompleted: (model.progressPercentage as double?) ?? 0.0,
+    color: category.color,
+    type: model.type == 'monthly' ? GoalType.monthly : GoalType.weekly,
+    isCompleted: ((model.progressPercentage as double?) ?? 0.0) >= 1.0,
+    createdAt: DateTime.now(),
+  );
+}
+
 class _GoalListView extends StatelessWidget {
-  final List<GoalModel>? models;
-  final List<GoalItem>? items;
+  final List<GoalX> items;
   final String title;
 
-  const _GoalListView({this.models, this.items, required this.title});
+  const _GoalListView({required this.items, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    final count = models?.length ?? items?.length ?? 0;
-
-    if (count == 0) {
+    if (items.isEmpty) {
       return Center(
         child: Text(
           'No goals set for this section.',
@@ -70,27 +91,15 @@ class _GoalListView extends StatelessWidget {
 
     return ListView.builder(
       padding: Space.a.t16,
-      itemCount: count,
+      itemCount: items.length,
       itemBuilder: (context, index) {
-        final titleStr = models != null
-            ? models![index].title
-            : items![index].title;
-        final categoryStr = models != null
-            ? models![index].categoryId
-            : items![index].category;
-        final completed = models != null
-            ? models![index].completedSessions
-            : items![index].completedSessions;
-        final total = models != null
-            ? models![index].totalSessions
-            : items![index].totalSessions;
-        final progress = models != null
-            ? models![index].progressPercentage
-            : (total > 0 ? (completed / total).clamp(0.0, 1.0) : 0.0);
+        final goal = items[index];
+        final titleStr = goal.title;
+        final categoryStr = goal.category.name;
+        final progress = goal.percentageCompleted.clamp(0.0, 1.0);
         final percentText = '${(progress * 100).toInt()}%';
-        final accent = items != null
-            ? items![index].accentColor
-            : AppTheme.c.primary;
+        final accent = Color(goal.color);
+        final isCompleted = goal.isCompleted;
 
         return Container(
           margin: Space.z.b(16),
@@ -137,7 +146,7 @@ class _GoalListView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$completed of $total sessions',
+                    isCompleted ? 'Completed' : 'In Progress',
                     style: AppText.b2.cl(AppTheme.c.subText),
                   ),
                 ],

@@ -4,15 +4,18 @@ import 'package:momentum/configs/configs.dart';
 import 'package:momentum/blocs/goals/goals_bloc.dart';
 import 'package:momentum/blocs/goals/goals_state.dart';
 import 'package:momentum/core/screen/screen.dart';
-import 'package:momentum/models/goal_model.dart';
+import 'package:momentum/core/models/goal/goal.dart';
+import 'package:momentum/core/models/category/category.dart';
 import 'package:provider/provider.dart';
 
 part '_state.dart';
 part 'widgets/_header.dart';
-part 'widgets/_dummydata.dart';
+part 'dummy_data/_dummy_goals.dart';
+part 'dummy_data/_dummy_categories.dart';
 part 'widgets/_goalbody.dart';
 part 'widgets/_tabselector.dart';
 part 'widgets/_goalcard.dart';
+part 'widgets/_allcategories.dart';
 
 class GoalScreen extends StatelessWidget {
   const GoalScreen({super.key});
@@ -44,6 +47,8 @@ class _Body extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const _Header(),
+              Space.y.t16,
+              const AllCategories(),
               Space.y.t16,
               const _GoalTabSelector(),
               Space.y.t20,

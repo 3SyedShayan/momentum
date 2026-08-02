@@ -17,13 +17,13 @@ class _GoalTabSelector extends StatelessWidget {
         children: [
           _TabPill(
             label: 'Weekly Goals',
-            isSelected: state.selectedTab == GoalFrequency.weekly,
-            onTap: () => state.setTab(GoalFrequency.weekly),
+            isSelected: state.selectedTab == GoalType.weekly,
+            onTap: () => state.setTab(GoalType.weekly),
           ),
           _TabPill(
             label: 'Monthly Goals',
-            isSelected: state.selectedTab == GoalFrequency.monthly,
-            onTap: () => state.setTab(GoalFrequency.monthly),
+            isSelected: state.selectedTab == GoalType.monthly,
+            onTap: () => state.setTab(GoalType.monthly),
           ),
         ],
       ),
