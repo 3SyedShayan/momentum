@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/category_model.dart';
+import '../core/models/category/category.dart';
+import '../core/models/goal/goal.dart';
 import '../models/task_model.dart';
-import '../models/goal_model.dart';
 import '../models/user_profile_model.dart';
 import '../service/firebase/collections.dart';
 
@@ -45,7 +45,7 @@ class MomentumRepository {
   }
 
   // --- Category Operations ---
-  Stream<List<CategoryModel>> getCategories(String uid) {
+  Stream<List<Category>> getCategories(String uid) {
     return _firestore
         .collection(usersCollection)
         .doc(uid)
@@ -53,17 +53,17 @@ class MomentumRepository {
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
-              .map((doc) => CategoryModel.fromMap(doc.data(), doc.id))
+              .map((doc) => Category.fromJson({'id': doc.id, ...doc.data()}))
               .toList(),
         );
   }
 
-  Future<String> addCategory(String uid, CategoryModel category) async {
+  Future<String> addCategory(String uid, Category category) async {
     final docRef = await _firestore
         .collection(usersCollection)
         .doc(uid)
         .collection(categoriesCollection)
-        .add(category.toMap());
+        .add(category.toJson());
     return docRef.id;
   }
 
@@ -119,35 +119,37 @@ class MomentumRepository {
   }
 
   // --- Goal Operations ---
-  Stream<List<GoalModel>> getGoals(String uid) {
+  Stream<List<GoalX>> getGoals(String uid) {
     return _firestore
         .collection(usersCollection)
         .doc(uid)
         .collection(goalsCollection)
         .snapshots()
         .map(
-          (snapshot) => snapshot.docs
-              .map((doc) => GoalModel.fromMap(doc.data(), doc.id))
-              .toList(),
+          (snapshot) => snapshot.docs.map((doc) {
+            final data = Map<String, dynamic>.from(doc.data());
+            data['id'] = int.tryParse(doc.id) ?? doc.id.hashCode;
+            return GoalX.fromJson(data);
+          }).toList(),
         );
   }
 
-  Future<String> addGoal(String uid, GoalModel goal) async {
+  Future<String> addGoal(String uid, GoalX goal) async {
     final docRef = await _firestore
         .collection(usersCollection)
         .doc(uid)
         .collection(goalsCollection)
-        .add(goal.toMap());
+        .add(goal.toJson());
     return docRef.id;
   }
 
-  Future<void> updateGoal(String uid, GoalModel goal) async {
+  Future<void> updateGoal(String uid, GoalX goal) async {
     await _firestore
         .collection(usersCollection)
         .doc(uid)
         .collection(goalsCollection)
-        .doc(goal.id)
-        .set(goal.toMap());
+        .doc(goal.id.toString())
+        .set(goal.toJson());
   }
 
   Future<void> deleteGoal(String uid, String goalId) async {
@@ -175,18 +177,35 @@ class MomentumRepository {
         .collection(goalsCollection);
 
     // Create Category documents and get their IDs
-    final workRef = await categoriesRef.add(
-      CategoryModel(id: '', name: 'Work', colorHex: '#1A56DB').toMap(),
+    final workCat = const Category(
+      id: '',
+      name: 'Work',
+      icon: 'work',
+      color: 0xFF1A56DB,
     );
-    final healthRef = await categoriesRef.add(
-      CategoryModel(id: '', name: 'Health', colorHex: '#10B981').toMap(),
+    final healthCat = const Category(
+      id: '',
+      name: 'Health',
+      icon: 'fitness_center',
+      color: 0xFF10B981,
     );
-    final learningRef = await categoriesRef.add(
-      CategoryModel(id: '', name: 'Learning', colorHex: '#F59E0B').toMap(),
+    final learningCat = const Category(
+      id: '',
+      name: 'Learning',
+      icon: 'school',
+      color: 0xFFF59E0B,
     );
-    final restRef = await categoriesRef.add(
-      CategoryModel(id: '', name: 'Rest', colorHex: '#8B5CF6').toMap(),
+    final restCat = const Category(
+      id: '',
+      name: 'Rest',
+      icon: 'self_improvement',
+      color: 0xFF8B5CF6,
     );
+
+    final workRef = await categoriesRef.add(workCat.toJson());
+    final healthRef = await categoriesRef.add(healthCat.toJson());
+    final learningRef = await categoriesRef.add(learningCat.toJson());
+    final restRef = await categoriesRef.add(restCat.toJson());
 
     final workId = workRef.id;
     final healthId = healthRef.id;
@@ -264,59 +283,69 @@ class MomentumRepository {
     }
 
     // Default Goals
+    final workCategoryObj = workCat.copyWith(id: workId);
+    final healthCategoryObj = healthCat.copyWith(id: healthId);
+    final learningCategoryObj = learningCat.copyWith(id: learningId);
+
     final defaultGoals = [
-      GoalModel(
-        id: '',
+      GoalX(
+        id: 1,
         title: 'Finish Flutter Feature',
-        categoryId: workId,
-        totalSessions: 5,
-        completedSessions: 3,
-        type: 'weekly',
+        category: workCategoryObj,
+        percentageCompleted: 0.6,
+        color: 0xFF1A56DB,
+        type: GoalType.weekly,
+        createdAt: today,
       ),
-      GoalModel(
-        id: '',
+      GoalX(
+        id: 2,
         title: 'Exercise 5 Times',
-        categoryId: healthId,
-        totalSessions: 5,
-        completedSessions: 3,
-        type: 'weekly',
+        category: healthCategoryObj,
+        percentageCompleted: 0.6,
+        color: 0xFF10B981,
+        type: GoalType.weekly,
+        createdAt: today,
       ),
-      GoalModel(
-        id: '',
+      GoalX(
+        id: 3,
         title: 'Read 3 Chapters',
-        categoryId: learningId,
-        totalSessions: 3,
-        completedSessions: 2,
-        type: 'weekly',
+        category: learningCategoryObj,
+        percentageCompleted: 0.66,
+        color: 0xFFF59E0B,
+        type: GoalType.weekly,
+        createdAt: today,
       ),
-      GoalModel(
-        id: '',
+      GoalX(
+        id: 4,
         title: 'Finish Mobile App',
-        categoryId: workId,
-        totalSessions: 100,
-        completedSessions: 68,
-        type: 'monthly',
+        category: workCategoryObj,
+        percentageCompleted: 0.68,
+        color: 0xFF1A56DB,
+        type: GoalType.monthly,
+        createdAt: today,
       ),
-      GoalModel(
-        id: '',
+      GoalX(
+        id: 5,
         title: 'Read One Book',
-        categoryId: learningId,
-        totalSessions: 12,
-        completedSessions: 7,
-        type: 'monthly',
+        category: learningCategoryObj,
+        percentageCompleted: 0.58,
+        color: 0xFFF59E0B,
+        type: GoalType.monthly,
+        createdAt: today,
       ),
-      GoalModel(
-        id: '',
+      GoalX(
+        id: 6,
         title: 'Launch MVP',
-        categoryId: workId,
-        totalSessions: 2,
-        completedSessions: 1,
-        type: 'monthly',
+        category: workCategoryObj,
+        percentageCompleted: 0.5,
+        color: 0xFF1A56DB,
+        type: GoalType.monthly,
+        createdAt: today,
       ),
     ];
 
     for (final goal in defaultGoals) {
-      await goalsRef.add(goal.toMap());
+      await goalsRef.add(goal.toJson());
     }
   }
 }
