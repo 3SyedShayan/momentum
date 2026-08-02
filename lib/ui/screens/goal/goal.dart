@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:momentum/configs/configs.dart';
-import 'package:momentum/blocs/goals/goals_bloc.dart';
-import 'package:momentum/blocs/goals/goals_state.dart';
 import 'package:momentum/core/screen/screen.dart';
 import 'package:momentum/core/models/goal/goal.dart';
 import 'package:momentum/core/models/category/category.dart';
@@ -12,7 +9,6 @@ part '_state.dart';
 part 'widgets/_header.dart';
 part 'dummy_data/_dummy_goals.dart';
 part 'dummy_data/_dummy_categories.dart';
-part 'widgets/_goalbody.dart';
 part 'widgets/_tabselector.dart';
 part 'widgets/_goalcard.dart';
 part 'widgets/_allcategories.dart';
