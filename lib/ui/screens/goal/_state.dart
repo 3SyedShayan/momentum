@@ -29,4 +29,22 @@ class _ScreenState extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  final categoryFormKey = GlobalKey<FormBuilderState>();
+  final goalFormKey = GlobalKey<FormBuilderState>();
+  void submitAddCategory(BuildContext context) {
+    final form = categoryFormKey.currentState;
+    if (form == null || !form.saveAndValidate()) return;
+    final values = form.value;
+    // Dispatch event to CategoriesBloc / CategoriesCubit
+    // CategoriesBloc.b(context).add(AddCategoryEvent(values));
+  }
+
+  void submitAddGoal(BuildContext context) {
+    final form = goalFormKey.currentState;
+    if (form == null || !form.saveAndValidate()) return;
+    final values = form.value;
+    // Dispatch event to GoalsBloc / GoalsCubit
+    // GoalsBloc.b(context).add(AddGoalEvent(values));
+  }
 }
