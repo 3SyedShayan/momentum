@@ -10,42 +10,7 @@ class AllCategories extends StatelessWidget {
       child: Row(
         children: [
           IconButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text("Add Category"),
-                  content: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        decoration: const InputDecoration(labelText: "Name"),
-                      ),
-                      TextFormField(
-                        decoration: const InputDecoration(labelText: "Color"),
-                      ),
-                    ],
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => ''.pop(context),
-                      child: const Text("Cancel"),
-                    ),
-                    // TextButton(
-                    //   // onPressed: () => allCategories.add(
-                    //   //   Category(
-                    //   //     id: "",
-                    //   //     name: "",
-                    //   //     color: 0,
-                    //   //     icon: 0,
-                    //   //   ),
-                    //   // ),
-                    //   child: const Text("Add"),
-                    // ),
-                  ],
-                ),
-              );
-            },
+            onPressed: () => AddCategoryModal.show(context),
             icon: Icon(Icons.add),
           ),
           ...allCategories

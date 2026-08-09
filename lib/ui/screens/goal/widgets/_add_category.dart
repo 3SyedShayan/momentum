@@ -7,7 +7,7 @@ class AddCategoryModal extends StatelessWidget {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      builder: (_) => Provider.value(
+      builder: (_) => ChangeNotifierProvider.value(
         value: _ScreenState.s(context),
         child: const AddCategoryModal(),
       ),

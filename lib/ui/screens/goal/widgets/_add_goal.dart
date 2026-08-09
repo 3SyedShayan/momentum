@@ -6,7 +6,7 @@ class AddGoal extends StatelessWidget {
   static Future<void> show(BuildContext context) {
     return showModalBottomSheet(
       context: context,
-      builder: (_) => Provider.value(
+      builder: (_) => ChangeNotifierProvider.value(
         value: _ScreenState.s(context),
         child: const AddGoal(),
       ),
