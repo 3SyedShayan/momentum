@@ -8,7 +8,6 @@ import 'goals_state.dart';
 
 class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
   final MomentumRepository _momentumRepository;
-  StreamSubscription<List<GoalX>>? _goalsSubscription;
 
   GoalsBloc({required MomentumRepository momentumRepository})
       : _momentumRepository = momentumRepository,
@@ -26,14 +25,10 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
     Emitter<GoalsState> emit,
   ) async {
     emit(GoalsLoading());
-    await _goalsSubscription?.cancel();
-    _goalsSubscription = _momentumRepository.getGoals(event.uid).listen(
-      (goals) {
-        add(GoalsUpdated(goals));
-      },
-      onError: (error) {
-        emit(GoalsError(error.toString()));
-      },
+    await emit.forEach<List<GoalX>>(
+      _momentumRepository.getGoals(event.uid),
+      onData: (goals) => GoalsLoaded(goals),
+      onError: (error, stackTrace) => GoalsError(error.toString()),
     );
   }
 
@@ -105,11 +100,5 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
     } catch (e) {
       emit(GoalsError(e.toString()));
     }
-  }
-
-  @override
-  Future<void> close() {
-    _goalsSubscription?.cancel();
-    return super.close();
   }
 }

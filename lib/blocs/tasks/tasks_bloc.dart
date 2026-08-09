@@ -7,7 +7,6 @@ import 'tasks_state.dart';
 
 class TasksBloc extends Bloc<TasksEvent, TasksState> {
   final MomentumRepository _momentumRepository;
-  StreamSubscription<List<TaskModel>>? _tasksSubscription;
 
   TasksBloc({required MomentumRepository momentumRepository})
       : _momentumRepository = momentumRepository,
@@ -24,14 +23,10 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     Emitter<TasksState> emit,
   ) async {
     emit(TasksLoading());
-    await _tasksSubscription?.cancel();
-    _tasksSubscription = _momentumRepository.getTasks(event.uid).listen(
-      (tasks) {
-        add(TasksUpdated(tasks));
-      },
-      onError: (error) {
-        emit(TasksError(error.toString()));
-      },
+    await emit.forEach<List<TaskModel>>(
+      _momentumRepository.getTasks(event.uid),
+      onData: (tasks) => TasksLoaded(tasks),
+      onError: (error, stackTrace) => TasksError(error.toString()),
     );
   }
 
@@ -73,11 +68,5 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     } catch (e) {
       emit(TasksError(e.toString()));
     }
-  }
-
-  @override
-  Future<void> close() {
-    _tasksSubscription?.cancel();
-    return super.close();
   }
 }

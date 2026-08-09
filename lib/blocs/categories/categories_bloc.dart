@@ -7,7 +7,6 @@ import 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   final MomentumRepository _momentumRepository;
-  StreamSubscription<List<Category>>? _categoriesSubscription;
 
   CategoriesBloc({required MomentumRepository momentumRepository})
       : _momentumRepository = momentumRepository,
@@ -23,15 +22,10 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     Emitter<CategoriesState> emit,
   ) async {
     emit(CategoriesLoading());
-    await _categoriesSubscription?.cancel();
-    _categoriesSubscription =
-        _momentumRepository.getCategories(event.uid).listen(
-      (categories) {
-        add(CategoriesUpdated(categories));
-      },
-      onError: (error) {
-        emit(CategoriesError(error.toString()));
-      },
+    await emit.forEach<List<Category>>(
+      _momentumRepository.getCategories(event.uid),
+      onData: (categories) => CategoriesLoaded(categories),
+      onError: (error, stackTrace) => CategoriesError(error.toString()),
     );
   }
 
@@ -62,11 +56,5 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     } catch (e) {
       emit(CategoriesError(e.toString()));
     }
-  }
-
-  @override
-  Future<void> close() {
-    _categoriesSubscription?.cancel();
-    return super.close();
   }
 }
