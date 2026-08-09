@@ -1,3 +1,4 @@
+
 part of '../goal.dart';
 
 final List<Category> allCategories = [

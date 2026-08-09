@@ -35,6 +35,14 @@ class AddCategoryModal extends StatelessWidget {
               validators: FormBuilderValidators.required(),
             ),
             Space.y.t20,
+            AppFormIconInput(
+              name: _CategoryFormKeys.icon,
+              heading: 'App Icon',
+              placeholder: 'Select an Icon',
+              icons: categoryIconOptions
+                  .map((e) => AppIconOption(key: e.key, icon: e.icon))
+                  .toList(),
+            ),
             AppButton(
               label: 'Save Category',
               onTap: () => state.submitAddCategory(context),

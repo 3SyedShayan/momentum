@@ -24,7 +24,7 @@ class AddGoal extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Add New Goal', style: AppText.h2),
+            Text('Add ``New Goal', style: AppText.h2),
             Space.y.t16,
             AppFormTextInput(
               name: _CategoryFormKeys.title,
@@ -32,7 +32,24 @@ class AddGoal extends StatelessWidget {
               placeholder: 'e.g., Health & Fitness',
               validators: FormBuilderValidators.required(),
             ),
+
             Space.y.t20,
+            AppFormTextInput(
+              name: _GoalFormKeys.targetSessions,
+              heading: 'Target Sessions',
+              placeholder: 'e.g., 4',
+              validators: FormBuilderValidators.required(),
+            ),
+            Space.y.t20,
+            AppFormTextInput(
+              name: _GoalFormKeys.type,
+              heading: 'Goal Type',
+              placeholder: 'e.g., Monthly or Weekly',
+              validators: FormBuilderValidators.required(),
+            ),
+
+            Space.y.t20,
+
             AppButton(
               label: 'Save Category',
               onTap: () => state.submitAddCategory(context),
