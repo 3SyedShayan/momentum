@@ -17,5 +17,6 @@ part '_model.dart';
 part 'text_input/content.dart';
 part 'text_input/text_input.dart';
 part 'date/date_input.dart';
+part 'icon/icon_input.dart';
 
 part 'chips_input/chips_input.dart';
