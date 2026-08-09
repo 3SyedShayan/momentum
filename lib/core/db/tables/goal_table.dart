@@ -7,7 +7,7 @@ import '../converters.dart';
 class Goal extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get title => text()();
-  IntColumn get categoryId => integer().references(Category, #id)();
+  TextColumn get categoryId => text().references(Category, #id)();
   RealColumn get percentageCompleted =>
       real().withDefault(const Constant(0.0))();
   IntColumn get color => integer()();

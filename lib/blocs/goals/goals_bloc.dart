@@ -89,7 +89,7 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
       final newTask = TaskModel(
         id: '',
         title: 'Session: ${event.goal.title}',
-        categoryId: event.goal.category.id,
+        categoryId: event.goal.category.id ?? '',
         startTime: DateTime(now.year, now.month, now.day, now.hour + 1, 0),
         endTime: DateTime(now.year, now.month, now.day, now.hour + 2, 0),
         isCompleted: false,

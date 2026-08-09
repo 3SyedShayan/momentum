@@ -42,7 +42,7 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
   }
 
   /// Watch goals for a specific category
-  Stream<List<GoalData>> watchGoalsByCategory(int categoryId) {
+  Stream<List<GoalData>> watchGoalsByCategory(String categoryId) {
     return (select(goal)
           ..where((t) => t.categoryId.equals(categoryId))
           ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))

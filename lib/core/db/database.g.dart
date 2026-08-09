@@ -11,16 +11,12 @@ class $CategoryTable extends Category
   $CategoryTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
     'id',
     aliasedName,
     false,
-    hasAutoIncrement: true,
-    type: DriftSqlType.int,
-    requiredDuringInsert: false,
-    defaultConstraints: GeneratedColumn.constraintIsAlways(
-      'PRIMARY KEY AUTOINCREMENT',
-    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
   );
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
@@ -65,6 +61,8 @@ class $CategoryTable extends Category
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('name')) {
       context.handle(
@@ -100,7 +98,7 @@ class $CategoryTable extends Category
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CategoryData(
       id: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}id'],
       )!,
       name: attachedDatabase.typeMapping.read(
@@ -125,7 +123,7 @@ class $CategoryTable extends Category
 }
 
 class CategoryData extends DataClass implements Insertable<CategoryData> {
-  final int id;
+  final String id;
   final String name;
   final String icon;
   final int color;
@@ -138,7 +136,7 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['name'] = Variable<String>(name);
     map['icon'] = Variable<String>(icon);
     map['color'] = Variable<int>(color);
@@ -160,7 +158,7 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CategoryData(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       icon: serializer.fromJson<String>(json['icon']),
       color: serializer.fromJson<int>(json['color']),
@@ -170,14 +168,14 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'name': serializer.toJson<String>(name),
       'icon': serializer.toJson<String>(icon),
       'color': serializer.toJson<int>(color),
     };
   }
 
-  CategoryData copyWith({int? id, String? name, String? icon, int? color}) =>
+  CategoryData copyWith({String? id, String? name, String? icon, int? color}) =>
       CategoryData(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -217,49 +215,57 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
 }
 
 class CategoryCompanion extends UpdateCompanion<CategoryData> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> name;
   final Value<String> icon;
   final Value<int> color;
+  final Value<int> rowid;
   const CategoryCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.icon = const Value.absent(),
     this.color = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   CategoryCompanion.insert({
-    this.id = const Value.absent(),
+    required String id,
     required String name,
     required String icon,
     required int color,
-  }) : name = Value(name),
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       name = Value(name),
        icon = Value(icon),
        color = Value(color);
   static Insertable<CategoryData> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? name,
     Expression<String>? icon,
     Expression<int>? color,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (name != null) 'name': name,
       if (icon != null) 'icon': icon,
       if (color != null) 'color': color,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   CategoryCompanion copyWith({
-    Value<int>? id,
+    Value<String>? id,
     Value<String>? name,
     Value<String>? icon,
     Value<int>? color,
+    Value<int>? rowid,
   }) {
     return CategoryCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       icon: icon ?? this.icon,
       color: color ?? this.color,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -267,7 +273,7 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (name.present) {
       map['name'] = Variable<String>(name.value);
@@ -278,6 +284,9 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
     if (color.present) {
       map['color'] = Variable<int>(color.value);
     }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
     return map;
   }
 
@@ -287,7 +296,8 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('icon: $icon, ')
-          ..write('color: $color')
+          ..write('color: $color, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -324,11 +334,11 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
     'categoryId',
   );
   @override
-  late final GeneratedColumn<int> categoryId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> categoryId = GeneratedColumn<String>(
     'category_id',
     aliasedName,
     false,
-    type: DriftSqlType.int,
+    type: DriftSqlType.string,
     requiredDuringInsert: true,
     defaultConstraints: GeneratedColumn.constraintIsAlways(
       'REFERENCES category (id)',
@@ -502,7 +512,7 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
         data['${effectivePrefix}title'],
       )!,
       categoryId: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
+        DriftSqlType.string,
         data['${effectivePrefix}category_id'],
       )!,
       percentageCompleted: attachedDatabase.typeMapping.read(
@@ -546,7 +556,7 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
 class GoalData extends DataClass implements Insertable<GoalData> {
   final int id;
   final String title;
-  final int categoryId;
+  final String categoryId;
   final double percentageCompleted;
   final int color;
   final String? details;
@@ -569,7 +579,7 @@ class GoalData extends DataClass implements Insertable<GoalData> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
-    map['category_id'] = Variable<int>(categoryId);
+    map['category_id'] = Variable<String>(categoryId);
     map['percentage_completed'] = Variable<double>(percentageCompleted);
     map['color'] = Variable<int>(color);
     if (!nullToAbsent || details != null) {
@@ -607,7 +617,7 @@ class GoalData extends DataClass implements Insertable<GoalData> {
     return GoalData(
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
-      categoryId: serializer.fromJson<int>(json['categoryId']),
+      categoryId: serializer.fromJson<String>(json['categoryId']),
       percentageCompleted: serializer.fromJson<double>(
         json['percentageCompleted'],
       ),
@@ -624,7 +634,7 @@ class GoalData extends DataClass implements Insertable<GoalData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
-      'categoryId': serializer.toJson<int>(categoryId),
+      'categoryId': serializer.toJson<String>(categoryId),
       'percentageCompleted': serializer.toJson<double>(percentageCompleted),
       'color': serializer.toJson<int>(color),
       'details': serializer.toJson<String?>(details),
@@ -637,7 +647,7 @@ class GoalData extends DataClass implements Insertable<GoalData> {
   GoalData copyWith({
     int? id,
     String? title,
-    int? categoryId,
+    String? categoryId,
     double? percentageCompleted,
     int? color,
     Value<String?> details = const Value.absent(),
@@ -721,7 +731,7 @@ class GoalData extends DataClass implements Insertable<GoalData> {
 class GoalCompanion extends UpdateCompanion<GoalData> {
   final Value<int> id;
   final Value<String> title;
-  final Value<int> categoryId;
+  final Value<String> categoryId;
   final Value<double> percentageCompleted;
   final Value<int> color;
   final Value<String?> details;
@@ -742,7 +752,7 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
   GoalCompanion.insert({
     this.id = const Value.absent(),
     required String title,
-    required int categoryId,
+    required String categoryId,
     this.percentageCompleted = const Value.absent(),
     required int color,
     this.details = const Value.absent(),
@@ -757,7 +767,7 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
   static Insertable<GoalData> custom({
     Expression<int>? id,
     Expression<String>? title,
-    Expression<int>? categoryId,
+    Expression<String>? categoryId,
     Expression<double>? percentageCompleted,
     Expression<int>? color,
     Expression<String>? details,
@@ -782,7 +792,7 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
   GoalCompanion copyWith({
     Value<int>? id,
     Value<String>? title,
-    Value<int>? categoryId,
+    Value<String>? categoryId,
     Value<double>? percentageCompleted,
     Value<int>? color,
     Value<String?>? details,
@@ -813,7 +823,7 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
       map['title'] = Variable<String>(title.value);
     }
     if (categoryId.present) {
-      map['category_id'] = Variable<int>(categoryId.value);
+      map['category_id'] = Variable<String>(categoryId.value);
     }
     if (percentageCompleted.present) {
       map['percentage_completed'] = Variable<double>(percentageCompleted.value);
@@ -871,17 +881,19 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 
 typedef $$CategoryTableCreateCompanionBuilder =
     CategoryCompanion Function({
-      Value<int> id,
+      required String id,
       required String name,
       required String icon,
       required int color,
+      Value<int> rowid,
     });
 typedef $$CategoryTableUpdateCompanionBuilder =
     CategoryCompanion Function({
-      Value<int> id,
+      Value<String> id,
       Value<String> name,
       Value<String> icon,
       Value<int> color,
+      Value<int> rowid,
     });
 
 final class $$CategoryTableReferences
@@ -899,7 +911,7 @@ final class $$CategoryTableReferences
     final manager = $$GoalTableTableManager(
       $_db,
       $_db.goal,
-    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<int>('id')!));
+    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_goalRefsTable($_db));
     return ProcessedTableManager(
@@ -917,7 +929,7 @@ class $$CategoryTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnFilters(column),
   );
@@ -972,7 +984,7 @@ class $$CategoryTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
     column: $table.id,
     builder: (column) => ColumnOrderings(column),
   );
@@ -1002,7 +1014,7 @@ class $$CategoryTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get name =>
@@ -1068,27 +1080,31 @@ class $$CategoryTableTableManager
               $$CategoryTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                Value<String> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> icon = const Value.absent(),
                 Value<int> color = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
               }) => CategoryCompanion(
                 id: id,
                 name: name,
                 icon: icon,
                 color: color,
+                rowid: rowid,
               ),
           createCompanionCallback:
               ({
-                Value<int> id = const Value.absent(),
+                required String id,
                 required String name,
                 required String icon,
                 required int color,
+                Value<int> rowid = const Value.absent(),
               }) => CategoryCompanion.insert(
                 id: id,
                 name: name,
                 icon: icon,
                 color: color,
+                rowid: rowid,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -1147,7 +1163,7 @@ typedef $$GoalTableCreateCompanionBuilder =
     GoalCompanion Function({
       Value<int> id,
       required String title,
-      required int categoryId,
+      required String categoryId,
       Value<double> percentageCompleted,
       required int color,
       Value<String?> details,
@@ -1159,7 +1175,7 @@ typedef $$GoalTableUpdateCompanionBuilder =
     GoalCompanion Function({
       Value<int> id,
       Value<String> title,
-      Value<int> categoryId,
+      Value<String> categoryId,
       Value<double> percentageCompleted,
       Value<int> color,
       Value<String?> details,
@@ -1176,7 +1192,7 @@ final class $$GoalTableReferences
       db.category.createAlias('goal__category_id__category__id');
 
   $$CategoryTableProcessedTableManager get categoryId {
-    final $_column = $_itemColumn<int>('category_id')!;
+    final $_column = $_itemColumn<String>('category_id')!;
 
     final manager = $$CategoryTableTableManager(
       $_db,
@@ -1426,7 +1442,7 @@ class $$GoalTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> title = const Value.absent(),
-                Value<int> categoryId = const Value.absent(),
+                Value<String> categoryId = const Value.absent(),
                 Value<double> percentageCompleted = const Value.absent(),
                 Value<int> color = const Value.absent(),
                 Value<String?> details = const Value.absent(),
@@ -1448,7 +1464,7 @@ class $$GoalTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 required String title,
-                required int categoryId,
+                required String categoryId,
                 Value<double> percentageCompleted = const Value.absent(),
                 required int color,
                 Value<String?> details = const Value.absent(),
