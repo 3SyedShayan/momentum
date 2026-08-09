@@ -13,21 +13,19 @@ class AllCategories extends StatelessWidget {
             onPressed: () => AddCategoryModal.show(context),
             icon: Icon(Icons.add),
           ),
-          ...allCategories
-              .map(
-                (c) => Padding(
-                  padding: Space.r.t12,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(backgroundColor: Color(c.color), radius: 5),
-                      Space.x.t04,
-                      Text(c.name, style: AppText.b2.cl(AppTheme.c.subText)),
-                    ],
-                  ),
-                ),
-              )
-              .toList(),
+          ...allCategories.map(
+            (c) => Padding(
+              padding: Space.r.t12,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(backgroundColor: Color(c.color), radius: 5),
+                  Space.x.t04,
+                  Text(c.name, style: AppText.b2.cl(AppTheme.c.subText)),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );

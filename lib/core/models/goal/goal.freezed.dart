@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GoalX {
 
- int get id; String get title; Category get category; double get percentageCompleted; int get color; String? get details; GoalType get type; bool get isCompleted; DateTime get createdAt;
+ int get id; String get title; CategoryX get category; double get percentageCompleted; int get color; String? get details; GoalType get type; bool get isCompleted; DateTime get createdAt;
 /// Create a copy of GoalX
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,11 +48,11 @@ abstract mixin class $GoalXCopyWith<$Res>  {
   factory $GoalXCopyWith(GoalX value, $Res Function(GoalX) _then) = _$GoalXCopyWithImpl;
 @useResult
 $Res call({
- int id, String title, Category category, double percentageCompleted, int color, String? details, GoalType type, bool isCompleted, DateTime createdAt
+ int id, String title, CategoryX category, double percentageCompleted, int color, String? details, GoalType type, bool isCompleted, DateTime createdAt
 });
 
 
-$CategoryCopyWith<$Res> get category;
+$CategoryXCopyWith<$Res> get category;
 
 }
 /// @nodoc
@@ -70,7 +70,7 @@ class _$GoalXCopyWithImpl<$Res>
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as Category,percentageCompleted: null == percentageCompleted ? _self.percentageCompleted : percentageCompleted // ignore: cast_nullable_to_non_nullable
+as CategoryX,percentageCompleted: null == percentageCompleted ? _self.percentageCompleted : percentageCompleted // ignore: cast_nullable_to_non_nullable
 as double,color: null == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
 as int,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -83,9 +83,9 @@ as DateTime,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CategoryCopyWith<$Res> get category {
+$CategoryXCopyWith<$Res> get category {
   
-  return $CategoryCopyWith<$Res>(_self.category, (value) {
+  return $CategoryXCopyWith<$Res>(_self.category, (value) {
     return _then(_self.copyWith(category: value));
   });
 }
@@ -170,7 +170,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  Category category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  CategoryX category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GoalX() when $default != null:
 return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.color,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
@@ -191,7 +191,7 @@ return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  Category category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  CategoryX category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _GoalX():
 return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.color,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
@@ -211,7 +211,7 @@ return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  Category category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  CategoryX category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _GoalX() when $default != null:
 return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.color,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
@@ -231,7 +231,7 @@ class _GoalX implements GoalX {
 
 @override final  int id;
 @override final  String title;
-@override final  Category category;
+@override final  CategoryX category;
 @override@JsonKey() final  double percentageCompleted;
 @override final  int color;
 @override final  String? details;
@@ -272,11 +272,11 @@ abstract mixin class _$GoalXCopyWith<$Res> implements $GoalXCopyWith<$Res> {
   factory _$GoalXCopyWith(_GoalX value, $Res Function(_GoalX) _then) = __$GoalXCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String title, Category category, double percentageCompleted, int color, String? details, GoalType type, bool isCompleted, DateTime createdAt
+ int id, String title, CategoryX category, double percentageCompleted, int color, String? details, GoalType type, bool isCompleted, DateTime createdAt
 });
 
 
-@override $CategoryCopyWith<$Res> get category;
+@override $CategoryXCopyWith<$Res> get category;
 
 }
 /// @nodoc
@@ -294,7 +294,7 @@ class __$GoalXCopyWithImpl<$Res>
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
-as Category,percentageCompleted: null == percentageCompleted ? _self.percentageCompleted : percentageCompleted // ignore: cast_nullable_to_non_nullable
+as CategoryX,percentageCompleted: null == percentageCompleted ? _self.percentageCompleted : percentageCompleted // ignore: cast_nullable_to_non_nullable
 as double,color: null == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
 as int,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -308,9 +308,9 @@ as DateTime,
 /// with the given fields replaced by the non-null parameter values.
 @override
 @pragma('vm:prefer-inline')
-$CategoryCopyWith<$Res> get category {
+$CategoryXCopyWith<$Res> get category {
   
-  return $CategoryCopyWith<$Res>(_self.category, (value) {
+  return $CategoryXCopyWith<$Res>(_self.category, (value) {
     return _then(_self.copyWith(category: value));
   });
 }

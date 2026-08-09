@@ -37,7 +37,7 @@ class PlannerScreen extends StatelessWidget {
         builder: (context, categoriesState) {
           final categories = categoriesState is CategoriesLoaded
               ? categoriesState.categories
-              : <Category>[];
+              : <CategoryX>[];
 
           return BlocBuilder<TasksBloc, TasksState>(
             builder: (context, tasksState) {
@@ -118,7 +118,7 @@ class PlannerScreen extends StatelessWidget {
                               final task = tasks[index];
                               final category = categories.firstWhere(
                                 (c) => c.id == task.categoryId,
-                                orElse: () => const Category(id: '', name: 'General', icon: 'folder', color: 0xFF1A56DB),
+                                orElse: () => const CategoryX(id: '', name: 'General', icon: 'folder', color: 0xFF1A56DB),
                               );
                               
                               final now = DateTime.now();
@@ -159,7 +159,7 @@ class PlannerScreen extends StatelessWidget {
     BuildContext context, {
     required String uid,
     required TaskModel task,
-    required Category category,
+    required CategoryX category,
     required bool isActive,
     required ThemeData theme,
   }) {
@@ -377,7 +377,7 @@ class PlannerScreen extends StatelessWidget {
                   onPressed: () {
                     final name = nameController.text.trim();
                     if (name.isNotEmpty) {
-                      final cat = Category(id: '', name: name, icon: 'folder', color: selectedColor.toARGB32());
+                      final cat = CategoryX(id: '', name: name, icon: 'folder', color: selectedColor.toARGB32());
                       context.read<CategoriesBloc>().add(AddCategoryRequested(uid, cat));
                       Navigator.pop(diagContext);
                     }
@@ -410,7 +410,7 @@ class PlannerScreen extends StatelessWidget {
             final categoriesState = context.watch<CategoriesBloc>().state;
             final categories = categoriesState is CategoriesLoaded
                 ? categoriesState.categories
-                : <Category>[];
+                : <CategoryX>[];
 
             if (selectedCategoryId == null && categories.isNotEmpty) {
               selectedCategoryId = categories.first.id;

@@ -11,7 +11,7 @@ abstract class GoalX with _$GoalX {
   const factory GoalX({
     required int id,
     required String title,
-    required Category category,
+    required CategoryX category,
     @Default(0.0) double percentageCompleted,
     required int color,
     String? details,

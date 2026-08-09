@@ -9,7 +9,7 @@ part of 'goal.dart';
 _GoalX _$GoalXFromJson(Map<String, dynamic> json) => _GoalX(
   id: (json['id'] as num).toInt(),
   title: json['title'] as String,
-  category: Category.fromJson(json['category'] as Map<String, dynamic>),
+  category: CategoryX.fromJson(json['category'] as Map<String, dynamic>),
   percentageCompleted: (json['percentageCompleted'] as num?)?.toDouble() ?? 0.0,
   color: (json['color'] as num).toInt(),
   details: json['details'] as String?,

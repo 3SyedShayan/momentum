@@ -22,7 +22,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     Emitter<CategoriesState> emit,
   ) async {
     emit(CategoriesLoading());
-    await emit.forEach<List<Category>>(
+    await emit.forEach<List<CategoryX>>(
       _momentumRepository.getCategories(event.uid),
       onData: (categories) => CategoriesLoaded(categories),
       onError: (error, stackTrace) => CategoriesError(error.toString()),

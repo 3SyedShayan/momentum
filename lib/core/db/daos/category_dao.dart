@@ -24,10 +24,17 @@ class CategoryDao extends DatabaseAccessor<AppDatabase>
     return (select(category)..where((t) => t.id.equals(id))).getSingleOrNull();
   }
 
+  Future<bool> getCategoryById(String id) {
+    return (select(category)..where((t) => t.id.equals(id))).exists();
+  }
+
   // --- Adding / Inserting ---
 
   /// Add a new category
   Future<int> addCategory(CategoryCompanion entry) {
+    final s = entry.name.toLowerCase().trim();
+    s.entry.copyWith(id: s);
+
     return into(category).insert(entry);
   }
 

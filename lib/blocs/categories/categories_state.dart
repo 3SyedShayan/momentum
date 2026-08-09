@@ -9,7 +9,7 @@ class CategoriesInitial extends CategoriesState {}
 class CategoriesLoading extends CategoriesState {}
 
 class CategoriesLoaded extends CategoriesState {
-  final List<Category> categories;
+  final List<CategoryX> categories;
   const CategoriesLoaded(this.categories);
 }
 

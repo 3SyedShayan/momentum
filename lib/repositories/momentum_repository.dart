@@ -44,8 +44,8 @@ class MomentumRepository {
         .set(profile.toMap());
   }
 
-  // --- Category Operations ---
-  Stream<List<Category>> getCategories(String uid) {
+  // --- CategoryX Operations ---
+  Stream<List<CategoryX>> getCategories(String uid) {
     return _firestore
         .collection(usersCollection)
         .doc(uid)
@@ -53,12 +53,12 @@ class MomentumRepository {
         .snapshots()
         .map(
           (snapshot) => snapshot.docs
-              .map((doc) => Category.fromJson({'id': doc.id, ...doc.data()}))
+              .map((doc) => CategoryX.fromJson({'id': doc.id, ...doc.data()}))
               .toList(),
         );
   }
 
-  Future<String> addCategory(String uid, Category category) async {
+  Future<String> addCategory(String uid, CategoryX category) async {
     final docRef = await _firestore
         .collection(usersCollection)
         .doc(uid)
@@ -176,26 +176,26 @@ class MomentumRepository {
         .doc(uid)
         .collection(goalsCollection);
 
-    // Create Category documents and get their IDs
-    final workCat = const Category(
+    // Create CategoryX documents and get their IDs
+    final workCat = const CategoryX(
       id: '',
       name: 'Work',
       icon: 'work',
       color: 0xFF1A56DB,
     );
-    final healthCat = const Category(
+    final healthCat = const CategoryX(
       id: '',
       name: 'Health',
       icon: 'fitness_center',
       color: 0xFF10B981,
     );
-    final learningCat = const Category(
+    final learningCat = const CategoryX(
       id: '',
       name: 'Learning',
       icon: 'school',
       color: 0xFFF59E0B,
     );
-    final restCat = const Category(
+    final restCat = const CategoryX(
       id: '',
       name: 'Rest',
       icon: 'self_improvement',

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:momentum/configs/configs.dart';
+import 'package:momentum/core/db/tables/category_table.dart';
 import 'package:momentum/core/screen/screen.dart';
 import 'package:momentum/core/models/goal/goal.dart';
 import 'package:momentum/core/models/category/category.dart';

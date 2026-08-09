@@ -10,13 +10,13 @@ class SubscribeCategories extends CategoriesEvent {
 }
 
 class CategoriesUpdated extends CategoriesEvent {
-  final List<Category> categories;
+  final List<CategoryX> categories;
   const CategoriesUpdated(this.categories);
 }
 
 class AddCategoryRequested extends CategoriesEvent {
   final String uid;
-  final Category category;
+  final CategoryX category;
   const AddCategoryRequested(this.uid, this.category);
 }
 

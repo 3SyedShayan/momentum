@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
               builder: (context, categoriesState) {
                 final categories = categoriesState is CategoriesLoaded
                     ? categoriesState.categories
-                    : <Category>[];
+                    : <CategoryX>[];
 
                 return BlocBuilder<TasksBloc, TasksState>(
                   builder: (context, tasksState) {
@@ -92,11 +92,11 @@ class HomeScreen extends StatelessWidget {
                       }
                     }
 
-                    Category? nextTaskCategory;
+                    CategoryX? nextTaskCategory;
                     if (nextTask != null) {
                       nextTaskCategory = categories.firstWhere(
                         (c) => c.id == nextTask!.categoryId,
-                        orElse: () => const Category(
+                        orElse: () => const CategoryX(
                           id: '',
                           name: 'General',
                           icon: 'folder',
