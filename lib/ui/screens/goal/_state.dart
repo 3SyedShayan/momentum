@@ -36,7 +36,15 @@ class _ScreenState extends ChangeNotifier {
     final form = categoryFormKey.currentState;
     if (form == null || !form.saveAndValidate()) return;
     final values = form.value;
-    // Dispatch event to CategoriesBloc / CategoriesCubit
+
+    final category = CategoryX(
+      id: null,
+      name: values[_CategoryFormKeys.title],
+      icon: values[_CategoryFormKeys.icon],
+      color: values[_CategoryFormKeys.color],
+    );
+    CategoryRepo.ins.addCategory(category);
+
     // CategoriesBloc.b(context).add(AddCategoryEvent(values));
   }
 
