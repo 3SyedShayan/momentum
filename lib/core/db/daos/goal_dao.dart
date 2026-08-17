@@ -16,7 +16,7 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
   /// Get all goals once
   Future<List<GoalData>> getAllGoals() {
     return (select(goal)
-          ..orderBy([(t) => OrderingTerm.desc(t.createdAt)]))
+          ..orderBy([( t) => OrderingTerm.desc(t.createdAt)]))
         .get();
   }
 
