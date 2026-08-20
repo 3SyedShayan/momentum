@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:momentum/configs/configs.dart';
 import 'package:momentum/gen/assets/fonts.gen.dart';
+import 'package:momentum/services/fault/faults.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
-
 export 'package:recase/recase.dart';
 import 'package:supercharged/supercharged.dart';
 export 'package:themed/themed.dart';
-
+import 'package:equatable/equatable.dart';
 part '_props.dart';
 
 part 'extension/_date.dart';
@@ -46,8 +46,8 @@ part 'ui/_media.dart';
 part 'ui/_screen.dart';
 part 'ui/_unit.dart';
 
-// part 'bloc/_action.dart';
-// part 'bloc/_state.dart';
+part 'bloc/_action.dart';
+part 'bloc/_state.dart';
 
 class App {
   static void init(BuildContext context, [VoidCallback? callback]) {

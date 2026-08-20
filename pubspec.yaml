@@ -31,6 +31,10 @@ dependencies:
   flutter_form_builder: ^10.3.0+2
   flutter_lucide: ^1.11.0
   form_builder_validators: ^11.3.0
+  equatable: 2.0.7
+  firebase_ai: ^3.15.0
+  http: ^1.6.0
+
 
 dev_dependencies:
   flutter_test:
