@@ -11,6 +11,10 @@ class CategoryProvider {
     return _db.categoryDao.addCategory(entry);
   }
 
+  static Stream<List<CategoryData>> watchAllCategories() {
+    return _db.categoryDao.watchAllCategories();
+  }
+
   static Future<void> deleteCategory(String id) {
     return _db.categoryDao.deleteCategory(id);
   }

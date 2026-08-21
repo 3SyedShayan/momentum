@@ -22,4 +22,10 @@ class CategoryRepo {
   Future<void> deleteCategory(String id) {
     return CategoryProvider.deleteCategory(id);
   }
+
+  Stream<List<CategoryX>> watchCategories() {
+    return CategoryProvider.watchAllCategories().map(
+      (list) => list.map(_fromData).toList(),
+    );
+  }
 }

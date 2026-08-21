@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:go_router/go_router.dart';
 import 'package:momentum/configs/configs.dart';
-import 'package:momentum/core/db/database.dart';
-import 'package:momentum/core/db/tables/category_table.dart';
 import 'package:momentum/core/screen/screen.dart';
 import 'package:momentum/core/models/goal/goal.dart';
 import 'package:momentum/core/models/category/category.dart';
+import 'package:momentum/new_blocs/goal/cubit.dart';
 import 'package:momentum/repos/goal/category_repo.dart';
 import 'package:momentum/ui/widgets/core/button/button.dart';
 import 'package:momentum/ui/widgets/forms/forms.dart';
@@ -26,6 +26,7 @@ part 'widgets/_add_goal.dart';
 part 'static/_form_keys.dart';
 part 'static/_form_data.dart';
 part 'static/_icon_data.dart';
+part 'static/_color_data.dart';
 
 class GoalScreen extends StatelessWidget {
   const GoalScreen({super.key});
