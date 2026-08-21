@@ -6,7 +6,7 @@ class AllCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<CategoryX>>(
-      stream: CategoryRepo.ins.watchCategories(),
+      stream: CategoryRepo.ins.watchAllCategories(),
       builder: (context, snapshot) {
         final categories = snapshot.data ?? [];
 
@@ -21,13 +21,19 @@ class AllCategories extends StatelessWidget {
               ...categories.map(
                 (c) => Padding(
                   padding: Space.r.t12,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CircleAvatar(backgroundColor: Color(c.color), radius: 5),
-                      Space.x.t04,
-                      Text(c.name, style: AppText.b2.cl(AppTheme.c.subText)),
-                    ],
+                  child: GestureDetector(
+                    onTap: () => AddCategoryModal.show(context, category: c),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: Color(c.color),
+                          radius: 5,
+                        ),
+                        Space.x.t04,
+                        Text(c.name, style: AppText.b2.cl(AppTheme.c.subText)),
+                      ],
+                    ),
                   ),
                 ),
               ),

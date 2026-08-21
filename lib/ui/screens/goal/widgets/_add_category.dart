@@ -1,15 +1,16 @@
 part of '../goal.dart';
 
 class AddCategoryModal extends StatelessWidget {
-  const AddCategoryModal({super.key});
+  const AddCategoryModal({super.key, this.category});
+  final CategoryX? category;
 
-  static Future<void> show(BuildContext context) {
+  static Future<void> show(BuildContext context, {CategoryX? category}) {
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (_) => ChangeNotifierProvider.value(
         value: _ScreenState.s(context),
-        child: const AddCategoryModal(),
+        child: AddCategoryModal(category: category),
       ),
     );
   }
@@ -17,10 +18,19 @@ class AddCategoryModal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = _ScreenState.s(context);
+    final isEditing = category != null;
+
+    final initialValue = isEditing
+        ? {
+            _CategoryFormKeys.title: category!.name,
+            _CategoryFormKeys.color: category!.color,
+            _CategoryFormKeys.icon: category!.icon,
+          }
+        : _GoalFormData.initialGoalValues();
 
     return FormBuilder(
       key: state.categoryFormKey,
-      initialValue: _GoalFormData.initialCategoryValues(),
+      initialValue: initialValue,
       child: Padding(
         padding: Space.a.t20,
         child: Column(
@@ -94,8 +104,10 @@ class AddCategoryModal extends StatelessWidget {
                 );
               },
             ),
+
+            Space.y.t16,
             AppButton(
-              label: 'Save Category',
+              label: isEditing ? 'Update Category' : 'Save Category',
               onTap: () => state.submitAddCategory(context),
             ),
           ],

@@ -32,25 +32,25 @@ class _ScreenState extends ChangeNotifier {
 
   final categoryFormKey = GlobalKey<FormBuilderState>();
   final goalFormKey = GlobalKey<FormBuilderState>();
-  void submitAddCategory(BuildContext context) {
+  void submitAddCategory(BuildContext context, {CategoryX? existingCategory}) {
     final form = categoryFormKey.currentState;
     if (form == null || !form.saveAndValidate()) return;
     final values = form.value;
 
     final category = CategoryX(
-      id: null,
+      id: existingCategory?.id,
       name: values[_CategoryFormKeys.title] as String? ?? '',
       icon: values[_CategoryFormKeys.icon] as String? ?? 'book',
       color: values[_CategoryFormKeys.color] as int? ?? 0xFFEC4899,
     );
 
-    GoalCubit().addCategory(category);
+    if (existingCategory != null) {
+      GoalCubit().updateCategory(category);
+    } else {
+      GoalCubit().addCategory(category);
+    }
     if (context.mounted) context.pop();
   }
 
-  void submitAddGoal(BuildContext context) {
-    final form = goalFormKey.currentState;
-    if (form == null || !form.saveAndValidate()) return;
-    final values = form.value;
-  }
+  void editCategory(CategoryX category) {}
 }
