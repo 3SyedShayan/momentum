@@ -32,4 +32,25 @@ class GoalCubit extends Cubit<GoalState> {
       );
     }
   }
+
+  void updateCategory(CategoryX category) async {
+    emit(state.copyWith(updateCategory: state.updateCategory!.toLoading()));
+    try {
+      await CategoryRepo.ins.updateCategory(category);
+      emit(
+        state.copyWith(
+          updateCategory: state.updateCategory!.toSuccess(data: category),
+        ),
+      );
+    } catch (e, stack) {
+      e.appLog(level: AppLogLevel.error, tag: 'GoalCubit');
+      emit(
+        state.copyWith(
+          updateCategory: state.updateCategory!.toFailed(
+            fault: Fault.fromObjectAndStackTrace(e, stack),
+          ),
+        ),
+      );
+    }
+  }
 }

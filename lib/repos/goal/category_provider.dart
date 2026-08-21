@@ -18,4 +18,8 @@ class CategoryProvider {
   static Future<void> deleteCategory(String id) {
     return _db.categoryDao.deleteCategory(id);
   }
+
+  static Future<void> updateCategory(CategoryData entry) {
+    return _db.categoryDao.updateCategory(entry);
+  }
 }

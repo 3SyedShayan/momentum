@@ -5,10 +5,12 @@ class GoalState extends Equatable {
   final BlocState<GoalX> addGoal;
   final GoalType selectedTab;
   final List<GoalX> goals;
+  final BlocState<CategoryX>? updateCategory;
 
   const GoalState({
     required this.addCategory,
     required this.addGoal,
+    required this.updateCategory,
     this.selectedTab = GoalType.weekly,
     this.goals = const [],
   });
@@ -17,11 +19,14 @@ class GoalState extends Equatable {
     : addCategory = BlocState(),
       addGoal = BlocState(),
       selectedTab = GoalType.weekly,
-      goals = const [];
+      goals = const [],
+      updateCategory = BlocState();
 
   GoalState copyWith({
     BlocState<CategoryX>? addCategory,
     BlocState<GoalX>? addGoal,
+    BlocState<CategoryX>? updateCategory,
+
     GoalType? selectedTab,
     List<GoalX>? goals,
   }) {
@@ -30,9 +35,16 @@ class GoalState extends Equatable {
       addGoal: addGoal ?? this.addGoal,
       selectedTab: selectedTab ?? this.selectedTab,
       goals: goals ?? this.goals,
+      updateCategory: updateCategory ?? this.updateCategory,
     );
   }
 
   @override
-  List<Object?> get props => [addCategory, addGoal, selectedTab, goals];
+  List<Object?> get props => [
+    addCategory,
+    addGoal,
+    updateCategory,
+    selectedTab,
+    goals,
+  ];
 }

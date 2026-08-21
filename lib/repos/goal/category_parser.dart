@@ -9,6 +9,15 @@ CategoryCompanion _toCompanion(CategoryX category) {
   );
 }
 
+CategoryData _toData(CategoryX category) {
+  return CategoryData(
+    id: category.id!,
+    name: category.name,
+    icon: category.icon,
+    color: category.color,
+  );
+}
+
 CategoryX _fromData(CategoryData data) {
   return CategoryX(
     id: data.id,

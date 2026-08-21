@@ -23,9 +23,14 @@ class CategoryRepo {
     return CategoryProvider.deleteCategory(id);
   }
 
-  Stream<List<CategoryX>> watchCategories() {
+  Stream<List<CategoryX>> watchAllCategories() {
     return CategoryProvider.watchAllCategories().map(
       (list) => list.map(_fromData).toList(),
     );
+  }
+
+  Future<void> updateCategory(CategoryX category) {
+    final comp = _toData(category);
+    return CategoryProvider.updateCategory(comp);
   }
 }
