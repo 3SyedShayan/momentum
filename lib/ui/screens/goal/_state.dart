@@ -39,20 +39,18 @@ class _ScreenState extends ChangeNotifier {
 
     final category = CategoryX(
       id: null,
-      name: values[_CategoryFormKeys.title],
-      icon: values[_CategoryFormKeys.icon],
-      color: values[_CategoryFormKeys.color],
+      name: values[_CategoryFormKeys.title] as String? ?? '',
+      icon: values[_CategoryFormKeys.icon] as String? ?? 'book',
+      color: values[_CategoryFormKeys.color] as int? ?? 0xFFEC4899,
     );
-    CategoryRepo.ins.addCategory(category);
 
-    // CategoriesBloc.b(context).add(AddCategoryEvent(values));
+    GoalCubit().addCategory(category);
+    if (context.mounted) context.pop();
   }
 
   void submitAddGoal(BuildContext context) {
     final form = goalFormKey.currentState;
     if (form == null || !form.saveAndValidate()) return;
     final values = form.value;
-    // Dispatch event to GoalsBloc / GoalsCubit
-    // GoalsBloc.b(context).add(AddGoalEvent(values));
   }
 }
