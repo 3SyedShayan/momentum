@@ -39,9 +39,60 @@ class AddCategoryModal extends StatelessWidget {
               name: _CategoryFormKeys.icon,
               heading: 'App Icon',
               placeholder: 'Select an Icon',
+              validators: FormBuilderValidators.required(),
               icons: categoryIconOptions
                   .map((e) => AppIconOption(key: e.key, icon: e.icon))
                   .toList(),
+            ),
+            Space.y.t20,
+            FormBuilderField<int>(
+              name: _CategoryFormKeys.color,
+              initialValue: categoryColorOptions.first,
+              builder: (field) {
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: categoryColorOptions.map((colorValue) {
+                      final isSelected = field.value == colorValue;
+                      return GestureDetector(
+                        onTap: () => field.didChange(colorValue),
+                        child: Padding(
+                          padding: Space.r.t12,
+                          child: Container(
+                            width: 36,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              color: Color(colorValue),
+                              shape: BoxShape.circle,
+                              border: isSelected
+                                  ? Border.all(color: Colors.white, width: 3)
+                                  : null,
+                              boxShadow: isSelected
+                                  ? [
+                                      BoxShadow(
+                                        color: Color(
+                                          colorValue,
+                                        ).withValues(alpha: 0.5),
+                                        blurRadius: 8,
+                                        spreadRadius: 2,
+                                      ),
+                                    ]
+                                  : null,
+                            ),
+                            child: isSelected
+                                ? const Icon(
+                                    Icons.check,
+                                    size: 18,
+                                    color: Colors.white,
+                                  )
+                                : null,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                );
+              },
             ),
             AppButton(
               label: 'Save Category',
