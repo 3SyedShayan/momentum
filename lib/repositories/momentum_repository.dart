@@ -3,7 +3,7 @@ import '../core/models/category/category.dart';
 import '../core/models/goal/goal.dart';
 import '../models/task_model.dart';
 import '../models/user_profile_model.dart';
-import '../service/firebase/collections.dart';
+import '../services/firebase/collections.dart';
 
 class MomentumRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
