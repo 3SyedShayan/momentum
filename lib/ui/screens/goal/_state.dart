@@ -45,9 +45,9 @@ class _ScreenState extends ChangeNotifier {
     );
 
     if (existingCategory != null) {
-      GoalCubit().updateCategory(category);
+      CategoryCubit().updateCategory(category);
     } else {
-      GoalCubit().addCategory(category);
+      CategoryCubit().addCategory(category);
     }
     if (context.mounted) context.pop();
   }
