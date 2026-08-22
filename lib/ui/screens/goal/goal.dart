@@ -28,6 +28,7 @@ part 'static/_form_keys.dart';
 part 'static/_form_data.dart';
 part 'static/_icon_data.dart';
 part 'static/_color_data.dart';
+part 'widgets/_floating_button.dart';
 
 class GoalScreen extends StatelessWidget {
   const GoalScreen({super.key});
@@ -52,6 +53,7 @@ class _Body extends StatelessWidget {
     final state = _ScreenState.s(context, true);
 
     return Screen(
+      floatingActionButton: _FloatingButton(),
       child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(SpaceToken.t16),
@@ -60,7 +62,7 @@ class _Body extends StatelessWidget {
             children: [
               const _Header(),
               Space.y.t16,
-              const AllCategories(),
+              const _AllCategories(),
               Space.y.t16,
               const _GoalTabSelector(),
               Space.y.t20,

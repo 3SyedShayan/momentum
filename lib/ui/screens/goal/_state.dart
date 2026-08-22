@@ -53,4 +53,13 @@ class _ScreenState extends ChangeNotifier {
   }
 
   void editCategory(CategoryX category) {}
+
+  void submitAddGoal() {
+    final form = goalFormKey.currentState;
+    if (form == null || !form.saveAndValidate()) return;
+    final values = form.value;
+
+    debugPrint("submit Add Goal Button Pressed");
+    //   final goal = GoalX(id: values., title: title, category: category, color: color, type: type, createdAt: createdAt)
+  }
 }

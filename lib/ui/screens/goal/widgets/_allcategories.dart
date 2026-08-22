@@ -1,7 +1,7 @@
 part of '../goal.dart';
 
-class AllCategories extends StatelessWidget {
-  const AllCategories({super.key});
+class _AllCategories extends StatelessWidget {
+  const _AllCategories({super.key});
 
   @override
   Widget build(BuildContext context) {
