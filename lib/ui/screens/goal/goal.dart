@@ -9,7 +9,7 @@ import 'package:momentum/core/models/goal/goal.dart';
 import 'package:momentum/core/models/category/category.dart';
 import 'package:momentum/new_blocs/category/cubit.dart';
 import 'package:momentum/new_blocs/goal/cubit.dart';
-import 'package:momentum/repos/goal/category_repo.dart';
+import 'package:momentum/repos/category/category_repo.dart';
 import 'package:momentum/ui/widgets/core/button/button.dart';
 import 'package:momentum/ui/widgets/forms/forms.dart';
 import 'package:provider/provider.dart';

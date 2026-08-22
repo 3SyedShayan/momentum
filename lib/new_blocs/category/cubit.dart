@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:momentum/configs/configs.dart';
 import 'package:momentum/core/models/category/category.dart';
-import 'package:momentum/repos/goal/category_repo.dart';
+import 'package:momentum/repos/category/category_repo.dart';
 import 'package:momentum/services/fault/faults.dart';
 import 'package:momentum/services/logging/app_log.dart';
 
