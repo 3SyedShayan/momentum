@@ -7,6 +7,7 @@ final List<GoalX> allGoals = [
     category: allCategories[0],
     percentageCompleted: 0.33,
     color: 0xFF1A56DB,
+
     type: GoalType.monthly,
     createdAt: DateTime(2026, 1, 1),
   ),

@@ -17,6 +17,10 @@ class _ScreenState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Stream<List<GoalX>> watchAllGoals() {
+    return GoalRepo.ins.watchAllGoals();
+  }
+
   void addSessionToToday(GoalX item) {
     final index = allGoals.indexWhere((g) => g.id == item.id);
     if (index != -1 && allGoals[index].percentageCompleted < 1.0) {

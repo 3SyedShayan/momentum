@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -10,6 +12,7 @@ import 'package:momentum/core/models/category/category.dart';
 import 'package:momentum/new_blocs/category/cubit.dart';
 import 'package:momentum/new_blocs/goal/cubit.dart';
 import 'package:momentum/repos/category/category_repo.dart';
+import 'package:momentum/repos/goal/goal_repo.dart';
 import 'package:momentum/ui/widgets/core/button/button.dart';
 import 'package:momentum/ui/widgets/forms/forms.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +32,7 @@ part 'static/_form_data.dart';
 part 'static/_icon_data.dart';
 part 'static/_color_data.dart';
 part 'widgets/_floating_button.dart';
+part 'widgets/_allgoals.dart';
 
 class GoalScreen extends StatelessWidget {
   const GoalScreen({super.key});
@@ -67,13 +71,7 @@ class _Body extends StatelessWidget {
               const _GoalTabSelector(),
               Space.y.t20,
 
-              // Goals List
-              ...state.currentGoals.map(
-                (goal) => Padding(
-                  padding: Space.b.t12,
-                  child: _GoalCard(goal: goal),
-                ),
-              ),
+              const _AllGoals(),
             ],
           ),
         ),
