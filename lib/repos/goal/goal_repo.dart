@@ -14,7 +14,7 @@ class GoalRepo {
 
   Stream<List<GoalX>> watchAllGoals() {
     return GoalProvider.watchAllGoals().map(
-      (list) => list.map((e) => _fromData(e.goal, e.category)).toList(),
+      (list) => list.map((e) => _fromData(e)).toList(),
     );
   }
 
