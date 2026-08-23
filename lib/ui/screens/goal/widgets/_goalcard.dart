@@ -8,7 +8,7 @@ class _GoalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = _ScreenState.s(context);
-    final progress = goal.percentageCompleted.clamp(0.0, 1.0);
+    final progress = (goal.percentageCompleted ?? 0).clamp(0.0, 1.0);
     final accentColor = Color(goal.category.color);
     final percentInt = (progress * 100).round();
 
@@ -69,7 +69,7 @@ class _GoalCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                goal.isCompleted ? 'Completed' : 'In Progress',
+                goal.isCompleted! ? 'Completed' : 'In Progress',
                 style: AppText.b2.cl(AppTheme.c.subText),
               ),
               GestureDetector(

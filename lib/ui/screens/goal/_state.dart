@@ -23,9 +23,12 @@ class _ScreenState extends ChangeNotifier {
 
   void addSessionToToday(GoalX item) {
     final index = allGoals.indexWhere((g) => g.id == item.id);
-    if (index != -1 && allGoals[index].percentageCompleted < 1.0) {
+    if (index != -1 && (allGoals[index].percentageCompleted ?? 0.0) < 1.0) {
       final updated = allGoals[index];
-      final newProgress = (updated.percentageCompleted + 0.25).clamp(0.0, 1.0);
+      final newProgress = ((updated.percentageCompleted ?? 0.0) + 0.25).clamp(
+        0.0,
+        1.0,
+      );
       allGoals[index] = updated.copyWith(
         percentageCompleted: newProgress,
         isCompleted: newProgress >= 1.0,
@@ -58,12 +61,18 @@ class _ScreenState extends ChangeNotifier {
 
   void editCategory(CategoryX category) {}
 
-  void submitAddGoal() {
-    final form = goalFormKey.currentState;
-    if (form == null || !form.saveAndValidate()) return;
-    final values = form.value;
+  void submitAddGoal(BuildContext context) {
+    // final form = goalFormKey.currentState;
+    // if (form == null || !form.saveAndValidate()) return;
+    // final values = form.value;
+    // // GoalX goal = GoalX();
+    // final goal = GoalX(
+    //   title: values[_GoalFormKeys.title] as String? ?? '',
+    //   category: values[_GoalFormKeys.category] as CategoryX? ?? CategoryX(),
+    //   type: values[_GoalFormKeys.type] as GoalType? ?? GoalType.weekly,
+    // );
+    // GoalCubit().addGoal(goal);
 
     debugPrint("submit Add Goal Button Pressed");
-    //   final goal = GoalX(id: values., title: title, category: category, color: color, type: type, createdAt: createdAt)
   }
 }

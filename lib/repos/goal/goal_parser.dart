@@ -9,9 +9,9 @@ GoalCompanion _toCompanion(GoalX goal) {
   );
 }
 
-GoalX _fromData(GoalWithCategoryData e) {
-  final data = e.goal;
-  final category = e.category;
+GoalX _fromData(GoalWithCategoryData entry) {
+  final data = entry.goal;
+  final category = entry.category;
   return GoalX(
     id: data.id,
     title: data.title,

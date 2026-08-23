@@ -50,7 +50,10 @@ class AddGoal extends StatelessWidget {
 
             Space.y.t20,
 
-            AppButton(label: 'Save Goal', onTap: () => state.submitAddGoal()),
+            AppButton(
+              label: 'Save Goal',
+              onTap: () => state.submitAddGoal(context),
+            ),
           ],
         ),
       ),

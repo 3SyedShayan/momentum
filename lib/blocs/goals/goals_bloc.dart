@@ -10,8 +10,8 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
   final MomentumRepository _momentumRepository;
 
   GoalsBloc({required MomentumRepository momentumRepository})
-      : _momentumRepository = momentumRepository,
-        super(GoalsInitial()) {
+    : _momentumRepository = momentumRepository,
+      super(GoalsInitial()) {
     on<SubscribeGoals>(_onSubscribeGoals);
     on<GoalsUpdated>(_onGoalsUpdated);
     on<AddGoalRequested>(_onAddGoalRequested);
@@ -32,10 +32,7 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
     );
   }
 
-  void _onGoalsUpdated(
-    GoalsUpdated event,
-    Emitter<GoalsState> emit,
-  ) {
+  void _onGoalsUpdated(GoalsUpdated event, Emitter<GoalsState> emit) {
     emit(GoalsLoaded(event.goals));
   }
 
@@ -77,8 +74,8 @@ class GoalsBloc extends Bloc<GoalsEvent, GoalsState> {
     Emitter<GoalsState> emit,
   ) async {
     try {
-      final updatedProgress =
-          (event.goal.percentageCompleted + 0.25).clamp(0.0, 1.0);
+      final updatedProgress = ((event.goal.percentageCompleted ?? 0.0) + 0.25)
+          .clamp(0.0, 1.0);
       final updatedGoal = event.goal.copyWith(
         percentageCompleted: updatedProgress,
         isCompleted: updatedProgress >= 1.0,
