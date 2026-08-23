@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$GoalX {
 
- int get id; String get title; CategoryX get category; double get percentageCompleted; int get color; String? get details; GoalType get type; bool get isCompleted; DateTime get createdAt;
+ int get id; String get title; CategoryX get category; double get percentageCompleted; String? get details; GoalType get type; bool get isCompleted; DateTime get createdAt;
 /// Create a copy of GoalX
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $GoalXCopyWith<GoalX> get copyWith => _$GoalXCopyWithImpl<GoalX>(this as GoalX, 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GoalX&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.category, category) || other.category == category)&&(identical(other.percentageCompleted, percentageCompleted) || other.percentageCompleted == percentageCompleted)&&(identical(other.color, color) || other.color == color)&&(identical(other.details, details) || other.details == details)&&(identical(other.type, type) || other.type == type)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GoalX&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.category, category) || other.category == category)&&(identical(other.percentageCompleted, percentageCompleted) || other.percentageCompleted == percentageCompleted)&&(identical(other.details, details) || other.details == details)&&(identical(other.type, type) || other.type == type)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,category,percentageCompleted,color,details,type,isCompleted,createdAt);
+int get hashCode => Object.hash(runtimeType,id,title,category,percentageCompleted,details,type,isCompleted,createdAt);
 
 @override
 String toString() {
-  return 'GoalX(id: $id, title: $title, category: $category, percentageCompleted: $percentageCompleted, color: $color, details: $details, type: $type, isCompleted: $isCompleted, createdAt: $createdAt)';
+  return 'GoalX(id: $id, title: $title, category: $category, percentageCompleted: $percentageCompleted, details: $details, type: $type, isCompleted: $isCompleted, createdAt: $createdAt)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $GoalXCopyWith<$Res>  {
   factory $GoalXCopyWith(GoalX value, $Res Function(GoalX) _then) = _$GoalXCopyWithImpl;
 @useResult
 $Res call({
- int id, String title, CategoryX category, double percentageCompleted, int color, String? details, GoalType type, bool isCompleted, DateTime createdAt
+ int id, String title, CategoryX category, double percentageCompleted, String? details, GoalType type, bool isCompleted, DateTime createdAt
 });
 
 
@@ -65,14 +65,13 @@ class _$GoalXCopyWithImpl<$Res>
 
 /// Create a copy of GoalX
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? category = null,Object? percentageCompleted = null,Object? color = null,Object? details = freezed,Object? type = null,Object? isCompleted = null,Object? createdAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? category = null,Object? percentageCompleted = null,Object? details = freezed,Object? type = null,Object? isCompleted = null,Object? createdAt = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as CategoryX,percentageCompleted: null == percentageCompleted ? _self.percentageCompleted : percentageCompleted // ignore: cast_nullable_to_non_nullable
-as double,color: null == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
-as int,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
+as double,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as GoalType,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
@@ -170,10 +169,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  CategoryX category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  CategoryX category,  double percentageCompleted,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GoalX() when $default != null:
-return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.color,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
+return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
   return orElse();
 
 }
@@ -191,10 +190,10 @@ return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  CategoryX category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  CategoryX category,  double percentageCompleted,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)  $default,) {final _that = this;
 switch (_that) {
 case _GoalX():
-return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.color,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
+return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -211,10 +210,10 @@ return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_t
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  CategoryX category,  double percentageCompleted,  int color,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  CategoryX category,  double percentageCompleted,  String? details,  GoalType type,  bool isCompleted,  DateTime createdAt)?  $default,) {final _that = this;
 switch (_that) {
 case _GoalX() when $default != null:
-return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.color,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
+return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_that.details,_that.type,_that.isCompleted,_that.createdAt);case _:
   return null;
 
 }
@@ -226,14 +225,13 @@ return $default(_that.id,_that.title,_that.category,_that.percentageCompleted,_t
 @JsonSerializable()
 
 class _GoalX implements GoalX {
-  const _GoalX({required this.id, required this.title, required this.category, this.percentageCompleted = 0.0, required this.color, this.details, required this.type, this.isCompleted = false, required this.createdAt});
+  const _GoalX({required this.id, required this.title, required this.category, this.percentageCompleted = 0.0, this.details, required this.type, this.isCompleted = false, required this.createdAt});
   factory _GoalX.fromJson(Map<String, dynamic> json) => _$GoalXFromJson(json);
 
 @override final  int id;
 @override final  String title;
 @override final  CategoryX category;
 @override@JsonKey() final  double percentageCompleted;
-@override final  int color;
 @override final  String? details;
 @override final  GoalType type;
 @override@JsonKey() final  bool isCompleted;
@@ -252,16 +250,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GoalX&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.category, category) || other.category == category)&&(identical(other.percentageCompleted, percentageCompleted) || other.percentageCompleted == percentageCompleted)&&(identical(other.color, color) || other.color == color)&&(identical(other.details, details) || other.details == details)&&(identical(other.type, type) || other.type == type)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GoalX&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.category, category) || other.category == category)&&(identical(other.percentageCompleted, percentageCompleted) || other.percentageCompleted == percentageCompleted)&&(identical(other.details, details) || other.details == details)&&(identical(other.type, type) || other.type == type)&&(identical(other.isCompleted, isCompleted) || other.isCompleted == isCompleted)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,title,category,percentageCompleted,color,details,type,isCompleted,createdAt);
+int get hashCode => Object.hash(runtimeType,id,title,category,percentageCompleted,details,type,isCompleted,createdAt);
 
 @override
 String toString() {
-  return 'GoalX(id: $id, title: $title, category: $category, percentageCompleted: $percentageCompleted, color: $color, details: $details, type: $type, isCompleted: $isCompleted, createdAt: $createdAt)';
+  return 'GoalX(id: $id, title: $title, category: $category, percentageCompleted: $percentageCompleted, details: $details, type: $type, isCompleted: $isCompleted, createdAt: $createdAt)';
 }
 
 
@@ -272,7 +270,7 @@ abstract mixin class _$GoalXCopyWith<$Res> implements $GoalXCopyWith<$Res> {
   factory _$GoalXCopyWith(_GoalX value, $Res Function(_GoalX) _then) = __$GoalXCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String title, CategoryX category, double percentageCompleted, int color, String? details, GoalType type, bool isCompleted, DateTime createdAt
+ int id, String title, CategoryX category, double percentageCompleted, String? details, GoalType type, bool isCompleted, DateTime createdAt
 });
 
 
@@ -289,14 +287,13 @@ class __$GoalXCopyWithImpl<$Res>
 
 /// Create a copy of GoalX
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? category = null,Object? percentageCompleted = null,Object? color = null,Object? details = freezed,Object? type = null,Object? isCompleted = null,Object? createdAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? category = null,Object? percentageCompleted = null,Object? details = freezed,Object? type = null,Object? isCompleted = null,Object? createdAt = null,}) {
   return _then(_GoalX(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
 as CategoryX,percentageCompleted: null == percentageCompleted ? _self.percentageCompleted : percentageCompleted // ignore: cast_nullable_to_non_nullable
-as double,color: null == color ? _self.color : color // ignore: cast_nullable_to_non_nullable
-as int,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
+as double,details: freezed == details ? _self.details : details // ignore: cast_nullable_to_non_nullable
 as String?,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
 as GoalType,isCompleted: null == isCompleted ? _self.isCompleted : isCompleted // ignore: cast_nullable_to_non_nullable
 as bool,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable

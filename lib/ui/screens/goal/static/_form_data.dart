@@ -14,7 +14,7 @@ class _GoalFormData {
     return {
       _GoalFormKeys.title: 'Workout 4x a week',
       _GoalFormKeys.type: GoalType.weekly.name,
-      _GoalFormKeys.targetSessions: '4',
+      _GoalFormKeys.details: 'Run 5k daily.',
     };
   }
 }

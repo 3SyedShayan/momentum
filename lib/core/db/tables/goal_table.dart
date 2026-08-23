@@ -10,10 +10,9 @@ class Goal extends Table {
   TextColumn get categoryId => text().references(Category, #id)();
   RealColumn get percentageCompleted =>
       real().withDefault(const Constant(0.0))();
-  IntColumn get color => integer()();
   TextColumn get details => text().nullable()();
   TextColumn get type =>
       text().map(const EnumConverter<GoalType>(GoalType.values))();
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
-  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
 }

@@ -9,7 +9,7 @@ class _GoalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = _ScreenState.s(context);
     final progress = goal.percentageCompleted.clamp(0.0, 1.0);
-    final accentColor = Color(goal.color);
+    final accentColor = Color(goal.category.color);
     final percentInt = (progress * 100).round();
 
     return Container(

@@ -13,7 +13,6 @@ abstract class GoalX with _$GoalX {
     required String title,
     required CategoryX category,
     @Default(0.0) double percentageCompleted,
-    required int color,
     String? details,
     required GoalType type,
     @Default(false) bool isCompleted,

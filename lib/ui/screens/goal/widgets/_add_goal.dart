@@ -35,9 +35,9 @@ class AddGoal extends StatelessWidget {
 
             Space.y.t20,
             AppFormTextInput(
-              name: _GoalFormKeys.targetSessions,
-              heading: 'Target Sessions',
-              placeholder: 'e.g., 4',
+              name: _GoalFormKeys.details,
+              heading: 'Details',
+              placeholder: 'e.g., Run 5k daily.',
               validators: FormBuilderValidators.required(),
             ),
             Space.y.t20,
@@ -50,10 +50,7 @@ class AddGoal extends StatelessWidget {
 
             Space.y.t20,
 
-            AppButton(
-              label: 'Save Goal',
-              onTap: () => state.submitAddGoal(),
-            ),
+            AppButton(label: 'Save Goal', onTap: () => state.submitAddGoal()),
           ],
         ),
       ),

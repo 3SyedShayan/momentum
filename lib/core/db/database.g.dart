@@ -356,15 +356,6 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
         requiredDuringInsert: false,
         defaultValue: const Constant(0.0),
       );
-  static const VerificationMeta _colorMeta = const VerificationMeta('color');
-  @override
-  late final GeneratedColumn<int> color = GeneratedColumn<int>(
-    'color',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-  );
   static const VerificationMeta _detailsMeta = const VerificationMeta(
     'details',
   );
@@ -409,7 +400,8 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
     aliasedName,
     false,
     type: DriftSqlType.dateTime,
-    requiredDuringInsert: true,
+    requiredDuringInsert: false,
+    defaultValue: currentDateAndTime,
   );
   @override
   List<GeneratedColumn> get $columns => [
@@ -417,7 +409,6 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
     title,
     categoryId,
     percentageCompleted,
-    color,
     details,
     type,
     isCompleted,
@@ -463,14 +454,6 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
         ),
       );
     }
-    if (data.containsKey('color')) {
-      context.handle(
-        _colorMeta,
-        color.isAcceptableOrUnknown(data['color']!, _colorMeta),
-      );
-    } else if (isInserting) {
-      context.missing(_colorMeta);
-    }
     if (data.containsKey('details')) {
       context.handle(
         _detailsMeta,
@@ -491,8 +474,6 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
         _createdAtMeta,
         createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
       );
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
     }
     return context;
   }
@@ -518,10 +499,6 @@ class $GoalTable extends Goal with TableInfo<$GoalTable, GoalData> {
       percentageCompleted: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
         data['${effectivePrefix}percentage_completed'],
-      )!,
-      color: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}color'],
       )!,
       details: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
@@ -558,7 +535,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
   final String title;
   final String categoryId;
   final double percentageCompleted;
-  final int color;
   final String? details;
   final GoalType type;
   final bool isCompleted;
@@ -568,7 +544,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
     required this.title,
     required this.categoryId,
     required this.percentageCompleted,
-    required this.color,
     this.details,
     required this.type,
     required this.isCompleted,
@@ -581,7 +556,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
     map['title'] = Variable<String>(title);
     map['category_id'] = Variable<String>(categoryId);
     map['percentage_completed'] = Variable<double>(percentageCompleted);
-    map['color'] = Variable<int>(color);
     if (!nullToAbsent || details != null) {
       map['details'] = Variable<String>(details);
     }
@@ -599,7 +573,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
       title: Value(title),
       categoryId: Value(categoryId),
       percentageCompleted: Value(percentageCompleted),
-      color: Value(color),
       details: details == null && nullToAbsent
           ? const Value.absent()
           : Value(details),
@@ -621,7 +594,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
       percentageCompleted: serializer.fromJson<double>(
         json['percentageCompleted'],
       ),
-      color: serializer.fromJson<int>(json['color']),
       details: serializer.fromJson<String?>(json['details']),
       type: serializer.fromJson<GoalType>(json['type']),
       isCompleted: serializer.fromJson<bool>(json['isCompleted']),
@@ -636,7 +608,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
       'title': serializer.toJson<String>(title),
       'categoryId': serializer.toJson<String>(categoryId),
       'percentageCompleted': serializer.toJson<double>(percentageCompleted),
-      'color': serializer.toJson<int>(color),
       'details': serializer.toJson<String?>(details),
       'type': serializer.toJson<GoalType>(type),
       'isCompleted': serializer.toJson<bool>(isCompleted),
@@ -649,7 +620,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
     String? title,
     String? categoryId,
     double? percentageCompleted,
-    int? color,
     Value<String?> details = const Value.absent(),
     GoalType? type,
     bool? isCompleted,
@@ -659,7 +629,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
     title: title ?? this.title,
     categoryId: categoryId ?? this.categoryId,
     percentageCompleted: percentageCompleted ?? this.percentageCompleted,
-    color: color ?? this.color,
     details: details.present ? details.value : this.details,
     type: type ?? this.type,
     isCompleted: isCompleted ?? this.isCompleted,
@@ -675,7 +644,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
       percentageCompleted: data.percentageCompleted.present
           ? data.percentageCompleted.value
           : this.percentageCompleted,
-      color: data.color.present ? data.color.value : this.color,
       details: data.details.present ? data.details.value : this.details,
       type: data.type.present ? data.type.value : this.type,
       isCompleted: data.isCompleted.present
@@ -692,7 +660,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
           ..write('title: $title, ')
           ..write('categoryId: $categoryId, ')
           ..write('percentageCompleted: $percentageCompleted, ')
-          ..write('color: $color, ')
           ..write('details: $details, ')
           ..write('type: $type, ')
           ..write('isCompleted: $isCompleted, ')
@@ -707,7 +674,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
     title,
     categoryId,
     percentageCompleted,
-    color,
     details,
     type,
     isCompleted,
@@ -721,7 +687,6 @@ class GoalData extends DataClass implements Insertable<GoalData> {
           other.title == this.title &&
           other.categoryId == this.categoryId &&
           other.percentageCompleted == this.percentageCompleted &&
-          other.color == this.color &&
           other.details == this.details &&
           other.type == this.type &&
           other.isCompleted == this.isCompleted &&
@@ -733,7 +698,6 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
   final Value<String> title;
   final Value<String> categoryId;
   final Value<double> percentageCompleted;
-  final Value<int> color;
   final Value<String?> details;
   final Value<GoalType> type;
   final Value<bool> isCompleted;
@@ -743,7 +707,6 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
     this.title = const Value.absent(),
     this.categoryId = const Value.absent(),
     this.percentageCompleted = const Value.absent(),
-    this.color = const Value.absent(),
     this.details = const Value.absent(),
     this.type = const Value.absent(),
     this.isCompleted = const Value.absent(),
@@ -754,22 +717,18 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
     required String title,
     required String categoryId,
     this.percentageCompleted = const Value.absent(),
-    required int color,
     this.details = const Value.absent(),
     required GoalType type,
     this.isCompleted = const Value.absent(),
-    required DateTime createdAt,
+    this.createdAt = const Value.absent(),
   }) : title = Value(title),
        categoryId = Value(categoryId),
-       color = Value(color),
-       type = Value(type),
-       createdAt = Value(createdAt);
+       type = Value(type);
   static Insertable<GoalData> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? categoryId,
     Expression<double>? percentageCompleted,
-    Expression<int>? color,
     Expression<String>? details,
     Expression<String>? type,
     Expression<bool>? isCompleted,
@@ -781,7 +740,6 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
       if (categoryId != null) 'category_id': categoryId,
       if (percentageCompleted != null)
         'percentage_completed': percentageCompleted,
-      if (color != null) 'color': color,
       if (details != null) 'details': details,
       if (type != null) 'type': type,
       if (isCompleted != null) 'is_completed': isCompleted,
@@ -794,7 +752,6 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
     Value<String>? title,
     Value<String>? categoryId,
     Value<double>? percentageCompleted,
-    Value<int>? color,
     Value<String?>? details,
     Value<GoalType>? type,
     Value<bool>? isCompleted,
@@ -805,7 +762,6 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
       title: title ?? this.title,
       categoryId: categoryId ?? this.categoryId,
       percentageCompleted: percentageCompleted ?? this.percentageCompleted,
-      color: color ?? this.color,
       details: details ?? this.details,
       type: type ?? this.type,
       isCompleted: isCompleted ?? this.isCompleted,
@@ -827,9 +783,6 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
     }
     if (percentageCompleted.present) {
       map['percentage_completed'] = Variable<double>(percentageCompleted.value);
-    }
-    if (color.present) {
-      map['color'] = Variable<int>(color.value);
     }
     if (details.present) {
       map['details'] = Variable<String>(details.value);
@@ -855,7 +808,6 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
           ..write('title: $title, ')
           ..write('categoryId: $categoryId, ')
           ..write('percentageCompleted: $percentageCompleted, ')
-          ..write('color: $color, ')
           ..write('details: $details, ')
           ..write('type: $type, ')
           ..write('isCompleted: $isCompleted, ')
@@ -1165,11 +1117,10 @@ typedef $$GoalTableCreateCompanionBuilder =
       required String title,
       required String categoryId,
       Value<double> percentageCompleted,
-      required int color,
       Value<String?> details,
       required GoalType type,
       Value<bool> isCompleted,
-      required DateTime createdAt,
+      Value<DateTime> createdAt,
     });
 typedef $$GoalTableUpdateCompanionBuilder =
     GoalCompanion Function({
@@ -1177,7 +1128,6 @@ typedef $$GoalTableUpdateCompanionBuilder =
       Value<String> title,
       Value<String> categoryId,
       Value<double> percentageCompleted,
-      Value<int> color,
       Value<String?> details,
       Value<GoalType> type,
       Value<bool> isCompleted,
@@ -1226,11 +1176,6 @@ class $$GoalTableFilterComposer extends Composer<_$AppDatabase, $GoalTable> {
 
   ColumnFilters<double> get percentageCompleted => $composableBuilder(
     column: $table.percentageCompleted,
-    builder: (column) => ColumnFilters(column),
-  );
-
-  ColumnFilters<int> get color => $composableBuilder(
-    column: $table.color,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1302,11 +1247,6 @@ class $$GoalTableOrderingComposer extends Composer<_$AppDatabase, $GoalTable> {
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<int> get color => $composableBuilder(
-    column: $table.color,
-    builder: (column) => ColumnOrderings(column),
-  );
-
   ColumnOrderings<String> get details => $composableBuilder(
     column: $table.details,
     builder: (column) => ColumnOrderings(column),
@@ -1370,9 +1310,6 @@ class $$GoalTableAnnotationComposer
     column: $table.percentageCompleted,
     builder: (column) => column,
   );
-
-  GeneratedColumn<int> get color =>
-      $composableBuilder(column: $table.color, builder: (column) => column);
 
   GeneratedColumn<String> get details =>
       $composableBuilder(column: $table.details, builder: (column) => column);
@@ -1444,7 +1381,6 @@ class $$GoalTableTableManager
                 Value<String> title = const Value.absent(),
                 Value<String> categoryId = const Value.absent(),
                 Value<double> percentageCompleted = const Value.absent(),
-                Value<int> color = const Value.absent(),
                 Value<String?> details = const Value.absent(),
                 Value<GoalType> type = const Value.absent(),
                 Value<bool> isCompleted = const Value.absent(),
@@ -1454,7 +1390,6 @@ class $$GoalTableTableManager
                 title: title,
                 categoryId: categoryId,
                 percentageCompleted: percentageCompleted,
-                color: color,
                 details: details,
                 type: type,
                 isCompleted: isCompleted,
@@ -1466,17 +1401,15 @@ class $$GoalTableTableManager
                 required String title,
                 required String categoryId,
                 Value<double> percentageCompleted = const Value.absent(),
-                required int color,
                 Value<String?> details = const Value.absent(),
                 required GoalType type,
                 Value<bool> isCompleted = const Value.absent(),
-                required DateTime createdAt,
+                Value<DateTime> createdAt = const Value.absent(),
               }) => GoalCompanion.insert(
                 id: id,
                 title: title,
                 categoryId: categoryId,
                 percentageCompleted: percentageCompleted,
-                color: color,
                 details: details,
                 type: type,
                 isCompleted: isCompleted,
