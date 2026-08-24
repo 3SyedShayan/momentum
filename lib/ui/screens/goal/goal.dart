@@ -33,6 +33,7 @@ part 'static/_icon_data.dart';
 part 'static/_color_data.dart';
 part 'widgets/_floating_button.dart';
 part 'widgets/_allgoals.dart';
+part 'widgets/_goaltype.dart';
 
 class GoalScreen extends StatelessWidget {
   const GoalScreen({super.key});
@@ -54,7 +55,6 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     App.init(context);
-    final state = _ScreenState.s(context, true);
 
     return Screen(
       floatingActionButton: _FloatingButton(),

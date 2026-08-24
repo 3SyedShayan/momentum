@@ -87,7 +87,7 @@ class AppFormTextInputState extends State<AppFormTextInput> {
     final initialValues = form.initialValue;
     final initialValue = initialValues[widget.name] ?? widget.initialValue;
     if (initialValue != null) {
-      _controller.text = initialValue;
+      _controller.text = initialValue.toString();
     }
     super.initState();
   }

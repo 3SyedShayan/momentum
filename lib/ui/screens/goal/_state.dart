@@ -62,17 +62,18 @@ class _ScreenState extends ChangeNotifier {
   void editCategory(CategoryX category) {}
 
   void submitAddGoal(BuildContext context) {
-    // final form = goalFormKey.currentState;
-    // if (form == null || !form.saveAndValidate()) return;
-    // final values = form.value;
-    // // GoalX goal = GoalX();
-    // final goal = GoalX(
-    //   title: values[_GoalFormKeys.title] as String? ?? '',
-    //   category: values[_GoalFormKeys.category] as CategoryX? ?? CategoryX(),
-    //   type: values[_GoalFormKeys.type] as GoalType? ?? GoalType.weekly,
-    // );
-    // GoalCubit().addGoal(goal);
+    final form = goalFormKey.currentState;
+    if (form == null || !form.saveAndValidate()) return;
+    final values = form.value;
 
-    debugPrint("submit Add Goal Button Pressed");
+    final goal = GoalX(
+      title: values[_GoalFormKeys.title] as String? ?? '',
+      details: values[_GoalFormKeys.details] as String?,
+      category: values[_GoalFormKeys.category] as CategoryX,
+      type: values[_GoalFormKeys.type] as GoalType? ?? GoalType.weekly,
+    );
+    GoalCubit().addGoal(goal);
+
+    if (context.mounted) context.pop();
   }
 }

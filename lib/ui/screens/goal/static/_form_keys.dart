@@ -9,6 +9,6 @@ class _CategoryFormKeys {
 class _GoalFormKeys {
   static const title = 'title';
   static const type = 'type'; // GoalType: monthly or weekly
-  static const categoryId = 'categoryId';
+  static const category = 'category';
   static const details = 'details';
 }
