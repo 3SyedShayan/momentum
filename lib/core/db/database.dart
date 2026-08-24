@@ -11,7 +11,11 @@ part 'daos/goal_dao.dart';
 
 @DriftDatabase(tables: [Category, Goal], daos: [CategoryDao, GoalDao])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(driftDatabase(name: 'app_db'));
+  AppDatabase._() : super(driftDatabase(name: 'app_db'));
+
+  static final AppDatabase instance = AppDatabase._();
+
+  factory AppDatabase() => instance;
 
   @override
   int get schemaVersion => 1;
