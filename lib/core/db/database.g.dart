@@ -817,18 +817,488 @@ class GoalCompanion extends UpdateCompanion<GoalData> {
   }
 }
 
+class $TaskTable extends Task with TableInfo<$TaskTable, TaskData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  @override
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+    'title',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _descriptionMeta = const VerificationMeta(
+    'description',
+  );
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+    'description',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _startTimeMeta = const VerificationMeta(
+    'startTime',
+  );
+  @override
+  late final GeneratedColumn<DateTime> startTime = GeneratedColumn<DateTime>(
+    'start_time',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _endTimeMeta = const VerificationMeta(
+    'endTime',
+  );
+  @override
+  late final GeneratedColumn<DateTime> endTime = GeneratedColumn<DateTime>(
+    'end_time',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _isCompletedMeta = const VerificationMeta(
+    'isCompleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isCompleted = GeneratedColumn<bool>(
+    'is_completed',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_completed" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _categoryIdMeta = const VerificationMeta(
+    'categoryId',
+  );
+  @override
+  late final GeneratedColumn<String> categoryId = GeneratedColumn<String>(
+    'category_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES category (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    title,
+    description,
+    startTime,
+    endTime,
+    isCompleted,
+    categoryId,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+        _titleMeta,
+        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+        _descriptionMeta,
+        description.isAcceptableOrUnknown(
+          data['description']!,
+          _descriptionMeta,
+        ),
+      );
+    }
+    if (data.containsKey('start_time')) {
+      context.handle(
+        _startTimeMeta,
+        startTime.isAcceptableOrUnknown(data['start_time']!, _startTimeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startTimeMeta);
+    }
+    if (data.containsKey('end_time')) {
+      context.handle(
+        _endTimeMeta,
+        endTime.isAcceptableOrUnknown(data['end_time']!, _endTimeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_endTimeMeta);
+    }
+    if (data.containsKey('is_completed')) {
+      context.handle(
+        _isCompletedMeta,
+        isCompleted.isAcceptableOrUnknown(
+          data['is_completed']!,
+          _isCompletedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('category_id')) {
+      context.handle(
+        _categoryIdMeta,
+        categoryId.isAcceptableOrUnknown(data['category_id']!, _categoryIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_categoryIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TaskData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      title: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}title'],
+      )!,
+      description: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}description'],
+      ),
+      startTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}start_time'],
+      )!,
+      endTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}end_time'],
+      )!,
+      isCompleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_completed'],
+      )!,
+      categoryId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}category_id'],
+      )!,
+    );
+  }
+
+  @override
+  $TaskTable createAlias(String alias) {
+    return $TaskTable(attachedDatabase, alias);
+  }
+}
+
+class TaskData extends DataClass implements Insertable<TaskData> {
+  final int id;
+  final String title;
+  final String? description;
+  final DateTime startTime;
+  final DateTime endTime;
+  final bool isCompleted;
+  final String categoryId;
+  const TaskData({
+    required this.id,
+    required this.title,
+    this.description,
+    required this.startTime,
+    required this.endTime,
+    required this.isCompleted,
+    required this.categoryId,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['start_time'] = Variable<DateTime>(startTime);
+    map['end_time'] = Variable<DateTime>(endTime);
+    map['is_completed'] = Variable<bool>(isCompleted);
+    map['category_id'] = Variable<String>(categoryId);
+    return map;
+  }
+
+  TaskCompanion toCompanion(bool nullToAbsent) {
+    return TaskCompanion(
+      id: Value(id),
+      title: Value(title),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      startTime: Value(startTime),
+      endTime: Value(endTime),
+      isCompleted: Value(isCompleted),
+      categoryId: Value(categoryId),
+    );
+  }
+
+  factory TaskData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskData(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      description: serializer.fromJson<String?>(json['description']),
+      startTime: serializer.fromJson<DateTime>(json['startTime']),
+      endTime: serializer.fromJson<DateTime>(json['endTime']),
+      isCompleted: serializer.fromJson<bool>(json['isCompleted']),
+      categoryId: serializer.fromJson<String>(json['categoryId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'description': serializer.toJson<String?>(description),
+      'startTime': serializer.toJson<DateTime>(startTime),
+      'endTime': serializer.toJson<DateTime>(endTime),
+      'isCompleted': serializer.toJson<bool>(isCompleted),
+      'categoryId': serializer.toJson<String>(categoryId),
+    };
+  }
+
+  TaskData copyWith({
+    int? id,
+    String? title,
+    Value<String?> description = const Value.absent(),
+    DateTime? startTime,
+    DateTime? endTime,
+    bool? isCompleted,
+    String? categoryId,
+  }) => TaskData(
+    id: id ?? this.id,
+    title: title ?? this.title,
+    description: description.present ? description.value : this.description,
+    startTime: startTime ?? this.startTime,
+    endTime: endTime ?? this.endTime,
+    isCompleted: isCompleted ?? this.isCompleted,
+    categoryId: categoryId ?? this.categoryId,
+  );
+  TaskData copyWithCompanion(TaskCompanion data) {
+    return TaskData(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      description: data.description.present
+          ? data.description.value
+          : this.description,
+      startTime: data.startTime.present ? data.startTime.value : this.startTime,
+      endTime: data.endTime.present ? data.endTime.value : this.endTime,
+      isCompleted: data.isCompleted.present
+          ? data.isCompleted.value
+          : this.isCompleted,
+      categoryId: data.categoryId.present
+          ? data.categoryId.value
+          : this.categoryId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskData(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('categoryId: $categoryId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    title,
+    description,
+    startTime,
+    endTime,
+    isCompleted,
+    categoryId,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskData &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.description == this.description &&
+          other.startTime == this.startTime &&
+          other.endTime == this.endTime &&
+          other.isCompleted == this.isCompleted &&
+          other.categoryId == this.categoryId);
+}
+
+class TaskCompanion extends UpdateCompanion<TaskData> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String?> description;
+  final Value<DateTime> startTime;
+  final Value<DateTime> endTime;
+  final Value<bool> isCompleted;
+  final Value<String> categoryId;
+  const TaskCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.description = const Value.absent(),
+    this.startTime = const Value.absent(),
+    this.endTime = const Value.absent(),
+    this.isCompleted = const Value.absent(),
+    this.categoryId = const Value.absent(),
+  });
+  TaskCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    this.description = const Value.absent(),
+    required DateTime startTime,
+    required DateTime endTime,
+    this.isCompleted = const Value.absent(),
+    required String categoryId,
+  }) : title = Value(title),
+       startTime = Value(startTime),
+       endTime = Value(endTime),
+       categoryId = Value(categoryId);
+  static Insertable<TaskData> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? description,
+    Expression<DateTime>? startTime,
+    Expression<DateTime>? endTime,
+    Expression<bool>? isCompleted,
+    Expression<String>? categoryId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (description != null) 'description': description,
+      if (startTime != null) 'start_time': startTime,
+      if (endTime != null) 'end_time': endTime,
+      if (isCompleted != null) 'is_completed': isCompleted,
+      if (categoryId != null) 'category_id': categoryId,
+    });
+  }
+
+  TaskCompanion copyWith({
+    Value<int>? id,
+    Value<String>? title,
+    Value<String?>? description,
+    Value<DateTime>? startTime,
+    Value<DateTime>? endTime,
+    Value<bool>? isCompleted,
+    Value<String>? categoryId,
+  }) {
+    return TaskCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+      isCompleted: isCompleted ?? this.isCompleted,
+      categoryId: categoryId ?? this.categoryId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (startTime.present) {
+      map['start_time'] = Variable<DateTime>(startTime.value);
+    }
+    if (endTime.present) {
+      map['end_time'] = Variable<DateTime>(endTime.value);
+    }
+    if (isCompleted.present) {
+      map['is_completed'] = Variable<bool>(isCompleted.value);
+    }
+    if (categoryId.present) {
+      map['category_id'] = Variable<String>(categoryId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime, ')
+          ..write('isCompleted: $isCompleted, ')
+          ..write('categoryId: $categoryId')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $CategoryTable category = $CategoryTable(this);
   late final $GoalTable goal = $GoalTable(this);
+  late final $TaskTable task = $TaskTable(this);
   late final CategoryDao categoryDao = CategoryDao(this as AppDatabase);
   late final GoalDao goalDao = GoalDao(this as AppDatabase);
+  late final TaskDao taskDao = TaskDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [category, goal];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [category, goal, task];
 }
 
 typedef $$CategoryTableCreateCompanionBuilder =
@@ -866,6 +1336,25 @@ final class $$CategoryTableReferences
     ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_goalRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$TaskTable, List<TaskData>> _taskRefsTable(
+    _$AppDatabase db,
+  ) => MultiTypedResultKey.fromTable(
+    db.task,
+    aliasName: 'category__id__task__category_id',
+  );
+
+  $$TaskTableProcessedTableManager get taskRefs {
+    final manager = $$TaskTableTableManager(
+      $_db,
+      $_db.task,
+    ).filter((f) => f.categoryId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_taskRefsTable($_db));
     return ProcessedTableManager(
       manager.$state.copyWith(prefetchedData: cache),
     );
@@ -917,6 +1406,31 @@ class $$CategoryTableFilterComposer
           }) => $$GoalTableFilterComposer(
             $db: $db,
             $table: $db.goal,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> taskRefs(
+    Expression<bool> Function($$TaskTableFilterComposer f) f,
+  ) {
+    final $$TaskTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.task,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskTableFilterComposer(
+            $db: $db,
+            $table: $db.task,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -1002,6 +1516,31 @@ class $$CategoryTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> taskRefs<T extends Object>(
+    Expression<T> Function($$TaskTableAnnotationComposer a) f,
+  ) {
+    final $$TaskTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.task,
+      getReferencedColumn: (t) => t.categoryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskTableAnnotationComposer(
+            $db: $db,
+            $table: $db.task,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CategoryTableTableManager
@@ -1017,7 +1556,7 @@ class $$CategoryTableTableManager
           $$CategoryTableUpdateCompanionBuilder,
           (CategoryData, $$CategoryTableReferences),
           CategoryData,
-          PrefetchHooks Function({bool goalRefs})
+          PrefetchHooks Function({bool goalRefs, bool taskRefs})
         > {
   $$CategoryTableTableManager(_$AppDatabase db, $CategoryTable table)
     : super(
@@ -1066,10 +1605,13 @@ class $$CategoryTableTableManager
                 ),
               )
               .toList(),
-          prefetchHooksCallback: ({goalRefs = false}) {
+          prefetchHooksCallback: ({goalRefs = false, taskRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [if (goalRefs) db.goal],
+              explicitlyWatchedTables: [
+                if (goalRefs) db.goal,
+                if (taskRefs) db.task,
+              ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
@@ -1085,6 +1627,22 @@ class $$CategoryTableTableManager
                       ),
                       managerFromTypedResult: (p0) =>
                           $$CategoryTableReferences(db, table, p0).goalRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.categoryId == item.id),
+                      typedResults: items,
+                    ),
+                  if (taskRefs)
+                    await $_getPrefetchedData<
+                      CategoryData,
+                      $CategoryTable,
+                      TaskData
+                    >(
+                      currentTable: table,
+                      referencedTable: $$CategoryTableReferences._taskRefsTable(
+                        db,
+                      ),
+                      managerFromTypedResult: (p0) =>
+                          $$CategoryTableReferences(db, table, p0).taskRefs,
                       referencedItemsForCurrentItem: (item, referencedItems) =>
                           referencedItems.where((e) => e.categoryId == item.id),
                       typedResults: items,
@@ -1109,7 +1667,7 @@ typedef $$CategoryTableProcessedTableManager =
       $$CategoryTableUpdateCompanionBuilder,
       (CategoryData, $$CategoryTableReferences),
       CategoryData,
-      PrefetchHooks Function({bool goalRefs})
+      PrefetchHooks Function({bool goalRefs, bool taskRefs})
     >;
 typedef $$GoalTableCreateCompanionBuilder =
     GoalCompanion Function({
@@ -1480,6 +2038,355 @@ typedef $$GoalTableProcessedTableManager =
       GoalData,
       PrefetchHooks Function({bool categoryId})
     >;
+typedef $$TaskTableCreateCompanionBuilder =
+    TaskCompanion Function({
+      Value<int> id,
+      required String title,
+      Value<String?> description,
+      required DateTime startTime,
+      required DateTime endTime,
+      Value<bool> isCompleted,
+      required String categoryId,
+    });
+typedef $$TaskTableUpdateCompanionBuilder =
+    TaskCompanion Function({
+      Value<int> id,
+      Value<String> title,
+      Value<String?> description,
+      Value<DateTime> startTime,
+      Value<DateTime> endTime,
+      Value<bool> isCompleted,
+      Value<String> categoryId,
+    });
+
+final class $$TaskTableReferences
+    extends BaseReferences<_$AppDatabase, $TaskTable, TaskData> {
+  $$TaskTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $CategoryTable _categoryIdTable(_$AppDatabase db) =>
+      db.category.createAlias('task__category_id__category__id');
+
+  $$CategoryTableProcessedTableManager get categoryId {
+    final $_column = $_itemColumn<String>('category_id')!;
+
+    final manager = $$CategoryTableTableManager(
+      $_db,
+      $_db.category,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_categoryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TaskTableFilterComposer extends Composer<_$AppDatabase, $TaskTable> {
+  $$TaskTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startTime => $composableBuilder(
+    column: $table.startTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get endTime => $composableBuilder(
+    column: $table.endTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$CategoryTableFilterComposer get categoryId {
+    final $$CategoryTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.category,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoryTableFilterComposer(
+            $db: $db,
+            $table: $db.category,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskTableOrderingComposer extends Composer<_$AppDatabase, $TaskTable> {
+  $$TaskTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get title => $composableBuilder(
+    column: $table.title,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startTime => $composableBuilder(
+    column: $table.startTime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get endTime => $composableBuilder(
+    column: $table.endTime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CategoryTableOrderingComposer get categoryId {
+    final $$CategoryTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.category,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoryTableOrderingComposer(
+            $db: $db,
+            $table: $db.category,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskTable> {
+  $$TaskTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+    column: $table.description,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<DateTime> get startTime =>
+      $composableBuilder(column: $table.startTime, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endTime =>
+      $composableBuilder(column: $table.endTime, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCompleted => $composableBuilder(
+    column: $table.isCompleted,
+    builder: (column) => column,
+  );
+
+  $$CategoryTableAnnotationComposer get categoryId {
+    final $$CategoryTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.categoryId,
+      referencedTable: $db.category,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CategoryTableAnnotationComposer(
+            $db: $db,
+            $table: $db.category,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskTable,
+          TaskData,
+          $$TaskTableFilterComposer,
+          $$TaskTableOrderingComposer,
+          $$TaskTableAnnotationComposer,
+          $$TaskTableCreateCompanionBuilder,
+          $$TaskTableUpdateCompanionBuilder,
+          (TaskData, $$TaskTableReferences),
+          TaskData,
+          PrefetchHooks Function({bool categoryId})
+        > {
+  $$TaskTableTableManager(_$AppDatabase db, $TaskTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaskTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TaskTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TaskTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> title = const Value.absent(),
+                Value<String?> description = const Value.absent(),
+                Value<DateTime> startTime = const Value.absent(),
+                Value<DateTime> endTime = const Value.absent(),
+                Value<bool> isCompleted = const Value.absent(),
+                Value<String> categoryId = const Value.absent(),
+              }) => TaskCompanion(
+                id: id,
+                title: title,
+                description: description,
+                startTime: startTime,
+                endTime: endTime,
+                isCompleted: isCompleted,
+                categoryId: categoryId,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String title,
+                Value<String?> description = const Value.absent(),
+                required DateTime startTime,
+                required DateTime endTime,
+                Value<bool> isCompleted = const Value.absent(),
+                required String categoryId,
+              }) => TaskCompanion.insert(
+                id: id,
+                title: title,
+                description: description,
+                startTime: startTime,
+                endTime: endTime,
+                isCompleted: isCompleted,
+                categoryId: categoryId,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$TaskTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback: ({categoryId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (categoryId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.categoryId,
+                                referencedTable: $$TaskTableReferences
+                                    ._categoryIdTable(db),
+                                referencedColumn: $$TaskTableReferences
+                                    ._categoryIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TaskTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskTable,
+      TaskData,
+      $$TaskTableFilterComposer,
+      $$TaskTableOrderingComposer,
+      $$TaskTableAnnotationComposer,
+      $$TaskTableCreateCompanionBuilder,
+      $$TaskTableUpdateCompanionBuilder,
+      (TaskData, $$TaskTableReferences),
+      TaskData,
+      PrefetchHooks Function({bool categoryId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1487,6 +2394,7 @@ class $AppDatabaseManager {
   $$CategoryTableTableManager get category =>
       $$CategoryTableTableManager(_db, _db.category);
   $$GoalTableTableManager get goal => $$GoalTableTableManager(_db, _db.goal);
+  $$TaskTableTableManager get task => $$TaskTableTableManager(_db, _db.task);
 }
 
 mixin _$CategoryDaoMixin on DatabaseAccessor<AppDatabase> {
@@ -1514,4 +2422,19 @@ class GoalDaoManager {
       $$CategoryTableTableManager(_db.attachedDatabase, _db.category);
   $$GoalTableTableManager get goal =>
       $$GoalTableTableManager(_db.attachedDatabase, _db.goal);
+}
+
+mixin _$TaskDaoMixin on DatabaseAccessor<AppDatabase> {
+  $CategoryTable get category => attachedDatabase.category;
+  $TaskTable get task => attachedDatabase.task;
+  TaskDaoManager get managers => TaskDaoManager(this);
+}
+
+class TaskDaoManager {
+  final _$TaskDaoMixin _db;
+  TaskDaoManager(this._db);
+  $$CategoryTableTableManager get category =>
+      $$CategoryTableTableManager(_db.attachedDatabase, _db.category);
+  $$TaskTableTableManager get task =>
+      $$TaskTableTableManager(_db.attachedDatabase, _db.task);
 }
