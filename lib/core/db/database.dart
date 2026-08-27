@@ -11,7 +11,10 @@ part 'daos/category_dao.dart';
 part 'daos/goal_dao.dart';
 part 'daos/task_dao.dart';
 
-@DriftDatabase(tables: [Category, Goal, Task], daos: [CategoryDao, GoalDao, TaskDao])
+@DriftDatabase(
+  tables: [Category, Goal, Task],
+  daos: [CategoryDao, GoalDao, TaskDao],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase._() : super(driftDatabase(name: 'app_db'));
 
