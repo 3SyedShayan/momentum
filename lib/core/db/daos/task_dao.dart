@@ -22,4 +22,18 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
       }).toList();
     });
   }
+
+  Future<int> addTask(TaskCompanion entry) {
+    return into(task).insert(entry);
+  }
+
+  Future<int> updateTask(TaskCompanion entry) {
+    return (update(
+      task,
+    )..where((t) => t.id.equals(entry.id.value))).write(entry);
+  }
+
+  Future<int> deleteTask(int id) {
+    return (delete(task)..where((t) => t.id.equals(id))).go();
+  }
 }
