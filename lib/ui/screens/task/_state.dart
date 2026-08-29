@@ -50,7 +50,8 @@ class _ScreenState extends ChangeNotifier {
     final category = values[_TaskFormKeys.category] as CategoryX;
     final startTime =
         values[_TaskFormKeys.startTime] as DateTime? ?? DateTime.now();
-    final endTime = values[_TaskFormKeys.endTime] as DateTime? ??
+    final endTime =
+        values[_TaskFormKeys.endTime] as DateTime? ??
         startTime.add(const Duration(hours: 1));
 
     final task = TaskX(
@@ -69,8 +70,9 @@ class _ScreenState extends ChangeNotifier {
   }
 
   String formatTimeShort(DateTime time) {
-    final hour =
-        time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+    final hour = time.hour > 12
+        ? time.hour - 12
+        : (time.hour == 0 ? 12 : time.hour);
     final minute = time.minute.toString().padLeft(2, '0');
     final period = time.hour >= 12 ? 'PM' : 'AM';
     return '$hour:$minute $period';

@@ -8,7 +8,6 @@ import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_state.dart';
 import '../screens/login_screen.dart';
 import '../screens/home_screen.dart';
-import '../screens/planner_screen.dart';
 import '../ui/screens/goal/goal.dart';
 import '../screens/progress_screen.dart';
 import '../screens/profile_screen.dart';
