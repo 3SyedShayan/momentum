@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:momentum/ui/screens/task/task.dart';
 import 'routes.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_state.dart';
@@ -57,7 +58,7 @@ class AppRouter {
             GoRoute(
               path: Routes.planner,
               pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: PlannerScreen()),
+                  const NoTransitionPage(child: TaskScreen()),
             ),
             GoRoute(
               path: Routes.goals,
