@@ -55,7 +55,6 @@ class _ScreenState extends ChangeNotifier {
         startTime.add(const Duration(hours: 1));
 
     final task = TaskX(
-      id: 0,
       title: title,
       description: description,
       category: category,

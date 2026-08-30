@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TaskX {
 
- int get id; String get title; String? get description; DateTime get startTime; DateTime get endTime; bool get isCompleted; CategoryX get category;
+ int? get id; String get title; String? get description; DateTime get startTime; DateTime get endTime; bool get isCompleted; CategoryX get category;
 /// Create a copy of TaskX
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -48,7 +48,7 @@ abstract mixin class $TaskXCopyWith<$Res>  {
   factory $TaskXCopyWith(TaskX value, $Res Function(TaskX) _then) = _$TaskXCopyWithImpl;
 @useResult
 $Res call({
- int id, String title, String? description, DateTime startTime, DateTime endTime, bool isCompleted, CategoryX category
+ int? id, String title, String? description, DateTime startTime, DateTime endTime, bool isCompleted, CategoryX category
 });
 
 
@@ -65,10 +65,10 @@ class _$TaskXCopyWithImpl<$Res>
 
 /// Create a copy of TaskX
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? startTime = null,Object? endTime = null,Object? isCompleted = null,Object? category = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = freezed,Object? title = null,Object? description = freezed,Object? startTime = null,Object? endTime = null,Object? isCompleted = null,Object? category = null,}) {
   return _then(_self.copyWith(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,startTime: null == startTime ? _self.startTime : startTime // ignore: cast_nullable_to_non_nullable
 as DateTime,endTime: null == endTime ? _self.endTime : endTime // ignore: cast_nullable_to_non_nullable
@@ -168,7 +168,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String title,  String? description,  DateTime startTime,  DateTime endTime,  bool isCompleted,  CategoryX category)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int? id,  String title,  String? description,  DateTime startTime,  DateTime endTime,  bool isCompleted,  CategoryX category)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TaskX() when $default != null:
 return $default(_that.id,_that.title,_that.description,_that.startTime,_that.endTime,_that.isCompleted,_that.category);case _:
@@ -189,7 +189,7 @@ return $default(_that.id,_that.title,_that.description,_that.startTime,_that.end
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String title,  String? description,  DateTime startTime,  DateTime endTime,  bool isCompleted,  CategoryX category)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int? id,  String title,  String? description,  DateTime startTime,  DateTime endTime,  bool isCompleted,  CategoryX category)  $default,) {final _that = this;
 switch (_that) {
 case _TaskX():
 return $default(_that.id,_that.title,_that.description,_that.startTime,_that.endTime,_that.isCompleted,_that.category);case _:
@@ -209,7 +209,7 @@ return $default(_that.id,_that.title,_that.description,_that.startTime,_that.end
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String title,  String? description,  DateTime startTime,  DateTime endTime,  bool isCompleted,  CategoryX category)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int? id,  String title,  String? description,  DateTime startTime,  DateTime endTime,  bool isCompleted,  CategoryX category)?  $default,) {final _that = this;
 switch (_that) {
 case _TaskX() when $default != null:
 return $default(_that.id,_that.title,_that.description,_that.startTime,_that.endTime,_that.isCompleted,_that.category);case _:
@@ -224,10 +224,10 @@ return $default(_that.id,_that.title,_that.description,_that.startTime,_that.end
 @JsonSerializable()
 
 class _TaskX implements TaskX {
-  const _TaskX({required this.id, required this.title, this.description, required this.startTime, required this.endTime, required this.isCompleted, required this.category});
+  const _TaskX({this.id, required this.title, this.description, required this.startTime, required this.endTime, required this.isCompleted, required this.category});
   factory _TaskX.fromJson(Map<String, dynamic> json) => _$TaskXFromJson(json);
 
-@override final  int id;
+@override final  int? id;
 @override final  String title;
 @override final  String? description;
 @override final  DateTime startTime;
@@ -268,7 +268,7 @@ abstract mixin class _$TaskXCopyWith<$Res> implements $TaskXCopyWith<$Res> {
   factory _$TaskXCopyWith(_TaskX value, $Res Function(_TaskX) _then) = __$TaskXCopyWithImpl;
 @override @useResult
 $Res call({
- int id, String title, String? description, DateTime startTime, DateTime endTime, bool isCompleted, CategoryX category
+ int? id, String title, String? description, DateTime startTime, DateTime endTime, bool isCompleted, CategoryX category
 });
 
 
@@ -285,10 +285,10 @@ class __$TaskXCopyWithImpl<$Res>
 
 /// Create a copy of TaskX
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? description = freezed,Object? startTime = null,Object? endTime = null,Object? isCompleted = null,Object? category = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = freezed,Object? title = null,Object? description = freezed,Object? startTime = null,Object? endTime = null,Object? isCompleted = null,Object? category = null,}) {
   return _then(_TaskX(
-id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int?,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String?,startTime: null == startTime ? _self.startTime : startTime // ignore: cast_nullable_to_non_nullable
 as DateTime,endTime: null == endTime ? _self.endTime : endTime // ignore: cast_nullable_to_non_nullable

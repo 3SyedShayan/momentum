@@ -2,8 +2,9 @@ part of 'task_repo.dart';
 
 TaskData _toData(TaskX task) {
   return TaskData(
-    id: task.id,
+    id: task.id ?? 0,
     title: task.title,
+    description: task.description,
     startTime: task.startTime,
     endTime: task.endTime,
     isCompleted: task.isCompleted,
@@ -17,6 +18,7 @@ TaskX _fromData(TaskWithCategoryData task) {
   return TaskX(
     id: taskData.id,
     title: taskData.title,
+    description: taskData.description,
     startTime: taskData.startTime,
     endTime: taskData.endTime,
     isCompleted: taskData.isCompleted,
@@ -31,8 +33,13 @@ TaskX _fromData(TaskWithCategoryData task) {
 
 TaskCompanion _toCompanion(TaskX task) {
   return TaskCompanion(
-    id: Value(task.id),
+    id: (task.id != null && task.id != 0)
+        ? Value(task.id!)
+        : const Value.absent(),
     title: Value(task.title),
+    description: task.description != null
+        ? Value(task.description)
+        : const Value.absent(),
     startTime: Value(task.startTime),
     endTime: Value(task.endTime),
     isCompleted: Value(task.isCompleted),

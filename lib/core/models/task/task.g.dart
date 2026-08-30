@@ -7,7 +7,7 @@ part of 'task.dart';
 // **************************************************************************
 
 _TaskX _$TaskXFromJson(Map<String, dynamic> json) => _TaskX(
-  id: (json['id'] as num).toInt(),
+  id: (json['id'] as num?)?.toInt(),
   title: json['title'] as String,
   description: json['description'] as String?,
   startTime: DateTime.parse(json['startTime'] as String),

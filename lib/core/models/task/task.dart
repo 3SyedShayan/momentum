@@ -7,7 +7,7 @@ part 'task.g.dart';
 @freezed
 abstract class TaskX with _$TaskX {
   const factory TaskX({
-    required int id,
+    int? id,
     required String title,
     String? description,
     required DateTime startTime,
