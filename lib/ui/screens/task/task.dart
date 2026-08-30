@@ -31,6 +31,7 @@ part 'widgets/_allcategories.dart';
 part 'widgets/_alltasks.dart';
 part 'widgets/_floating_button.dart';
 part 'widgets/_header.dart';
+part 'widgets/_hour_picker.dart';
 part 'widgets/_timeline_item.dart';
 
 class TaskScreen extends StatelessWidget {

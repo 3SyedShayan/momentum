@@ -147,7 +147,13 @@ class _AddTaskModalState extends State<AddTaskModal> {
                   Expanded(
                     child: FormBuilderField<DateTime>(
                       name: _TaskFormKeys.startTime,
-                      initialValue: DateTime.now(),
+                      initialValue: DateTime(
+                        DateTime.now().year,
+                        DateTime.now().month,
+                        DateTime.now().day,
+                        startTime.hour,
+                        0,
+                      ),
                       builder: (field) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,8 +162,8 @@ class _AddTaskModalState extends State<AddTaskModal> {
                             Space.y.t08,
                             InkWell(
                               onTap: () async {
-                                final time = await showTimePicker(
-                                  context: context,
+                                final time = await HourPickerModal.show(
+                                  context,
                                   initialTime: startTime,
                                 );
                                 if (time != null) {
@@ -169,7 +175,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                       now.month,
                                       now.day,
                                       time.hour,
-                                      time.minute,
+                                      0,
                                     ),
                                   );
                                 }
@@ -197,8 +203,13 @@ class _AddTaskModalState extends State<AddTaskModal> {
                   Expanded(
                     child: FormBuilderField<DateTime>(
                       name: _TaskFormKeys.endTime,
-                      initialValue:
-                          DateTime.now().add(const Duration(hours: 1)),
+                      initialValue: DateTime(
+                        DateTime.now().year,
+                        DateTime.now().month,
+                        DateTime.now().day,
+                        endTime.hour,
+                        0,
+                      ),
                       builder: (field) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,8 +218,8 @@ class _AddTaskModalState extends State<AddTaskModal> {
                             Space.y.t08,
                             InkWell(
                               onTap: () async {
-                                final time = await showTimePicker(
-                                  context: context,
+                                final time = await HourPickerModal.show(
+                                  context,
                                   initialTime: endTime,
                                 );
                                 if (time != null) {
@@ -220,7 +231,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                       now.month,
                                       now.day,
                                       time.hour,
-                                      time.minute,
+                                      0,
                                     ),
                                   );
                                 }
