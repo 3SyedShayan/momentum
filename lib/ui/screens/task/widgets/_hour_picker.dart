@@ -1,10 +1,7 @@
 part of '../task.dart';
 
 class HourPickerModal extends StatelessWidget {
-  const HourPickerModal({
-    super.key,
-    required this.initialTime,
-  });
+  const HourPickerModal({super.key, required this.initialTime});
 
   final TimeOfDay initialTime;
 
@@ -15,9 +12,7 @@ class HourPickerModal extends StatelessWidget {
     return showModalBottomSheet<TimeOfDay>(
       context: context,
       isScrollControlled: true,
-      builder: (modalContext) => HourPickerModal(
-        initialTime: initialTime,
-      ),
+      builder: (modalContext) => HourPickerModal(initialTime: initialTime),
     );
   }
 
