@@ -5,11 +5,12 @@ class AddCategoryModal extends StatelessWidget {
   final CategoryX? category;
 
   static Future<void> show(BuildContext context, {CategoryX? category}) {
+    final state = _ScreenState.s(context);
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (_) => ChangeNotifierProvider.value(
-        value: _ScreenState.s(context),
+        value: state,
         child: AddCategoryModal(category: category),
       ),
     );

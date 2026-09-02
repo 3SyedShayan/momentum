@@ -299,7 +299,9 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: categoryColor.withValues(alpha: 0.05),
+                                    color: categoryColor.withValues(
+                                      alpha: 0.05,
+                                    ),
                                     blurRadius: 15,
                                     offset: const Offset(0, 6),
                                   ),
@@ -318,7 +320,9 @@ class HomeScreen extends StatelessWidget {
                                           vertical: 6,
                                         ),
                                         decoration: BoxDecoration(
-                                          color: categoryColor.withValues(alpha: 0.12),
+                                          color: categoryColor.withValues(
+                                            alpha: 0.12,
+                                          ),
                                           borderRadius: BorderRadius.circular(
                                             8,
                                           ),

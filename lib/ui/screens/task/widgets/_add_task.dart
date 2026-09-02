@@ -4,11 +4,12 @@ class AddTaskModal extends StatefulWidget {
   const AddTaskModal({super.key});
 
   static Future<void> show(BuildContext context) {
+    final state = _ScreenState.s(context);
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (_) => ChangeNotifierProvider.value(
-        value: _ScreenState.s(context),
+        value: state,
         child: const AddTaskModal(),
       ),
     );

@@ -47,3 +47,5 @@ app.*.map.json
 # Firebase
 firebase.json
 .firebaserc
+# Widget Preview related
+.widget_preview/
