@@ -1,18 +1,27 @@
 part of '../task.dart';
 
 class HourPickerModal extends StatelessWidget {
-  const HourPickerModal({super.key, required this.initialTime});
+  const HourPickerModal({
+    super.key,
+    required this.initialTime,
+    this.disabledHours = const {},
+  });
 
   final TimeOfDay initialTime;
+  final Set<int> disabledHours;
 
   static Future<TimeOfDay?> show(
     BuildContext context, {
     required TimeOfDay initialTime,
+    Set<int> disabledHours = const {},
   }) {
     return showModalBottomSheet<TimeOfDay>(
       context: context,
       isScrollControlled: true,
-      builder: (modalContext) => HourPickerModal(initialTime: initialTime),
+      builder: (modalContext) => HourPickerModal(
+        initialTime: initialTime,
+        disabledHours: disabledHours,
+      ),
     );
   }
 
@@ -55,9 +64,11 @@ class HourPickerModal extends StatelessWidget {
               itemBuilder: (context, hour) {
                 final time = TimeOfDay(hour: hour, minute: 0);
                 final isSelected = hour == initialTime.hour;
+                final isDisabled = disabledHours.contains(hour);
 
                 return ListTile(
                   dense: true,
+                  enabled: !isDisabled,
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: SpaceToken.t20,
                   ),
@@ -66,18 +77,25 @@ class HourPickerModal extends StatelessWidget {
                       : null,
                   title: Text(
                     time.format(context),
-                    style: isSelected
-                        ? AppText.b1b.cl(AppTheme.c.primary)
-                        : AppText.b1,
+                    style: isDisabled
+                        ? AppText.b1.cl(AppTheme.c.subText.withValues(alpha: 0.4))
+                        : (isSelected
+                            ? AppText.b1b.cl(AppTheme.c.primary)
+                            : AppText.b1),
                   ),
-                  trailing: isSelected
-                      ? Icon(
-                          LucideIcons.check,
-                          color: AppTheme.c.primary,
-                          size: 18,
+                  trailing: isDisabled
+                      ? Text(
+                          'Occupied',
+                          style: AppText.l1.cl(Colors.red.withValues(alpha: 0.7)),
                         )
-                      : null,
-                  onTap: () => Navigator.pop(context, time),
+                      : (isSelected
+                          ? Icon(
+                              LucideIcons.check,
+                              color: AppTheme.c.primary,
+                              size: 18,
+                            )
+                          : null),
+                  onTap: isDisabled ? null : () => Navigator.pop(context, time),
                 );
               },
             ),

@@ -34,4 +34,36 @@ class PlannerEngine {
     }
     return occupiedHours;
   }
+
+  static List<int> getAvailableEndHours({
+    required int startHour,
+    required Set<int> occupiedHours,
+  }) {
+    final available = <int>[];
+
+    for (int h = startHour + 1; h <= 24; h++) {
+      if (h - 1 > startHour && occupiedHours.contains(h - 1)) {
+        break;
+      }
+      available.add(h);
+    }
+
+    return available;
+  }
+
+  static bool isRangeAvailable({
+    required int startHour,
+    required int endHour,
+    required Set<int> occupiedHours,
+  }) {
+    if (endHour <= startHour) return false;
+
+    for (int h = startHour; h < endHour; h++) {
+      if (occupiedHours.contains(h)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }

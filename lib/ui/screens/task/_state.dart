@@ -7,6 +7,19 @@ class _ScreenState extends ChangeNotifier {
   final categoryFormKey = GlobalKey<FormBuilderState>();
   final taskFormKey = GlobalKey<FormBuilderState>();
 
+  DateTime selectedDate = DateTime.now();
+  bool get canAddTask {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final target = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+    );
+    final maxDate = DateTime(today.year, today.month, today.day + 2);
+    return !target.isBefore(today) && !target.isAfter(maxDate);
+  }
+
   Stream<List<TaskX>> watchAllTasks(DateTime date) {
     return TaskRepo.ins.watchAllTasks(date);
   }
@@ -15,19 +28,71 @@ class _ScreenState extends ChangeNotifier {
     return CategoryRepo.ins.watchAllCategories();
   }
 
-  DateTime selectedDate = DateTime.now();
+  Set<int> getOccupiedHours(List<TaskX> tasks) {
+    return PlannerEngine.getOccupiedHours(tasks, forDate: selectedDate);
+  }
+
+  List<int> getAvailableEndHours(int startHour, Set<int> occupiedHours) {
+    return PlannerEngine.getAvailableEndHours(
+      startHour: startHour,
+      occupiedHours: occupiedHours,
+    );
+  }
+
+  void submitAddTask(
+    BuildContext context, {
+    required int startHour,
+    required int endHour,
+    required Set<int> occupiedHours,
+  }) {
+    if (!canAddTask) return;
+    final form = taskFormKey.currentState;
+    if (form == null || !form.saveAndValidate()) return;
+    final isValid = PlannerEngine.isRangeAvailable(
+      startHour: startHour,
+      endHour: endHour,
+      occupiedHours: occupiedHours,
+    );
+    if (!isValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Time slot is already occupied.')),
+      );
+      return;
+    }
+
+    final values = form.value;
+
+    final title = values[_TaskFormKeys.title] as String? ?? '';
+    final description = values[_TaskFormKeys.description] as String?;
+    final category = values[_TaskFormKeys.category] as CategoryX;
+
+    final task = TaskX(
+      title: title,
+      description: description,
+      category: category,
+      startTime: DateTime(
+        selectedDate.year,
+        selectedDate.month,
+        selectedDate.day,
+        startHour,
+      ),
+      endTime: DateTime(
+        selectedDate.year,
+        selectedDate.month,
+        selectedDate.day,
+        endHour,
+      ),
+      isCompleted: false,
+    );
+
+    TaskCubit().addTask(task);
+
+    if (context.mounted) context.pop();
+  }
 
   void setSelectedDate(DateTime date) {
     selectedDate = date;
     notifyListeners();
-  }
-
-  bool get canAddTask {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final target = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
-    final maxDate = DateTime(today.year, today.month, today.day + 2);
-    return !target.isBefore(today) && !target.isAfter(maxDate);
   }
 
   // void changeDate(DateTime date) => setSelectedDate(date);
@@ -54,35 +119,6 @@ class _ScreenState extends ChangeNotifier {
     } else {
       CategoryCubit().addCategory(category);
     }
-    if (context.mounted) context.pop();
-  }
-
-  void submitAddTask(BuildContext context) {
-    if (!canAddTask) return;
-    final form = taskFormKey.currentState;
-    if (form == null || !form.saveAndValidate()) return;
-    final values = form.value;
-
-    final title = values[_TaskFormKeys.title] as String? ?? '';
-    final description = values[_TaskFormKeys.description] as String?;
-    final category = values[_TaskFormKeys.category] as CategoryX;
-    final startTime =
-        values[_TaskFormKeys.startTime] as DateTime? ?? DateTime.now();
-    final endTime =
-        values[_TaskFormKeys.endTime] as DateTime? ??
-        startTime.add(const Duration(hours: 1));
-
-    final task = TaskX(
-      title: title,
-      description: description,
-      category: category,
-      startTime: startTime,
-      endTime: endTime,
-      isCompleted: false,
-    );
-
-    TaskCubit().addTask(task);
-
     if (context.mounted) context.pop();
   }
 
