@@ -17,7 +17,9 @@ class _AllTasks extends StatelessWidget {
             padding: Space.v.t32,
             child: Center(
               child: Text(
-                'No tasks planned. Tap + to add.',
+                state.canAddTask
+                    ? 'No tasks planned. Tap + to add.'
+                    : 'No tasks recorded for this day.',
                 style: AppText.b1.cl(AppTheme.c.subText),
               ),
             ),

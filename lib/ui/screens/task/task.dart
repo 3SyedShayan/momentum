@@ -56,9 +56,10 @@ class _Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     App.init(context);
+    final state = _ScreenState.s(context, true);
 
     return Screen(
-      floatingActionButton: const _FloatingButton(),
+      floatingActionButton: state.canAddTask ? const _FloatingButton() : null,
       child: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(SpaceToken.t16),

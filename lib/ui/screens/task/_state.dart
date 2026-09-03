@@ -22,6 +22,14 @@ class _ScreenState extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get canAddTask {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final target = DateTime(selectedDate.year, selectedDate.month, selectedDate.day);
+    final maxDate = DateTime(today.year, today.month, today.day + 2);
+    return !target.isBefore(today) && !target.isAfter(maxDate);
+  }
+
   // void changeDate(DateTime date) => setSelectedDate(date);
 
   void toggleTaskCompletion(TaskX task) {
@@ -50,6 +58,7 @@ class _ScreenState extends ChangeNotifier {
   }
 
   void submitAddTask(BuildContext context) {
+    if (!canAddTask) return;
     final form = taskFormKey.currentState;
     if (form == null || !form.saveAndValidate()) return;
     final values = form.value;

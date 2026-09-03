@@ -5,6 +5,7 @@ class AddTaskModal extends StatefulWidget {
 
   static Future<void> show(BuildContext context) {
     final state = _ScreenState.s(context);
+    if (!state.canAddTask) return Future.value();
     return showModalBottomSheet(
       context: context,
       isScrollControlled: true,

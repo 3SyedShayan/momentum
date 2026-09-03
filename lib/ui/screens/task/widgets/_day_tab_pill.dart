@@ -1,58 +1,61 @@
 part of '../task.dart';
 
 class _DayTabPill extends StatelessWidget {
-  final String label;
+  final String? label;
+  final IconData? icon;
   final bool isSelected;
+  final bool isEnabled;
   final VoidCallback onTap;
 
   const _DayTabPill({
-    required this.label,
+    this.label,
+    this.icon,
     required this.isSelected,
+    this.isEnabled = true,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: isSelected ? 4 : 3,
+      flex: isSelected ? 4 : 1,
       child: GestureDetector(
-        onTap: onTap,
+        onTap: isEnabled ? onTap : null,
         behavior: HitTestBehavior.opaque,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
           curve: Curves.easeInOut,
-          padding: EdgeInsets.symmetric(
-            vertical: isSelected ? SpaceToken.t12 : SpaceToken.t08,
-            horizontal: SpaceToken.t04,
-          ),
+          padding: Space.v.t12,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: isSelected ? AppTheme.c.background : Colors.transparent,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: isSelected
-                  ? AppTheme.c.border.withValues(alpha: 0.5)
-                  : Colors.transparent,
-              width: 1,
-            ),
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.08),
-                      blurRadius: 8,
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),
                   ]
                 : [],
           ),
-          child: AnimatedDefaultTextStyle(
-            duration: const Duration(milliseconds: 200),
-            curve: Curves.easeInOut,
-            style: (isSelected ? AppText.b1.w(7) : AppText.b2.w(5)).cl(
-              isSelected ? AppTheme.c.text : AppTheme.c.subText,
-            ),
-            child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis),
-          ),
+          child: icon != null
+              ? Icon(
+                  icon,
+                  size: 18,
+                  color: isEnabled
+                      ? (isSelected ? AppTheme.c.text : AppTheme.c.subText)
+                      : AppTheme.c.subText.withValues(alpha: 0.25),
+                )
+              : Text(
+                  label ?? '',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: (isSelected ? AppText.b1.w(7) : AppText.b2.w(5)).cl(
+                    isSelected ? AppTheme.c.text : AppTheme.c.subText,
+                  ),
+                ),
         ),
       ),
     );

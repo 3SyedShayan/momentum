@@ -3,23 +3,43 @@ part of '../task.dart';
 class _SelectDay extends StatelessWidget {
   const _SelectDay();
 
-  bool _isSameDay(DateTime a, DateTime b) {
-    return a.year == b.year && a.month == b.month && a.day == b.day;
+  String _getDayLabel(DateTime date) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final target = DateTime(date.year, date.month, date.day);
+    final diff = target.difference(today).inDays;
+
+    if (diff == 0) return 'Today';
+    if (diff == -1) return 'Yesterday';
+    if (diff == 1) return 'Tomorrow';
+
+    const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const months = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+    ];
+    final weekday = weekdays[target.weekday - 1];
+    final month = months[target.month - 1];
+    return '$weekday, $month ${target.day}';
   }
 
   @override
   Widget build(BuildContext context) {
     final state = _ScreenState.s(context, true);
+
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final tomorrow = DateTime(now.year, now.month, now.day + 1);
+    final minDate = DateTime(today.year, today.month, today.day - 1); // Yesterday
+    final maxDate = DateTime(today.year, today.month, today.day + 2); // Next 2 days
 
-    final dayOptions = [
-      (label: 'Yesterday', date: yesterday),
-      (label: 'Today', date: today),
-      (label: 'Tomorrow', date: tomorrow),
-    ];
+    final currentTarget = DateTime(
+      state.selectedDate.year,
+      state.selectedDate.month,
+      state.selectedDate.day,
+    );
+
+    final canGoPrevious = currentTarget.isAfter(minDate);
+    final canGoNext = currentTarget.isBefore(maxDate);
 
     return Container(
       padding: Space.a.t04,
@@ -28,14 +48,43 @@ class _SelectDay extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
-        children: dayOptions.map((option) {
-          final isSelected = _isSameDay(state.selectedDate, option.date);
-          return _DayTabPill(
-            label: option.label,
-            isSelected: isSelected,
-            onTap: () => state.setSelectedDate(option.date),
-          );
-        }).toList(),
+        children: [
+          _DayTabPill(
+            icon: LucideIcons.chevron_left,
+            isSelected: false,
+            isEnabled: canGoPrevious,
+            onTap: () {
+              if (!canGoPrevious) return;
+              final prev = DateTime(
+                currentTarget.year,
+                currentTarget.month,
+                currentTarget.day - 1,
+              );
+              state.setSelectedDate(prev);
+            },
+          ),
+          _DayTabPill(
+            label: _getDayLabel(state.selectedDate),
+            isSelected: true,
+            onTap: () {
+              state.setSelectedDate(today);
+            },
+          ),
+          _DayTabPill(
+            icon: LucideIcons.chevron_right,
+            isSelected: false,
+            isEnabled: canGoNext,
+            onTap: () {
+              if (!canGoNext) return;
+              final next = DateTime(
+                currentTarget.year,
+                currentTarget.month,
+                currentTarget.day + 1,
+              );
+              state.setSelectedDate(next);
+            },
+          ),
+        ],
       ),
     );
   }
