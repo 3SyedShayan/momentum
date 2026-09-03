@@ -149,9 +149,9 @@ class _AddTaskModalState extends State<AddTaskModal> {
                     child: FormBuilderField<DateTime>(
                       name: _TaskFormKeys.startTime,
                       initialValue: DateTime(
-                        DateTime.now().year,
-                        DateTime.now().month,
-                        DateTime.now().day,
+                        state.selectedDate.year,
+                        state.selectedDate.month,
+                        state.selectedDate.day,
                         startTime.hour,
                         0,
                       ),
@@ -169,12 +169,12 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                 );
                                 if (time != null) {
                                   setState(() => startTime = time);
-                                  final now = DateTime.now();
+                                  final selectedDate = state.selectedDate;
                                   field.didChange(
                                     DateTime(
-                                      now.year,
-                                      now.month,
-                                      now.day,
+                                      selectedDate.year,
+                                      selectedDate.month,
+                                      selectedDate.day,
                                       time.hour,
                                       0,
                                     ),
@@ -205,9 +205,9 @@ class _AddTaskModalState extends State<AddTaskModal> {
                     child: FormBuilderField<DateTime>(
                       name: _TaskFormKeys.endTime,
                       initialValue: DateTime(
-                        DateTime.now().year,
-                        DateTime.now().month,
-                        DateTime.now().day,
+                        state.selectedDate.year,
+                        state.selectedDate.month,
+                        state.selectedDate.day,
                         endTime.hour,
                         0,
                       ),
@@ -225,12 +225,12 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                 );
                                 if (time != null) {
                                   setState(() => endTime = time);
-                                  final now = DateTime.now();
+                                  final selectedDate = state.selectedDate;
                                   field.didChange(
                                     DateTime(
-                                      now.year,
-                                      now.month,
-                                      now.day,
+                                      selectedDate.year,
+                                      selectedDate.month,
+                                      selectedDate.day,
                                       time.hour,
                                       0,
                                     ),

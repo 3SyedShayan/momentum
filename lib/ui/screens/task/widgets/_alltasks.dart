@@ -8,7 +8,7 @@ class _AllTasks extends StatelessWidget {
     final state = _ScreenState.s(context, true);
 
     return StreamBuilder<List<TaskX>>(
-      stream: state.watchAllTasks(),
+      stream: state.watchAllTasks(state.selectedDate),
       builder: (context, snapshot) {
         final tasks = snapshot.data ?? [];
 

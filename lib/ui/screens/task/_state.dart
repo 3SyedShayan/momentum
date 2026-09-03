@@ -7,13 +7,22 @@ class _ScreenState extends ChangeNotifier {
   final categoryFormKey = GlobalKey<FormBuilderState>();
   final taskFormKey = GlobalKey<FormBuilderState>();
 
-  Stream<List<TaskX>> watchAllTasks() {
-    return TaskRepo.ins.watchAllTasks();
+  Stream<List<TaskX>> watchAllTasks(DateTime date) {
+    return TaskRepo.ins.watchAllTasks(date);
   }
 
   Stream<List<CategoryX>> watchAllCategories() {
     return CategoryRepo.ins.watchAllCategories();
   }
+
+  DateTime selectedDate = DateTime.now();
+
+  void setSelectedDate(DateTime date) {
+    selectedDate = date;
+    notifyListeners();
+  }
+
+  void changeDate(DateTime date) => setSelectedDate(date);
 
   void toggleTaskCompletion(TaskX task) {
     final updated = task.copyWith(isCompleted: !task.isCompleted);

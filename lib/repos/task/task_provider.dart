@@ -3,8 +3,8 @@ part of 'task_repo.dart';
 class TaskProvider {
   static final _db = AppDatabase();
 
-  static Stream<List<TaskWithCategoryData>> watchAllTasks() {
-    return _db.taskDao.watchAllTasks();
+  static Stream<List<TaskWithCategoryData>> watchAllTasks(DateTime date) {
+    return _db.taskDao.watchAllTasks(date);
   }
 
   static Future<int> addTask(TaskCompanion entry) {

@@ -12,8 +12,8 @@ class TaskRepo {
 
   static final _instance = TaskRepo._();
 
-  Stream<List<TaskX>> watchAllTasks() {
-    return TaskProvider.watchAllTasks().map((tasks) {
+  Stream<List<TaskX>> watchAllTasks(DateTime date) {
+    return TaskProvider.watchAllTasks(date).map((tasks) {
       return tasks.map((task) => _fromData(task)).toList();
     });
   }

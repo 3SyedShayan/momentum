@@ -33,6 +33,7 @@ part 'widgets/_floating_button.dart';
 part 'widgets/_header.dart';
 part 'widgets/_hour_picker.dart';
 part 'widgets/_timeline_item.dart';
+part 'widgets/_select_day.dart';
 
 class TaskScreen extends StatelessWidget {
   const TaskScreen({super.key});
@@ -66,6 +67,8 @@ class _Body extends StatelessWidget {
               const _Header(),
               Space.y.t16,
               const _AllCategories(),
+              Space.y.t16,
+              const _SelectDay(),
               Space.y.t20,
               const _AllTasks(),
             ],
