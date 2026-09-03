@@ -22,7 +22,7 @@ class _ScreenState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeDate(DateTime date) => setSelectedDate(date);
+  // void changeDate(DateTime date) => setSelectedDate(date);
 
   void toggleTaskCompletion(TaskX task) {
     final updated = task.copyWith(isCompleted: !task.isCompleted);

@@ -34,6 +34,7 @@ part 'widgets/_header.dart';
 part 'widgets/_hour_picker.dart';
 part 'widgets/_timeline_item.dart';
 part 'widgets/_select_day.dart';
+part 'widgets/_day_tab_pill.dart';
 
 class TaskScreen extends StatelessWidget {
   const TaskScreen({super.key});
