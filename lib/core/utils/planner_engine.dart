@@ -1,7 +1,65 @@
 import 'package:momentum/core/models/task/task.dart';
 
+sealed class TimelineEntry {
+  final DateTime startTime;
+  final DateTime endTime;
+  const TimelineEntry({required this.startTime, required this.endTime});
+}
+
+class TaskTimelineEntry extends TimelineEntry {
+  final TaskX task;
+  TaskTimelineEntry(this.task)
+      : super(startTime: task.startTime, endTime: task.endTime);
+}
+
+class GapTimelineEntry extends TimelineEntry {
+  GapTimelineEntry({required super.startTime, required super.endTime});
+
+  int get durationInMinutes => endTime.difference(startTime).inMinutes;
+
+  String get formattedDuration {
+    final mins = durationInMinutes;
+    final hours = mins ~/ 60;
+    final rem = mins % 60;
+    if (hours > 0 && rem > 0) {
+      return '${hours}h ${rem}m';
+    } else if (hours > 0) {
+      return hours == 1 ? '1 hr' : '$hours hrs';
+    } else {
+      return '$mins mins';
+    }
+  }
+}
+
 class PlannerEngine {
   static const int totalHours = 24;
+
+  static List<TimelineEntry> buildTimelineEntries(List<TaskX> tasks) {
+    if (tasks.isEmpty) return const [];
+
+    final sortedTasks = List<TaskX>.from(tasks)
+      ..sort((a, b) => a.startTime.compareTo(b.startTime));
+
+    final entries = <TimelineEntry>[];
+
+    for (int i = 0; i < sortedTasks.length; i++) {
+      final current = sortedTasks[i];
+      entries.add(TaskTimelineEntry(current));
+
+      if (i < sortedTasks.length - 1) {
+        final next = sortedTasks[i + 1];
+        if (next.startTime.isAfter(current.endTime)) {
+          entries.add(GapTimelineEntry(
+            startTime: current.endTime,
+            endTime: next.startTime,
+          ));
+        }
+      }
+    }
+
+    return entries;
+  }
+
   static Set<int> getOccupiedHours(
     List<TaskX> tasks, {
     DateTime? forDate,

@@ -34,6 +34,7 @@ part 'widgets/_floating_button.dart';
 part 'widgets/_header.dart';
 part 'widgets/_hour_picker.dart';
 part 'widgets/_timeline_item.dart';
+part 'widgets/_timeline_gap_item.dart';
 part 'widgets/_select_day.dart';
 part 'widgets/_day_tab_pill.dart';
 

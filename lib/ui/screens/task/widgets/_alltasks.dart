@@ -26,15 +26,24 @@ class _AllTasks extends StatelessWidget {
           );
         }
 
+        final entries = PlannerEngine.buildTimelineEntries(tasks);
+
         return Column(
-          children: tasks.asMap().entries.map((entry) {
+          children: entries.asMap().entries.map((entry) {
             final index = entry.key;
-            final task = entry.value;
-            final isLast = index == tasks.length - 1;
-            return _TimelineItem(
-              task: task,
-              isLast: isLast,
-            );
+            final item = entry.value;
+            final isLast = index == entries.length - 1;
+
+            return switch (item) {
+              TaskTimelineEntry(:final task) => _TimelineItem(
+                  task: task,
+                  isLast: isLast,
+                ),
+              GapTimelineEntry() => _TimelineGapItem(
+                  gap: item,
+                  isLast: isLast,
+                ),
+            };
           }).toList(),
         );
       },

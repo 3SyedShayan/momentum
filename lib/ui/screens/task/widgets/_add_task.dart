@@ -1,9 +1,20 @@
 part of '../task.dart';
 
 class AddTaskModal extends StatefulWidget {
-  const AddTaskModal({super.key});
+  final int? initialStartHour;
+  final int? initialEndHour;
 
-  static Future<void> show(BuildContext context) {
+  const AddTaskModal({
+    super.key,
+    this.initialStartHour,
+    this.initialEndHour,
+  });
+
+  static Future<void> show(
+    BuildContext context, {
+    int? initialStartHour,
+    int? initialEndHour,
+  }) {
     final state = _ScreenState.s(context);
 
     if (!state.canAddTask) return Future.value();
@@ -12,7 +23,10 @@ class AddTaskModal extends StatefulWidget {
       isScrollControlled: true,
       builder: (_) => ChangeNotifierProvider.value(
         value: state,
-        child: const AddTaskModal(),
+        child: AddTaskModal(
+          initialStartHour: initialStartHour,
+          initialEndHour: initialEndHour,
+        ),
       ),
     );
   }
@@ -29,6 +43,21 @@ class _AddTaskModalState extends State<AddTaskModal> {
   void _initTimes(Set<int> occupiedHours, _ScreenState state) {
     if (_initialized) return;
     _initialized = true;
+
+    if (widget.initialStartHour != null &&
+        !occupiedHours.contains(widget.initialStartHour)) {
+      startHour = widget.initialStartHour!;
+      final availableEnds = state.getAvailableEndHours(startHour, occupiedHours);
+      if (widget.initialEndHour != null &&
+          availableEnds.contains(widget.initialEndHour)) {
+        endHour = widget.initialEndHour!;
+      } else {
+        endHour = availableEnds.isNotEmpty
+            ? availableEnds.first
+            : (startHour + 1 <= 24 ? startHour + 1 : 24);
+      }
+      return;
+    }
 
     final now = DateTime.now();
     final isToday = state.selectedDate.year == now.year &&
