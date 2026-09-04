@@ -14,7 +14,13 @@ class TaskRepo {
 
   Stream<List<TaskX>> watchAllTasks(DateTime date) {
     return TaskProvider.watchAllTasks(date).map((tasks) {
-      return tasks.map((task) => _fromData(task)).toList();
+      final list = tasks.map((task) => _fromData(task)).toList();
+      list.sort((a, b) {
+        final cmp = a.startTime.compareTo(b.startTime);
+        if (cmp != 0) return cmp;
+        return a.endTime.compareTo(b.endTime);
+      });
+      return list;
     });
   }
 

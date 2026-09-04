@@ -27,8 +27,14 @@ class _AllTasks extends StatelessWidget {
         }
 
         return Column(
-          children: tasks.map((task) {
-            return _TimelineItem(task: task);
+          children: tasks.asMap().entries.map((entry) {
+            final index = entry.key;
+            final task = entry.value;
+            final isLast = index == tasks.length - 1;
+            return _TimelineItem(
+              task: task,
+              isLast: isLast,
+            );
           }).toList(),
         );
       },

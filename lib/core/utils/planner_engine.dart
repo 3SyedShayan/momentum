@@ -41,8 +41,12 @@ class PlannerEngine {
   }) {
     final available = <int>[];
 
+    if (occupiedHours.contains(startHour)) {
+      return available;
+    }
+
     for (int h = startHour + 1; h <= 24; h++) {
-      if (h - 1 > startHour && occupiedHours.contains(h - 1)) {
+      if (occupiedHours.contains(h - 1)) {
         break;
       }
       available.add(h);

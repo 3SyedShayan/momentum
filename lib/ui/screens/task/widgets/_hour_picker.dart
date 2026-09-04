@@ -3,33 +3,56 @@ part of '../task.dart';
 class HourPickerModal extends StatelessWidget {
   const HourPickerModal({
     super.key,
-    required this.initialTime,
+    required this.initialHour,
     this.disabledHours = const {},
+    this.minHour = 0,
+    this.maxHour = 23,
+    this.title = 'Select Hour',
   });
 
-  final TimeOfDay initialTime;
+  final int initialHour;
   final Set<int> disabledHours;
+  final int minHour;
+  final int maxHour;
+  final String title;
 
-  static Future<TimeOfDay?> show(
+  static Future<int?> show(
     BuildContext context, {
-    required TimeOfDay initialTime,
+    required int initialHour,
     Set<int> disabledHours = const {},
+    int minHour = 0,
+    int maxHour = 23,
+    String title = 'Select Hour',
   }) {
-    return showModalBottomSheet<TimeOfDay>(
+    return showModalBottomSheet<int>(
       context: context,
       isScrollControlled: true,
       builder: (modalContext) => HourPickerModal(
-        initialTime: initialTime,
+        initialHour: initialHour,
         disabledHours: disabledHours,
+        minHour: minHour,
+        maxHour: maxHour,
+        title: title,
       ),
     );
+  }
+
+  String _formatHour(int hour) {
+    if (hour == 0) return '12:00 AM';
+    if (hour == 24) return '12:00 AM (Next Day)';
+    final period = hour >= 12 ? 'PM' : 'AM';
+    final displayHour = hour > 12 ? hour - 12 : hour;
+    return '$displayHour:00 $period';
   }
 
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController(
-      initialScrollOffset: (initialTime.hour * 52.0).clamp(0.0, 24 * 52.0),
+      initialScrollOffset:
+          ((initialHour - minHour).clamp(0, maxHour - minHour) * 52.0),
     );
+
+    final totalCount = maxHour - minHour + 1;
 
     return Container(
       constraints: BoxConstraints(
@@ -47,7 +70,7 @@ class HourPickerModal extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Select Hour', style: AppText.h3),
+                Text(title, style: AppText.h3),
                 IconButton(
                   icon: const Icon(LucideIcons.x, size: 20),
                   onPressed: () => Navigator.pop(context),
@@ -59,11 +82,11 @@ class HourPickerModal extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               controller: scrollController,
-              itemCount: 24,
+              itemCount: totalCount,
               itemExtent: 52,
-              itemBuilder: (context, hour) {
-                final time = TimeOfDay(hour: hour, minute: 0);
-                final isSelected = hour == initialTime.hour;
+              itemBuilder: (context, index) {
+                final hour = minHour + index;
+                final isSelected = hour == initialHour;
                 final isDisabled = disabledHours.contains(hour);
 
                 return ListTile(
@@ -76,9 +99,11 @@ class HourPickerModal extends StatelessWidget {
                       ? AppTheme.c.primary.withValues(alpha: 0.1)
                       : null,
                   title: Text(
-                    time.format(context),
+                    _formatHour(hour),
                     style: isDisabled
-                        ? AppText.b1.cl(AppTheme.c.subText.withValues(alpha: 0.4))
+                        ? AppText.b1.cl(
+                            AppTheme.c.subText.withValues(alpha: 0.4),
+                          )
                         : (isSelected
                             ? AppText.b1b.cl(AppTheme.c.primary)
                             : AppText.b1),
@@ -86,7 +111,9 @@ class HourPickerModal extends StatelessWidget {
                   trailing: isDisabled
                       ? Text(
                           'Occupied',
-                          style: AppText.l1.cl(Colors.red.withValues(alpha: 0.7)),
+                          style: AppText.l1.cl(
+                            Colors.red.withValues(alpha: 0.7),
+                          ),
                         )
                       : (isSelected
                           ? Icon(
@@ -95,7 +122,7 @@ class HourPickerModal extends StatelessWidget {
                               size: 18,
                             )
                           : null),
-                  onTap: isDisabled ? null : () => Navigator.pop(context, time),
+                  onTap: isDisabled ? null : () => Navigator.pop(context, hour),
                 );
               },
             ),

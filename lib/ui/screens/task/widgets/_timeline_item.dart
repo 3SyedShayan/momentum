@@ -2,8 +2,12 @@ part of '../task.dart';
 
 class _TimelineItem extends StatelessWidget {
   final TaskX task;
+  final bool isLast;
 
-  const _TimelineItem({required this.task});
+  const _TimelineItem({
+    required this.task,
+    this.isLast = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +27,12 @@ class _TimelineItem extends StatelessWidget {
     final borderSideColor = isActive
         ? catColor
         : (task.isCompleted ? AppTheme.c.border : AppTheme.c.border);
+
+    final totalMinutes = task.endTime.difference(task.startTime).inMinutes;
+    final elapsedMinutes = now.difference(task.startTime).inMinutes;
+    final progress = totalMinutes > 0
+        ? (elapsedMinutes / totalMinutes).clamp(0.0, 1.0)
+        : 0.0;
 
     return IntrinsicHeight(
       child: Row(
@@ -70,12 +80,13 @@ class _TimelineItem extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  width: 2,
-                  color: AppTheme.c.border,
+              if (!isLast)
+                Expanded(
+                  child: Container(
+                    width: 2,
+                    color: AppTheme.c.border,
+                  ),
                 ),
-              ),
             ],
           ),
           Space.x.t12,
@@ -117,7 +128,7 @@ class _TimelineItem extends StatelessWidget {
                                     ),
                               ),
                               if (task.description != null &&
-                                  task.description!.isNotEmpty) ...[
+                                   task.description!.isNotEmpty) ...[
                                 Space.y.t04,
                                 Text(
                                   task.description!,
@@ -142,7 +153,7 @@ class _TimelineItem extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(4),
                         child: LinearProgressIndicator(
-                          value: 0.65,
+                          value: progress,
                           backgroundColor: catColor.withValues(alpha: 0.2),
                           valueColor: AlwaysStoppedAnimation<Color>(catColor),
                           minHeight: 6,
@@ -150,7 +161,7 @@ class _TimelineItem extends StatelessWidget {
                       ),
                       Space.y.t04,
                       Text(
-                        'In progress...',
+                        'In progress (${(progress * 100).toInt()}%)',
                         style: AppText.l1b.cl(catColor),
                       ),
                     ],
