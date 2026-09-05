@@ -9,7 +9,7 @@ sealed class TimelineEntry {
 class TaskTimelineEntry extends TimelineEntry {
   final TaskX task;
   TaskTimelineEntry(this.task)
-      : super(startTime: task.startTime, endTime: task.endTime);
+    : super(startTime: task.startTime, endTime: task.endTime);
 }
 
 class GapTimelineEntry extends TimelineEntry {
@@ -49,10 +49,12 @@ class PlannerEngine {
       if (i < sortedTasks.length - 1) {
         final next = sortedTasks[i + 1];
         if (next.startTime.isAfter(current.endTime)) {
-          entries.add(GapTimelineEntry(
-            startTime: current.endTime,
-            endTime: next.startTime,
-          ));
+          entries.add(
+            GapTimelineEntry(
+              startTime: current.endTime,
+              endTime: next.startTime,
+            ),
+          );
         }
       }
     }
@@ -128,4 +130,43 @@ class PlannerEngine {
 
     return true;
   }
+
+  static Duration getCompletedDuration(List<TaskX> tasks) {
+    var total = Duration.zero;
+    for (final task in tasks) {
+      if (task.isCompleted) {
+        total += task.endTime.difference(task.startTime);
+      }
+    }
+    return total;
+  }
+
+  static Duration getRemainingDuration(List<TaskX> tasks) {
+    var total = Duration.zero;
+    for (final task in tasks) {
+      if (!task.isCompleted) {
+        total += task.endTime.difference(task.startTime);
+      }
+    }
+    return total;
+  }
+
+  static double getCompletedHours(List<TaskX> tasks) {
+    return getCompletedDuration(tasks).inMinutes / 60.0;
+  }
+
+  static double getRemainingHours(List<TaskX> tasks) {
+    return getRemainingDuration(tasks).inMinutes / 60.0;
+  }
+}
+
+extension TaskListMetricsExtension on List<TaskX> {
+  Duration get completedDuration => PlannerEngine.getCompletedDuration(this);
+  Duration get remainingDuration => PlannerEngine.getRemainingDuration(this);
+
+  double get hoursDone => PlannerEngine.getCompletedHours(this);
+  double get hoursRemaining => PlannerEngine.getRemainingHours(this);
+
+  int get completedTaskCount => where((t) => t.isCompleted).length;
+  int get remainingTaskCount => where((t) => !t.isCompleted).length;
 }

@@ -5,7 +5,7 @@ class _AllGoals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = _ScreenState.s(context, true);
-    ;
+
     return StreamBuilder(
       stream: state.watchAllGoals(),
       builder: (context, snapshot) {
