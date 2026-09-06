@@ -1,6 +1,5 @@
 part of '../home.dart';
 
-/// Circular progress ring with solid stroke and centered percentage.
 class _TodayCircularBar extends StatelessWidget {
   final double progress;
   final double size;
@@ -38,7 +37,8 @@ class _TodayCircularBar extends StatelessWidget {
               painter: _CircularRingPainter(
                 progress: clamped,
                 strokeWidth: strokeWidth,
-                trackColor: trackColor ?? AppTheme.c.primary.withValues(alpha: 0.08),
+                trackColor:
+                    trackColor ?? AppTheme.c.primary.withValues(alpha: 0.08),
                 color: color ?? AppTheme.c.primary,
               ),
             ),

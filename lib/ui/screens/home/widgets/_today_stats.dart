@@ -76,22 +76,19 @@ class _TodayStats extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Today's Completion", style: AppText.h3b),
-                    Space.y.t04,
-                    Text(
-                      'Daily goal overview',
-                      style: AppText.b2.cl(AppTheme.c.subText),
-                    ),
-                  ],
+                Text("Today's Completion", style: AppText.h3b),
+                Space.y.t04,
+                Text(
+                  'Daily goal overview',
+                  style: AppText.b2.cl(AppTheme.c.subText),
                 ),
               ],
             ),
+
             Space.y.t20,
 
             // Circular Bar + Breakdown metrics

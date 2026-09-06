@@ -27,7 +27,6 @@ class _ScreenState extends ChangeNotifier {
     return null;
   }
 
-  /// Streams today's stats metrics (planned, completed, remaining hours & completion %).
   Stream<DayTaskStats> watchTodayStats({DateTime? date}) {
     final target = date ?? DateTime.now();
     return TaskRepo.ins.watchAllTasks(target).map((tasks) {
@@ -35,11 +34,28 @@ class _ScreenState extends ChangeNotifier {
     });
   }
 
-  /// Fetches today's stats snapshot.
   Future<DayTaskStats> getTodayStats({DateTime? date}) async {
     final target = date ?? DateTime.now();
     final tasks = await TaskRepo.ins.watchAllTasks(target).first;
     return tasks.dayStats;
+  }
+
+  /// Streams today's scheduled tasks sorted chronologically.
+  Stream<List<TaskX>> watchTodayTasks({DateTime? date}) {
+    final target = date ?? DateTime.now();
+    return TaskRepo.ins.watchAllTasks(target).map((tasks) {
+      final sorted = List<TaskX>.from(tasks)
+        ..sort((a, b) => a.startTime.compareTo(b.startTime));
+      return sorted;
+    });
+  }
+
+  /// Determines if a task is currently in progress.
+  bool isTaskCurrent(TaskX task, [DateTime? currentTime]) {
+    final now = currentTime ?? DateTime.now();
+    return !task.isCompleted &&
+        now.isAfter(task.startTime) &&
+        now.isBefore(task.endTime);
   }
 
   String formatTime(DateTime time) {

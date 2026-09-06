@@ -1,40 +1,39 @@
 part of '../home.dart';
 
-class _TimelineTask {
-  final String id;
-  final String title;
-  final String start;
-  final String end;
-  final String category;
-  final Color categoryColor;
-  final String status; // 'completed', 'current', 'upcoming'
-
-  const _TimelineTask({
-    required this.id,
-    required this.title,
-    required this.start,
-    this.end = '',
-    this.category = '',
-    this.categoryColor = const Color(0xff2563EB),
-    this.status = 'upcoming',
-  });
-}
-
 /// Today's timeline preview card showing a quick list of scheduled tasks.
 class _TodayTimelineCard extends StatelessWidget {
-  final List<_TimelineTask> tasks;
+  final List<TaskX>? tasks;
   final VoidCallback? onViewAll;
-  final ValueChanged<_TimelineTask>? onTaskTap;
+  final ValueChanged<TaskX>? onTaskTap;
 
   const _TodayTimelineCard({
     super.key,
-    this.tasks = const [],
+    this.tasks,
     this.onViewAll,
     this.onTaskTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (tasks != null) {
+      return _buildCard(context, tasks: tasks!);
+    }
+
+    final state = _ScreenState.s(context, true);
+
+    return StreamBuilder<List<TaskX>>(
+      stream: state.watchTodayTasks(),
+      builder: (context, snapshot) {
+        final taskList = snapshot.data ?? const [];
+        return _buildCard(context, tasks: taskList);
+      },
+    );
+  }
+
+  Widget _buildCard(BuildContext context, {required List<TaskX> tasks}) {
+    final state = _ScreenState.s(context);
+    final now = DateTime.now();
+
     return Container(
       padding: Space.a.t20,
       decoration: BoxDecoration(
@@ -48,12 +47,10 @@ class _TodayTimelineCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Today's Timeline",
-                style: AppText.b1b.cl(AppTheme.c.text),
-              ),
+              Text("Today's Timeline", style: AppText.b1b.cl(AppTheme.c.text)),
               GestureDetector(
-                onTap: onViewAll ?? () {},
+                onTap: onViewAll ?? () => context.go(Routes.planner),
+                behavior: HitTestBehavior.opaque,
                 child: Text(
                   'View All',
                   style: AppText.b2b.cl(AppTheme.c.primary),
@@ -73,16 +70,22 @@ class _TodayTimelineCard extends StatelessWidget {
           else
             Column(
               children: tasks.map((task) {
-                final isCompleted = task.status == 'completed';
-                final isCurrent = task.status == 'current';
+                final isCompleted = task.isCompleted;
+                final isCurrent = state.isTaskCurrent(task, now);
                 final dotColor = (isCompleted || isCurrent)
-                    ? task.categoryColor
+                    ? Color(task.category.color)
                     : AppTheme.c.border;
 
                 return Padding(
                   padding: EdgeInsets.symmetric(vertical: SpaceToken.t04),
                   child: GestureDetector(
-                    onTap: () => onTaskTap?.call(task),
+                    onTap: () {
+                      if (onTaskTap != null) {
+                        onTaskTap!(task);
+                      } else {
+                        context.go(Routes.planner);
+                      }
+                    },
                     behavior: HitTestBehavior.opaque,
                     child: Row(
                       children: [
@@ -101,15 +104,17 @@ class _TodayTimelineCard extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: isCompleted
-                                ? AppText.b2.cl(AppTheme.c.subText).copyWith(
-                                      decoration: TextDecoration.lineThrough,
-                                    )
+                                ? AppText.b2
+                                      .cl(AppTheme.c.subText)
+                                      .copyWith(
+                                        decoration: TextDecoration.lineThrough,
+                                      )
                                 : AppText.b2.cl(AppTheme.c.text),
                           ),
                         ),
                         Space.x.t08,
                         Text(
-                          task.start,
+                          state.formatTime(task.startTime),
                           style: AppText.l1.cl(AppTheme.c.subText),
                         ),
                       ],
