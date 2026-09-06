@@ -6,7 +6,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:momentum/configs/configs.dart';
 import 'package:momentum/core/models/category/category.dart';
 import 'package:momentum/core/models/task/task.dart';
@@ -17,6 +16,7 @@ import 'package:momentum/new_blocs/task/cubit.dart';
 import 'package:momentum/repos/category/category_repo.dart';
 import 'package:momentum/repos/task/task_repo.dart';
 import 'package:momentum/ui/widgets/core/button/button.dart';
+import 'package:momentum/ui/widgets/core/screen_header/screen_header.dart';
 import 'package:momentum/ui/widgets/forms/forms.dart';
 import 'package:provider/provider.dart';
 
@@ -73,7 +73,7 @@ class _Body extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const _Header(),
-              Space.y.t16,
+              Space.y.t20,
               const _SelectDay(),
 
               Space.y.t20,

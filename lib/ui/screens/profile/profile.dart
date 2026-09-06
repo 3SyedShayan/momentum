@@ -7,6 +7,7 @@ import 'package:momentum/blocs/profile/profile_cubit.dart';
 import 'package:momentum/blocs/profile/profile_state.dart';
 import 'package:momentum/configs/configs.dart';
 import 'package:momentum/core/screen/screen.dart';
+import 'package:momentum/ui/widgets/core/screen_header/screen_header.dart';
 import 'package:provider/provider.dart';
 
 part '_state.dart';

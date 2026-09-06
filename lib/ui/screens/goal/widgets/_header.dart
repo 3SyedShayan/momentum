@@ -5,13 +5,9 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Goals', style: AppText.h1),
-        Space.y.t04,
-        Text('Track your progress over time', style: AppText.b1),
-      ],
+    return const ScreenHeader(
+      title: 'Goals',
+      subtitle: 'Track your progress over time',
     );
   }
 }

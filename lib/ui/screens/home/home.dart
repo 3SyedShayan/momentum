@@ -9,6 +9,7 @@ import 'package:momentum/core/screen/screen.dart';
 import 'package:momentum/core/utils/planner_engine.dart';
 import 'package:momentum/repos/task/task_repo.dart';
 import 'package:momentum/router/routes.dart';
+import 'package:momentum/ui/widgets/core/screen_header/screen_header.dart';
 import 'package:provider/provider.dart';
 
 part '_state.dart';
@@ -42,7 +43,10 @@ class _Body extends StatelessWidget {
     return Screen(
       child: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(SpaceToken.t16),
+          padding: EdgeInsets.symmetric(
+            horizontal: SpaceToken.t20,
+            vertical: SpaceToken.t16,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

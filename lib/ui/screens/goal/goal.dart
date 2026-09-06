@@ -14,6 +14,7 @@ import 'package:momentum/new_blocs/goal/cubit.dart';
 import 'package:momentum/repos/category/category_repo.dart';
 import 'package:momentum/repos/goal/goal_repo.dart';
 import 'package:momentum/ui/widgets/core/button/button.dart';
+import 'package:momentum/ui/widgets/core/screen_header/screen_header.dart';
 import 'package:momentum/ui/widgets/forms/forms.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
@@ -60,12 +61,15 @@ class _Body extends StatelessWidget {
       floatingActionButton: _FloatingButton(),
       child: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(SpaceToken.t16),
+          padding: EdgeInsets.symmetric(
+            horizontal: SpaceToken.t20,
+            vertical: SpaceToken.t16,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const _Header(),
-              Space.y.t16,
+              Space.y.t20,
               const _AllCategories(),
               Space.y.t16,
               const _GoalTabSelector(),

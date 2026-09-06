@@ -7,23 +7,20 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final state = _ScreenState.s(context, false);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Profile',
-          style: AppText.h1b.cl(AppTheme.c.text),
+    return ScreenHeader(
+      title: 'Profile',
+      trailing: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
+        visualDensity: VisualDensity.compact,
+        onPressed: () => state.signOut(context),
+        icon: Icon(
+          LucideIcons.log_out,
+          color: AppTheme.c.subText,
+          size: 20,
         ),
-        IconButton(
-          onPressed: () => state.signOut(context),
-          icon: Icon(
-            LucideIcons.log_out,
-            color: AppTheme.c.subText,
-            size: 20,
-          ),
-          tooltip: 'Sign Out',
-        ),
-      ],
+        tooltip: 'Sign Out',
+      ),
     );
   }
 }
