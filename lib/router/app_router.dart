@@ -12,7 +12,7 @@ import '../screens/login_screen.dart';
 import '../ui/screens/goal/goal.dart';
 import '../ui/screens/home/home.dart';
 import '../ui/screens/progress/progress.dart';
-import '../screens/profile_screen.dart';
+import '../ui/screens/profile/profile.dart';
 import '../ui/widgets/core/bottom_bar/bottom_bar.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
