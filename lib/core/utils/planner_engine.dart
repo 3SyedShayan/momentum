@@ -158,6 +158,22 @@ class PlannerEngine {
   static double getRemainingHours(List<TaskX> tasks) {
     return getRemainingDuration(tasks).inMinutes / 60.0;
   }
+
+  static DayTaskStats getDayStats(List<TaskX> tasks) {
+    final completed = getCompletedHours(tasks);
+    final remaining = getRemainingHours(tasks);
+    final planned = completed + remaining;
+    final percentage = planned > 0
+        ? (completed / planned).clamp(0.0, 1.0)
+        : 0.0;
+
+    return DayTaskStats(
+      completionPercentage: percentage,
+      plannedHours: planned,
+      completedHours: completed,
+      remainingHours: remaining,
+    );
+  }
 }
 
 extension TaskListMetricsExtension on List<TaskX> {
@@ -169,4 +185,6 @@ extension TaskListMetricsExtension on List<TaskX> {
 
   int get completedTaskCount => where((t) => t.isCompleted).length;
   int get remainingTaskCount => where((t) => !t.isCompleted).length;
+
+  DayTaskStats get dayStats => PlannerEngine.getDayStats(this);
 }

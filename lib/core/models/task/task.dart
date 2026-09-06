@@ -1,6 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../category/category.dart';
 
+export 'task_stats.dart';
+
 part 'task.freezed.dart';
 part 'task.g.dart';
 
