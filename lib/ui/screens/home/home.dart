@@ -21,6 +21,7 @@ part 'widgets/_today_stats.dart';
 part 'widgets/_next_task_card.dart';
 part 'widgets/_goals_summary.dart';
 part 'widgets/_today_timeline_card.dart';
+part 'dummy_data/_dummy_goals.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

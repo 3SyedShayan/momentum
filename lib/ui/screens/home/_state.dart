@@ -4,6 +4,9 @@ class _ScreenState extends ChangeNotifier {
   static _ScreenState s(BuildContext context, [bool listen = false]) =>
       Provider.of<_ScreenState>(context, listen: listen);
 
+  _GoalMetric get weeklyGoal => dummyWeeklyGoal;
+  _GoalMetric get monthlyGoal => dummyMonthlyGoal;
+
   Stream<TaskX?> watchNextTask({DateTime? currentTime}) {
     final now = currentTime ?? DateTime.now();
     return TaskRepo.ins.watchAllTasks(now).map((tasks) {

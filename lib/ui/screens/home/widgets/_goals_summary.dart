@@ -29,47 +29,30 @@ class _GoalsSummary extends StatelessWidget {
 
   const _GoalsSummary({
     super.key,
-    this.weekly,
-    this.monthly,
+    this.weekly = dummyWeeklyGoal,
+    this.monthly = dummyMonthlyGoal,
     this.onWeeklyTap,
     this.onMonthlyTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final effectiveWeekly = weekly ??
-        const _GoalMetric(
-          label: 'Weekly',
-          completed: 0,
-          total: 0,
-          color: Color(0xff10B981),
-          badgeBg: Color(0xffECFDF5),
-          icon: LucideIcons.target,
-        );
-
-    final effectiveMonthly = monthly ??
-        const _GoalMetric(
-          label: 'Monthly',
-          completed: 0,
-          total: 0,
-          color: Color(0xff8B5CF6),
-          badgeBg: Color(0xffF5F3FF),
-          icon: LucideIcons.trending_up,
-        );
+    final effectiveWeekly = weekly ?? dummyWeeklyGoal;
+    final effectiveMonthly = monthly ?? dummyMonthlyGoal;
 
     return Row(
       children: [
         Expanded(
           child: _GoalSummaryItemCard(
             metric: effectiveWeekly,
-            onTap: onWeeklyTap,
+            onTap: onWeeklyTap ?? () => context.go(Routes.goals),
           ),
         ),
         Space.x.t12,
         Expanded(
           child: _GoalSummaryItemCard(
             metric: effectiveMonthly,
-            onTap: onMonthlyTap,
+            onTap: onMonthlyTap ?? () => context.go(Routes.goals),
           ),
         ),
       ],
