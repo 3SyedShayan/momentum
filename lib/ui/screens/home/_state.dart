@@ -27,6 +27,21 @@ class _ScreenState extends ChangeNotifier {
     return null;
   }
 
+  /// Streams today's stats metrics (planned, completed, remaining hours & completion %).
+  Stream<DayTaskStats> watchTodayStats({DateTime? date}) {
+    final target = date ?? DateTime.now();
+    return TaskRepo.ins.watchAllTasks(target).map((tasks) {
+      return tasks.dayStats;
+    });
+  }
+
+  /// Fetches today's stats snapshot.
+  Future<DayTaskStats> getTodayStats({DateTime? date}) async {
+    final target = date ?? DateTime.now();
+    final tasks = await TaskRepo.ins.watchAllTasks(target).first;
+    return tasks.dayStats;
+  }
+
   String formatTime(DateTime time) {
     final hour = time.hour > 12
         ? time.hour - 12

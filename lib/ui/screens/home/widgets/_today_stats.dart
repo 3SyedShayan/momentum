@@ -1,53 +1,11 @@
 part of '../home.dart';
 
-/// Breakdown stat item showing colored bullet, title, and hours.
-class _BreakdownItem extends StatelessWidget {
-  final String title;
-  final double hours;
-  final Color color;
-  final VoidCallback? onTap;
-
-  const _BreakdownItem({
-    required this.title,
-    required this.hours,
-    required this.color,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap ?? () {},
-      child: Row(
-        children: [
-          Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-          ),
-          Space.x.t12,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: AppText.b2.cl(AppTheme.c.subText)),
-                Text('${hours.toStringAsFixed(1)}h', style: AppText.b1b),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 /// Today's stats card containing the circular progress bar and metrics breakdown.
 class _TodayStats extends StatelessWidget {
-  final double completionPercentage;
-  final double plannedHours;
-  final double completedHours;
-  final double remainingHours;
+  final double? completionPercentage;
+  final double? plannedHours;
+  final double? completedHours;
+  final double? remainingHours;
   final VoidCallback? onTap;
   final VoidCallback? onPlannedTap;
   final VoidCallback? onCompletedTap;
@@ -55,10 +13,10 @@ class _TodayStats extends StatelessWidget {
 
   const _TodayStats({
     super.key,
-    this.completionPercentage = 0.0,
-    this.plannedHours = 0.0,
-    this.completedHours = 0.0,
-    this.remainingHours = 0.0,
+    this.completionPercentage,
+    this.plannedHours,
+    this.completedHours,
+    this.remainingHours,
     this.onTap,
     this.onPlannedTap,
     this.onCompletedTap,
@@ -67,6 +25,43 @@ class _TodayStats extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (completionPercentage != null &&
+        plannedHours != null &&
+        completedHours != null &&
+        remainingHours != null) {
+      return _buildCard(
+        context,
+        completionPercentage: completionPercentage!,
+        plannedHours: plannedHours!,
+        completedHours: completedHours!,
+        remainingHours: remainingHours!,
+      );
+    }
+
+    final state = _ScreenState.s(context, true);
+
+    return StreamBuilder<DayTaskStats>(
+      stream: state.watchTodayStats(),
+      builder: (context, snapshot) {
+        final data = snapshot.data ?? const DayTaskStats();
+        return _buildCard(
+          context,
+          completionPercentage: completionPercentage ?? data.completionPercentage,
+          plannedHours: plannedHours ?? data.plannedHours,
+          completedHours: completedHours ?? data.completedHours,
+          remainingHours: remainingHours ?? data.remainingHours,
+        );
+      },
+    );
+  }
+
+  Widget _buildCard(
+    BuildContext context, {
+    required double completionPercentage,
+    required double plannedHours,
+    required double completedHours,
+    required double remainingHours,
+  }) {
     return GestureDetector(
       onTap: onTap ?? () {},
       child: Container(

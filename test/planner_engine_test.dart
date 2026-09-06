@@ -87,4 +87,39 @@ void main() {
       },
     );
   });
+
+  group('PlannerEngine.getDayStats and tasks.dayStats', () {
+    test('returns zero metrics when tasks are empty', () {
+      final stats = <TaskX>[].dayStats;
+      expect(stats.plannedHours, 0.0);
+      expect(stats.completedHours, 0.0);
+      expect(stats.remainingHours, 0.0);
+      expect(stats.completionPercentage, 0.0);
+    });
+
+    test('calculates correct metrics with mixed completed and pending tasks', () {
+      final t1 = TaskX(
+        id: 1,
+        title: 'Completed Task',
+        startTime: DateTime(2026, 9, 4, 9, 0),
+        endTime: DateTime(2026, 9, 4, 11, 0), // 2 hours
+        isCompleted: true,
+        category: dummyCategory,
+      );
+      final t2 = TaskX(
+        id: 2,
+        title: 'Pending Task',
+        startTime: DateTime(2026, 9, 4, 13, 0),
+        endTime: DateTime(2026, 9, 4, 15, 0), // 2 hours
+        isCompleted: false,
+        category: dummyCategory,
+      );
+
+      final stats = [t1, t2].dayStats;
+      expect(stats.completedHours, 2.0);
+      expect(stats.remainingHours, 2.0);
+      expect(stats.plannedHours, 4.0);
+      expect(stats.completionPercentage, 0.5);
+    });
+  });
 }

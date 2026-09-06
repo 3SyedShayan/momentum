@@ -2,25 +2,60 @@ part of '../home.dart';
 
 /// Next task card with blue gradient, Zap icon, and countdown pill.
 class _NextTaskCard extends StatelessWidget {
-  final String title;
-  final String time;
-  final String countdown;
+  final String? title;
+  final String? time;
+  final String? countdown;
   final VoidCallback? onTap;
 
   const _NextTaskCard({
     super.key,
-    this.title = '',
-    this.time = '',
-    this.countdown = '',
+    this.title,
+    this.time,
+    this.countdown,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final displayTitle = title.isNotEmpty ? title : 'No upcoming task';
-    final displayTime = time.isNotEmpty ? time : 'No tasks scheduled';
-    final displayCountdown = countdown.isNotEmpty ? countdown : 'Free';
+    if (title != null) {
+      return _buildCard(
+        context,
+        displayTitle: title!.isNotEmpty ? title! : 'No upcoming task',
+        displayTime: time?.isNotEmpty == true ? time! : 'No tasks scheduled',
+        displayCountdown: countdown?.isNotEmpty == true ? countdown! : 'Free',
+      );
+    }
 
+    final state = _ScreenState.s(context, true);
+
+    return StreamBuilder<TaskX?>(
+      stream: state.watchNextTask(),
+      builder: (context, snapshot) {
+        final task = snapshot.data;
+        final displayTitle = task?.title ?? 'No upcoming task';
+        final displayTime = task != null
+            ? state.formatTaskTimeRange(task)
+            : 'No tasks scheduled';
+        final displayCountdown = task != null
+            ? state.getTaskCountdown(task)
+            : 'Free';
+
+        return _buildCard(
+          context,
+          displayTitle: displayTitle,
+          displayTime: displayTime,
+          displayCountdown: displayCountdown,
+        );
+      },
+    );
+  }
+
+  Widget _buildCard(
+    BuildContext context, {
+    required String displayTitle,
+    required String displayTime,
+    required String displayCountdown,
+  }) {
     return GestureDetector(
       onTap: onTap ?? () {},
       child: Container(
