@@ -11,7 +11,7 @@ import '../screens/login_screen.dart';
 
 import '../ui/screens/goal/goal.dart';
 import '../ui/screens/home/home.dart';
-
+import '../ui/screens/progress/progress.dart';
 import '../screens/profile_screen.dart';
 import '../ui/widgets/core/bottom_bar/bottom_bar.dart';
 
@@ -62,14 +62,18 @@ class AppRouter {
             GoRoute(
               path: Routes.planner,
               pageBuilder: (context, state) =>
-                  const NoTransitionPage(child: ProgressScreen()),
+                  const NoTransitionPage(child: TaskScreen()),
             ),
             GoRoute(
               path: Routes.goals,
               pageBuilder: (context, state) =>
                   const NoTransitionPage(child: GoalScreen()),
             ),
-
+            GoRoute(
+              path: Routes.progress,
+              pageBuilder: (context, state) =>
+                  const NoTransitionPage(child: ProgressScreen()),
+            ),
             GoRoute(
               path: Routes.profile,
               pageBuilder: (context, state) =>

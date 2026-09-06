@@ -39,8 +39,8 @@ part 'widgets/_timeline_gap_item.dart';
 part 'widgets/_select_day.dart';
 part 'widgets/_day_tab_pill.dart';
 
-class ProgressScreen extends StatelessWidget {
-  const ProgressScreen({super.key});
+class TaskScreen extends StatelessWidget {
+  const TaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
