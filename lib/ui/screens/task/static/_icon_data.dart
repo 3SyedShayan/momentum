@@ -20,3 +20,12 @@ const List<CategoryIconOption> categoryIconOptions = [
   CategoryIconOption(key: 'heart', icon: LucideIcons.heart),
   CategoryIconOption(key: 'flame', icon: LucideIcons.flame),
 ];
+
+IconData getCategoryIcon(String key) {
+  final option = categoryIconOptions.firstWhere(
+    (o) => o.key == key,
+    orElse: () => const CategoryIconOption(key: '', icon: LucideIcons.briefcase),
+  );
+  return option.icon;
+}
+

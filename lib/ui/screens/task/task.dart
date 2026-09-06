@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:momentum/configs/configs.dart';
 import 'package:momentum/core/models/category/category.dart';
 import 'package:momentum/core/models/task/task.dart';
@@ -64,17 +65,20 @@ class _Body extends StatelessWidget {
       floatingActionButton: state.canAddTask ? const _FloatingButton() : null,
       child: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(SpaceToken.t16),
+          padding: EdgeInsets.symmetric(
+            horizontal: SpaceToken.t20,
+            vertical: SpaceToken.t16,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const _Header(),
               Space.y.t16,
-              const _AllCategories(),
-              Space.y.t16,
               const _SelectDay(),
+
               Space.y.t20,
               const _AllTasks(),
+              Space.y.t60,
             ],
           ),
         ),

@@ -70,7 +70,9 @@ class PlannerScreen extends StatelessWidget {
                                     fontSize: 12,
                                   ),
                                 ),
-                                backgroundColor: isDark ? Colors.grey.shade900 : Colors.grey.shade100,
+                                backgroundColor: isDark
+                                    ? Colors.grey.shade900
+                                    : Colors.grey.shade100,
                                 side: BorderSide.none,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12),
@@ -80,7 +82,11 @@ class PlannerScreen extends StatelessWidget {
                           }),
                           // Add Category Action Chip
                           ActionChip(
-                            avatar: const Icon(Icons.add, size: 14, color: Colors.blue),
+                            avatar: const Icon(
+                              Icons.add,
+                              size: 14,
+                              color: Colors.blue,
+                            ),
                             label: const Text(
                               'Add Category',
                               style: TextStyle(
@@ -94,7 +100,8 @@ class PlannerScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            onPressed: () => _showAddCategoryDialog(context, uid),
+                            onPressed: () =>
+                                _showAddCategoryDialog(context, uid),
                           ),
                         ],
                       ),
@@ -112,17 +119,25 @@ class PlannerScreen extends StatelessWidget {
                             ),
                           )
                         : ListView.builder(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
                             itemCount: tasks.length,
                             itemBuilder: (context, index) {
                               final task = tasks[index];
                               final category = categories.firstWhere(
                                 (c) => c.id == task.categoryId,
-                                orElse: () => const CategoryX(id: '', name: 'General', icon: 'folder', color: 0xFF1A56DB),
+                                orElse: () => const CategoryX(
+                                  id: '',
+                                  name: 'General',
+                                  icon: 'folder',
+                                  color: 0xFF1A56DB,
+                                ),
                               );
-                              
+
                               final now = DateTime.now();
-                              final isActive = !task.isCompleted &&
+                              final isActive =
+                                  !task.isCompleted &&
                                   now.isAfter(task.startTime) &&
                                   now.isBefore(task.endTime);
 
@@ -147,9 +162,7 @@ class PlannerScreen extends StatelessWidget {
         onPressed: () => _showAddTaskBottomSheet(context, uid),
         backgroundColor: Colors.blue.shade600,
         foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         child: const Icon(Icons.add, size: 28),
       ),
     );
@@ -165,12 +178,14 @@ class PlannerScreen extends StatelessWidget {
   }) {
     final isDark = theme.brightness == Brightness.dark;
     final catColor = Color(category.color);
-    
+
     Color itemColor = task.isCompleted
         ? (isDark ? Colors.grey.shade900 : Colors.grey.shade100)
         : (isActive ? catColor.withValues(alpha: 0.08) : theme.cardColor);
 
-    Color borderSideColor = isActive ? catColor : (isDark ? Colors.grey.shade800 : Colors.grey.shade200);
+    Color borderSideColor = isActive
+        ? catColor
+        : (isDark ? Colors.grey.shade800 : Colors.grey.shade200);
 
     return IntrinsicHeight(
       child: Row(
@@ -195,10 +210,7 @@ class PlannerScreen extends StatelessWidget {
                 ),
                 Text(
                   _formatTimeShort(task.endTime),
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: Colors.grey,
-                  ),
+                  style: const TextStyle(fontSize: 11, color: Colors.grey),
                 ),
               ],
             ),
@@ -210,9 +222,7 @@ class PlannerScreen extends StatelessWidget {
                 width: 14,
                 height: 14,
                 decoration: BoxDecoration(
-                  color: task.isCompleted
-                      ? Colors.grey
-                      : catColor,
+                  color: task.isCompleted ? Colors.grey : catColor,
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: isDark ? Colors.black : Colors.white,
@@ -269,8 +279,12 @@ class PlannerScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(6),
                         ),
                         onChanged: (val) {
-                          final updated = task.copyWith(isCompleted: val ?? false);
-                          context.read<TasksBloc>().add(UpdateTaskRequested(uid, updated));
+                          final updated = task.copyWith(
+                            isCompleted: val ?? false,
+                          );
+                          context.read<TasksBloc>().add(
+                            UpdateTaskRequested(uid, updated),
+                          );
                         },
                       ),
                     ],
@@ -325,8 +339,13 @@ class PlannerScreen extends StatelessWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              title: const Text('Add Category', style: TextStyle(fontWeight: FontWeight.bold)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              title: const Text(
+                'Add Category',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -344,7 +363,10 @@ class PlannerScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text('Select Color', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Select Color',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -377,13 +399,20 @@ class PlannerScreen extends StatelessWidget {
                   onPressed: () {
                     final name = nameController.text.trim();
                     if (name.isNotEmpty) {
-                      final cat = CategoryX(id: '', name: name, icon: 'folder', color: selectedColor.toARGB32());
-                      context.read<CategoriesBloc>().add(AddCategoryRequested(uid, cat));
+                      final cat = CategoryX(
+                        id: '',
+                        name: name,
+                        icon: 'folder',
+                        color: selectedColor.toARGB32(),
+                      );
+                      context.read<CategoriesBloc>().add(
+                        AddCategoryRequested(uid, cat),
+                      );
                       Navigator.pop(diagContext);
                     }
                   },
                   child: const Text('Add'),
-                )
+                ),
               ],
             );
           },
@@ -429,10 +458,7 @@ class PlannerScreen extends StatelessWidget {
                 children: [
                   const Text(
                     'Add New Task',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   TextField(
@@ -448,7 +474,10 @@ class PlannerScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Text('Category', style: TextStyle(fontWeight: FontWeight.bold)),
+                  const Text(
+                    'Category',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 8),
                   DropdownButtonFormField<String>(
                     initialValue: selectedCategoryId,
@@ -492,7 +521,10 @@ class PlannerScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Start Time', style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Text(
+                              'Start Time',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             const SizedBox(height: 8),
                             InkWell(
                               onTap: () async {
@@ -505,7 +537,10 @@ class PlannerScreen extends StatelessWidget {
                                 }
                               },
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.withValues(alpha: 0.08),
                                   borderRadius: BorderRadius.circular(12),
@@ -521,7 +556,10 @@ class PlannerScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('End Time', style: TextStyle(fontWeight: FontWeight.bold)),
+                            const Text(
+                              'End Time',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
                             const SizedBox(height: 8),
                             InkWell(
                               onTap: () async {
@@ -534,7 +572,10 @@ class PlannerScreen extends StatelessWidget {
                                 }
                               },
                               child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 12,
+                                ),
                                 decoration: BoxDecoration(
                                   color: Colors.grey.withValues(alpha: 0.08),
                                   borderRadius: BorderRadius.circular(12),
@@ -553,9 +594,23 @@ class PlannerScreen extends StatelessWidget {
                       final title = titleController.text.trim();
                       if (title.isNotEmpty && selectedCategoryId != null) {
                         final now = DateTime.now();
-                        final startDateTime = DateTime(now.year, now.month, now.day, startTime.hour, startTime.minute);
-                        final endDateTime = DateTime(now.year, now.month, now.day, endTime.hour, endTime.minute);
-                        final plannedMinutes = endDateTime.difference(startDateTime).inMinutes;
+                        final startDateTime = DateTime(
+                          now.year,
+                          now.month,
+                          now.day,
+                          startTime.hour,
+                          startTime.minute,
+                        );
+                        final endDateTime = DateTime(
+                          now.year,
+                          now.month,
+                          now.day,
+                          endTime.hour,
+                          endTime.minute,
+                        );
+                        final plannedMinutes = endDateTime
+                            .difference(startDateTime)
+                            .inMinutes;
 
                         final task = TaskModel(
                           id: '',
@@ -564,11 +619,15 @@ class PlannerScreen extends StatelessWidget {
                           startTime: startDateTime,
                           endTime: endDateTime,
                           isCompleted: false,
-                          durationPlanned: plannedMinutes > 0 ? plannedMinutes : 30,
+                          durationPlanned: plannedMinutes > 0
+                              ? plannedMinutes
+                              : 30,
                           durationCompleted: 0,
                         );
 
-                        context.read<TasksBloc>().add(AddTaskRequested(uid, task));
+                        context.read<TasksBloc>().add(
+                          AddTaskRequested(uid, task),
+                        );
                         Navigator.pop(sheetContext);
                       }
                     },
@@ -580,7 +639,10 @@ class PlannerScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: const Text('Add Task', style: TextStyle(fontWeight: FontWeight.bold)),
+                    child: const Text(
+                      'Add Task',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   const SizedBox(height: 24),
                 ],
@@ -593,7 +655,9 @@ class PlannerScreen extends StatelessWidget {
   }
 
   String _formatTimeShort(DateTime time) {
-    final hour = time.hour > 12 ? time.hour - 12 : (time.hour == 0 ? 12 : time.hour);
+    final hour = time.hour > 12
+        ? time.hour - 12
+        : (time.hour == 0 ? 12 : time.hour);
     final minute = time.minute.toString().padLeft(2, '0');
     final period = time.hour >= 12 ? 'PM' : 'AM';
     return '$hour:$minute $period';

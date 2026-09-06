@@ -15,8 +15,18 @@ class _SelectDay extends StatelessWidget {
 
     const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     final weekday = weekdays[target.weekday - 1];
     final month = months[target.month - 1];
@@ -29,8 +39,16 @@ class _SelectDay extends StatelessWidget {
 
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
-    final minDate = DateTime(today.year, today.month, today.day - 1); // Yesterday
-    final maxDate = DateTime(today.year, today.month, today.day + 2); // Next 2 days
+    final minDate = DateTime(
+      today.year,
+      today.month,
+      today.day - 1,
+    ); // Yesterday
+    final maxDate = DateTime(
+      today.year,
+      today.month,
+      today.day + 2,
+    ); // Next 2 days
 
     final currentTarget = DateTime(
       state.selectedDate.year,
@@ -46,6 +64,7 @@ class _SelectDay extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppTheme.c.subBackground,
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.c.border.withValues(alpha: 0.8)),
       ),
       child: Row(
         children: [

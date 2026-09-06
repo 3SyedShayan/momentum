@@ -69,9 +69,7 @@ class LoginScreen extends StatelessWidget {
                   Text(
                     'Build consistency and direct your days with intention.',
                     textAlign: TextAlign.center,
-                    style: AppText.b1.copyWith(
-                      color: AppTheme.c.subText,
-                    ),
+                    style: AppText.b1.copyWith(color: AppTheme.c.subText),
                   ),
                   Space.y.t32,
 
@@ -124,7 +122,9 @@ class LoginScreen extends StatelessWidget {
                       ),
                       child: Text(
                         'Get Started Now',
-                        style: AppText.b1b.copyWith(color: AppTheme.c.onPrimary),
+                        style: AppText.b1b.copyWith(
+                          color: AppTheme.c.onPrimary,
+                        ),
                       ),
                     ),
                     Space.y.t16,
@@ -139,9 +139,7 @@ class LoginScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: AppProps.radiusXl.radius(),
                         ),
-                        side: BorderSide(
-                          color: AppTheme.c.border,
-                        ),
+                        side: BorderSide(color: AppTheme.c.border),
                         backgroundColor: AppTheme.c.subBackground,
                         foregroundColor: AppTheme.c.text,
                         elevation: 0,
@@ -166,10 +164,7 @@ class LoginScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      label: Text(
-                        'Continue with Google',
-                        style: AppText.b1b,
-                      ),
+                      label: Text('Continue with Google', style: AppText.b1b),
                     ),
                     Space.y.t16,
                     TextButton(
@@ -180,9 +175,7 @@ class LoginScreen extends StatelessWidget {
                       },
                       child: Text(
                         'Continue as Guest',
-                        style: AppText.b1b.copyWith(
-                          color: AppTheme.c.primary,
-                        ),
+                        style: AppText.b1b.copyWith(color: AppTheme.c.primary),
                       ),
                     ),
                   ],

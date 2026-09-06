@@ -18,65 +18,38 @@ class _TimelineGapItem extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Left Time Column
+          // Left Time Column (matching 52 width)
           SizedBox(
-            width: 72,
-            child: Padding(
-              padding: Space.v.t12,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+            width: 52,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 6),
+                  child: Text(
                     state.formatTimeShort(gap.startTime),
-                    style: AppText.b2b.cl(AppTheme.c.subText),
-                  ),
-                  Space.y.t04,
-                  Text(
-                    state.formatTimeShort(gap.endTime),
-                    style: AppText.l1.cl(AppTheme.c.subText.withValues(alpha: 0.6)),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Connector dot & line
-          Column(
-            children: [
-              Container(
-                width: 14,
-                height: 14,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: AppTheme.c.border,
-                    width: 1.5,
+                    style: AppText.b2b.cl(
+                      AppTheme.c.subText.withValues(alpha: 0.6),
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                child: Center(
-                  child: Container(
-                    width: 4,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppTheme.c.subText.withValues(alpha: 0.6),
+                if (!isLast)
+                  Expanded(
+                    child: Container(
+                      width: 1.5,
+                      color: AppTheme.c.border.withValues(alpha: 0.6),
+                      margin: const EdgeInsets.symmetric(vertical: 4),
                     ),
                   ),
-                ),
-              ),
-              if (!isLast)
-                Expanded(
-                  child: Container(
-                    width: 1.5,
-                    color: AppTheme.c.border.withValues(alpha: 0.4),
-                  ),
-                ),
-            ],
+              ],
+            ),
           ),
-          Space.x.t12,
+          Space.x.t08,
           // Gap Card
           Expanded(
             child: Padding(
-              padding: Space.b.t16,
+              padding: const EdgeInsets.only(bottom: 12),
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -89,12 +62,13 @@ class _TimelineGapItem extends StatelessWidget {
                           )
                       : null,
                   child: Container(
-                    padding: Space.a.t12,
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: AppTheme.c.subBackground.withValues(alpha: 0.35),
+                      color: AppTheme.c.subBackground.withValues(alpha: 0.4),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
                         color: AppTheme.c.border.withValues(alpha: 0.7),
+                        width: 1.5,
                       ),
                     ),
                     child: Row(
@@ -112,20 +86,20 @@ class _TimelineGapItem extends StatelessWidget {
                             color: AppTheme.c.primary,
                           ),
                         ),
-                        Space.x.t12,
+                        Space.x.t08,
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'Available Slot ($durationText free)',
+                                'Available Slot ($durationText)',
                                 style: AppText.b2b.cl(AppTheme.c.text),
                               ),
                               if (state.canAddTask) ...[
                                 Space.y.t04,
                                 Text(
-                                  'Tap to schedule a task',
+                                  'Tap to schedule a time block',
                                   style: AppText.l1.cl(AppTheme.c.subText),
                                 ),
                               ],

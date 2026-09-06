@@ -14,35 +14,74 @@ class _AllCategories extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              IconButton(
-                onPressed: () => AddCategoryModal.show(context),
-                icon: const Icon(Icons.add),
+              GestureDetector(
+                onTap: () => AddCategoryModal.show(context),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppTheme.c.subBackground.withValues(alpha: 0.5),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: AppTheme.c.border.withValues(alpha: 0.7),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        LucideIcons.plus,
+                        size: 14,
+                        color: AppTheme.c.subText,
+                      ),
+                      Space.x.t04,
+                      Text(
+                        'Category',
+                        style: AppText.b2.cl(AppTheme.c.subText).copyWith(
+                              fontWeight: FontWeight.w500,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
+              Space.x.t08,
               ...categories.map(
                 (c) => Padding(
-                  padding: Space.r.t12,
+                  padding: Space.r.t08,
                   child: GestureDetector(
                     onTap: () => AddCategoryModal.show(context, category: c),
                     child: Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: SpaceToken.t12,
-                        vertical: SpaceToken.t08,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: AppTheme.c.subBackground,
-                        borderRadius: BorderRadius.circular(12),
+                        color: AppTheme.c.subBackground.withValues(alpha: 0.5),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppTheme.c.border.withValues(alpha: 0.7),
+                        ),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          CircleAvatar(
-                            backgroundColor: Color(c.color),
-                            radius: 5,
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: Color(c.color),
+                              shape: BoxShape.circle,
+                            ),
                           ),
                           Space.x.t08,
                           Text(
                             c.name,
-                            style: AppText.b2.cl(AppTheme.c.subText),
+                            style: AppText.b2.cl(AppTheme.c.subText).copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
                           ),
                         ],
                       ),
