@@ -37,28 +37,41 @@ class _GoalsSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (weekly == null && monthly == null) {
-      return const SizedBox.shrink();
-    }
+    final effectiveWeekly = weekly ??
+        const _GoalMetric(
+          label: 'Weekly',
+          completed: 0,
+          total: 0,
+          color: Color(0xff10B981),
+          badgeBg: Color(0xffECFDF5),
+          icon: LucideIcons.target,
+        );
+
+    final effectiveMonthly = monthly ??
+        const _GoalMetric(
+          label: 'Monthly',
+          completed: 0,
+          total: 0,
+          color: Color(0xff8B5CF6),
+          badgeBg: Color(0xffF5F3FF),
+          icon: LucideIcons.trending_up,
+        );
 
     return Row(
       children: [
-        if (weekly != null)
-          Expanded(
-            child: _GoalSummaryItemCard(
-              metric: weekly!,
-              onTap: onWeeklyTap,
-            ),
+        Expanded(
+          child: _GoalSummaryItemCard(
+            metric: effectiveWeekly,
+            onTap: onWeeklyTap,
           ),
-        if (weekly != null && monthly != null)
-          Space.x.t12,
-        if (monthly != null)
-          Expanded(
-            child: _GoalSummaryItemCard(
-              metric: monthly!,
-              onTap: onMonthlyTap,
-            ),
+        ),
+        Space.x.t12,
+        Expanded(
+          child: _GoalSummaryItemCard(
+            metric: effectiveMonthly,
+            onTap: onMonthlyTap,
           ),
+        ),
       ],
     );
   }

@@ -17,9 +17,9 @@ class _NextTaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (title.isEmpty) {
-      return const SizedBox.shrink();
-    }
+    final displayTitle = title.isNotEmpty ? title : 'No upcoming task';
+    final displayTime = time.isNotEmpty ? time : 'No tasks scheduled';
+    final displayCountdown = countdown.isNotEmpty ? countdown : 'Free';
 
     return GestureDetector(
       onTap: onTap ?? () {},
@@ -57,16 +57,14 @@ class _NextTaskCard extends StatelessWidget {
                       ),
                       Space.y.t04,
                       Text(
-                        title,
+                        displayTitle,
                         style: AppText.h3b.cl(Colors.white),
                       ),
-                      if (time.isNotEmpty) ...[
-                        Space.y.t04,
-                        Text(
-                          time,
-                          style: AppText.b2.cl(const Color(0xffBFDBFE)),
-                        ),
-                      ],
+                      Space.y.t04,
+                      Text(
+                        displayTime,
+                        style: AppText.b2.cl(const Color(0xffBFDBFE)),
+                      ),
                     ],
                   ),
                 ),
@@ -84,34 +82,32 @@ class _NextTaskCard extends StatelessWidget {
                 ),
               ],
             ),
-            if (countdown.isNotEmpty) ...[
-              Space.y.t16,
-              Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: SpaceToken.t12,
-                  vertical: SpaceToken.t08,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      LucideIcons.clock,
-                      size: 13,
-                      color: Color(0xffBFDBFE),
-                    ),
-                    Space.x.t08,
-                    Text(
-                      countdown,
-                      style: AppText.l1b.cl(Colors.white),
-                    ),
-                  ],
-                ),
+            Space.y.t16,
+            Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: SpaceToken.t12,
+                vertical: SpaceToken.t08,
               ),
-            ],
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    LucideIcons.clock,
+                    size: 13,
+                    color: Color(0xffBFDBFE),
+                  ),
+                  Space.x.t08,
+                  Text(
+                    displayCountdown,
+                    style: AppText.l1b.cl(Colors.white),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
