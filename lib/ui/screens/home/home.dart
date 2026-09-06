@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 part '_state.dart';
 part 'widgets/_header.dart';
 part 'widgets/_today_circular_bar.dart';
-part 'widgets/_today_completion_card.dart';
+part 'widgets/_today_stats.dart';
 part 'widgets/_next_task_card.dart';
 part 'widgets/_goals_summary.dart';
 part 'widgets/_today_timeline_card.dart';
@@ -41,7 +41,7 @@ class _Body extends StatelessWidget {
             children: [
               const _Header(),
               Space.y.t20,
-              const _TodayCompletionCard(),
+              const _TodayStats(),
               Space.y.t20,
               const _NextTaskCard(),
               Space.y.t20,
