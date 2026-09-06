@@ -58,13 +58,17 @@ flutter_gen:
 flutter:
   uses-material-design: true
   fonts:
-    - family: Fraunces
+    - family: Inter
       fonts:
-        - asset: fonts/Fraunces/Fraunces_72pt-Regular.ttf
-        - asset: fonts/Fraunces/Fraunces_72pt-Bold.ttf
-          weight: 700
-        - asset: fonts/Fraunces/Fraunces_72pt-SemiBold.ttf
+        - asset: fonts/Inter/Inter_18pt-Light.ttf
+          weight: 300
+        - asset: fonts/Inter/Inter_18pt-Regular.ttf
+        - asset: fonts/Inter/Inter_18pt-Medium.ttf
+          weight: 500
+        - asset: fonts/Inter/Inter_18pt-SemiBold.ttf
           weight: 600
+        - asset: fonts/Inter/Inter_18pt-Bold.ttf
+          weight: 700
     - family: Geist
       fonts:
         - asset: fonts/Geist/Geist-Regular.ttf

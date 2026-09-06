@@ -48,7 +48,8 @@ extension SuperAppText on TextStyle {
     return copyWith(fontWeight: fontWeight);
   }
 
-  TextStyle fra() => copyWith(fontFamily: FontFamily.fraunces);
+  TextStyle inter() => copyWith(fontFamily: FontFamily.inter);
+  TextStyle fra() => inter();
 
   TextStyle gm() => copyWith(fontFamily: FontFamily.geistMono);
 }

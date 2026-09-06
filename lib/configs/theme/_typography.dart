@@ -40,11 +40,11 @@ class AppText {
 
   static void init() {
     const base = TextStyle(fontFamily: FontFamily.geist);
-    const headingBase = TextStyle(fontFamily: FontFamily.fraunces);
+    const headingBase = TextStyle(fontFamily: FontFamily.inter);
 
     h1 = headingBase.copyWith(
       fontSize: 26,
-      fontFamily: FontFamily.fraunces,
+      fontFamily: FontFamily.inter,
       fontWeight: FontWeight.w500,
     );
 

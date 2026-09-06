@@ -11,12 +11,12 @@
 class FontFamily {
   FontFamily._();
 
-  /// Font family: Fraunces
-  static const String fraunces = 'Fraunces';
-
   /// Font family: Geist
   static const String geist = 'Geist';
 
   /// Font family: GeistMono
   static const String geistMono = 'GeistMono';
+
+  /// Font family: Inter
+  static const String inter = 'Inter';
 }
