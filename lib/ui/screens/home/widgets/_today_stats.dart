@@ -46,7 +46,8 @@ class _TodayStats extends StatelessWidget {
         final data = snapshot.data ?? const DayTaskStats();
         return _buildCard(
           context,
-          completionPercentage: completionPercentage ?? data.completionPercentage,
+          completionPercentage:
+              completionPercentage ?? data.completionPercentage,
           plannedHours: plannedHours ?? data.plannedHours,
           completedHours: completedHours ?? data.completedHours,
           remainingHours: remainingHours ?? data.remainingHours,
@@ -88,20 +89,6 @@ class _TodayStats extends StatelessWidget {
                       style: AppText.b2.cl(AppTheme.c.subText),
                     ),
                   ],
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: SpaceToken.t12,
-                    vertical: SpaceToken.t04,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppTheme.c.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    '${(completionPercentage.clamp(0.0, 1.0) * 100).round()}% done',
-                    style: AppText.b2b.cl(AppTheme.c.primary),
-                  ),
                 ),
               ],
             ),

@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 part '_state.dart';
 part 'widgets/_header.dart';
 part 'widgets/_today_circular_bar.dart';
+part 'widgets/_circular_ring_painter.dart';
 part 'widgets/_breakdown_item.dart';
 part 'widgets/_today_stats.dart';
 part 'widgets/_next_task_card.dart';
