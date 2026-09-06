@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:momentum/screens/home_screen.dart';
+
 import 'package:momentum/ui/screens/task/task.dart';
 import 'routes.dart';
 import '../blocs/auth/auth_bloc.dart';
 import '../blocs/auth/auth_state.dart';
 import '../screens/login_screen.dart';
-// import '../screens/home_screen.dart';
+
 import '../ui/screens/goal/goal.dart';
 import '../ui/screens/home/home.dart';
 
-// import '../screens/progress_screen.dart';
 import '../screens/profile_screen.dart';
-import '../screens/navigation_shell.dart';
+import '../ui/widgets/core/bottom_bar/bottom_bar.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
 final GlobalKey<NavigatorState> shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -49,7 +48,10 @@ class AppRouter {
         ShellRoute(
           navigatorKey: shellNavigatorKey,
           builder: (context, state, child) {
-            return NavigationShell(child: child);
+            return Scaffold(
+              body: child,
+              bottomNavigationBar: const BottomBar(),
+            );
           },
           routes: [
             GoRoute(

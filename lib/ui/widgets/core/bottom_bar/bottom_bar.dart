@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:momentum/configs/configs.dart';
-import 'package:themed/themed.dart';
 import 'package:momentum/router/routes.dart';
 
 part '_data.dart';
@@ -12,7 +12,7 @@ class BottomBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     App.init(context);
-    final currentPath = context.currentPath;
+    final location = GoRouterState.of(context).matchedLocation;
 
     return Material(
       color: AppTheme.c.background,
@@ -27,27 +27,28 @@ class BottomBar extends StatelessWidget {
           ),
           child: Row(
             children: _tabs.map((tab) {
-              final isActive = tab.path == currentPath;
-              final color = isActive
-                  ? AppTheme.c.primary
-                  : AppTheme.c.subText.addOpacity(.5);
+              final isActive = tab.path == Routes.home
+                  ? location == Routes.home
+                  : location.startsWith(tab.path);
+              final color = isActive ? AppTheme.c.primary : AppTheme.c.subText;
 
               return Expanded(
                 child: InkWell(
                   onTap: () {
                     if (isActive) return;
-                    // ToDo
-                    // tab.path.pushReplace(context);
-                    // ''.trackUserAction(
-                    //   'bottom_bar_tapped ${tab.path}',
-                    // );
+                    context.go(tab.path);
                   },
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Space.y.t04,
                       Icon(tab.icon, color: color, size: SpaceToken.t24),
                       Space.y.t04,
-                      Text(tab.label, style: AppText.b2.gm() + color),
+                      Text(
+                        tab.label,
+                        style: (isActive ? AppText.b2.w(6) : AppText.b2.w(5))
+                            .copyWith(color: color, letterSpacing: -0.2),
+                      ),
                     ],
                   ),
                 ),
