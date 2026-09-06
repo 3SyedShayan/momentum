@@ -1,12 +1,18 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_lucide/flutter_lucide.dart';
 import 'package:momentum/configs/configs.dart';
 import 'package:momentum/core/screen/screen.dart';
 import 'package:provider/provider.dart';
 
 part '_state.dart';
-part 'widgets/_today_stats.dart';
-part 'widgets/_breakdown_item.dart';
+part 'widgets/_header.dart';
 part 'widgets/_today_circular_bar.dart';
+part 'widgets/_today_completion_card.dart';
+part 'widgets/_next_task_card.dart';
+part 'widgets/_goals_summary.dart';
+part 'widgets/_today_timeline_card.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -32,7 +38,18 @@ class _Body extends StatelessWidget {
           padding: EdgeInsets.all(SpaceToken.t16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: const [_TodayStats()],
+            children: [
+              const _Header(),
+              Space.y.t20,
+              const _TodayCompletionCard(),
+              Space.y.t20,
+              const _NextTaskCard(),
+              Space.y.t20,
+              const _GoalsSummary(),
+              Space.y.t20,
+              const _TodayTimelineCard(),
+              Space.y.t24,
+            ],
           ),
         ),
       ),

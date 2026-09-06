@@ -1,4 +1,6 @@
+// ignore_for_file: unused_import
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:momentum/configs/configs.dart';
 import 'package:provider/provider.dart';
 
@@ -13,10 +15,6 @@ class _MomentumState extends State<Momentum> {
   @override
   Widget build(BuildContext context) {
     App.init(context);
-    return MultiProvider(providers: [
-      
-    ]
-    
-    );
+    return MultiProvider(providers: [], child: const SizedBox());
   }
 }
