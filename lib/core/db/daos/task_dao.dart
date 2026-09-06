@@ -27,25 +27,6 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
     });
   }
 
-  Future<TaskWithCategoryData?> getNextTask() {
-    final query =
-        (select(
-            task,
-          )).join([innerJoin(category, category.id.equalsExp(task.categoryId))])
-          ..orderBy([
-            OrderingTerm.asc(task.startTime),
-            OrderingTerm.asc(task.endTime),
-          ])
-          ..limit(1);
-    return query.get().then((rows) {
-      if (rows.isEmpty) {
-        return null;
-      }
-      final row = rows.first;
-      return (task: row.readTable(task), category: row.readTable(category));
-    });
-  }
-
   Future<int> addTask(TaskCompanion entry) {
     return into(task).insert(entry);
   }
