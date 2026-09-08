@@ -7,12 +7,6 @@ import 'repositories/momentum_repository.dart';
 import 'blocs/auth/auth_bloc.dart';
 import 'blocs/auth/auth_event.dart';
 import 'blocs/auth/auth_state.dart';
-import 'blocs/categories/categories_bloc.dart';
-import 'blocs/categories/categories_event.dart';
-import 'blocs/tasks/tasks_bloc.dart';
-import 'blocs/tasks/tasks_event.dart';
-import 'blocs/goals/goals_bloc.dart';
-import 'blocs/goals/goals_event.dart';
 import 'blocs/profile/profile_cubit.dart';
 import 'blocs/profile/profile_state.dart';
 import 'router/app_router.dart';
@@ -39,14 +33,6 @@ void main() async {
                   ..add(AuthSubscriptionRequested()),
           ),
 
-          BlocProvider<TasksBloc>(
-            create: (context) =>
-                TasksBloc(momentumRepository: momentumRepository),
-          ),
-          BlocProvider<GoalsBloc>(
-            create: (context) =>
-                GoalsBloc(momentumRepository: momentumRepository),
-          ),
           BlocProvider<ProfileCubit>(
             create: (context) =>
                 ProfileCubit(momentumRepository: momentumRepository),
@@ -76,8 +62,6 @@ class _MomentumAppState extends State<MomentumApp> {
       listener: (context, state) {
         if (state is Authenticated) {
           final uid = state.user.uid;
-          context.read<TasksBloc>().add(SubscribeTasks(uid));
-          context.read<GoalsBloc>().add(SubscribeGoals(uid));
           context.read<ProfileCubit>().fetchProfile(uid);
         }
       },
