@@ -424,8 +424,15 @@ class PlannerScreen extends StatelessWidget {
   void _showAddTaskBottomSheet(BuildContext context, String uid) {
     final titleController = TextEditingController();
     String? selectedCategoryId;
-    TimeOfDay startTime = const TimeOfDay(hour: 9, minute: 0);
-    TimeOfDay endTime = const TimeOfDay(hour: 10, minute: 0);
+    final now = DateTime.now();
+    final defaultStartHour = now.minute > 0
+        ? (now.hour < 23 ? now.hour + 1 : 23)
+        : now.hour;
+    TimeOfDay startTime = TimeOfDay(hour: defaultStartHour, minute: 0);
+    TimeOfDay endTime = TimeOfDay(
+      hour: defaultStartHour < 23 ? defaultStartHour + 1 : 23,
+      minute: defaultStartHour == 23 ? 59 : 0,
+    );
 
     showModalBottomSheet(
       context: context,
@@ -608,6 +615,16 @@ class PlannerScreen extends StatelessWidget {
                           endTime.hour,
                           endTime.minute,
                         );
+                        if (startDateTime.isBefore(now)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                'Cannot add task for a time that has already passed.',
+                              ),
+                            ),
+                          );
+                          return;
+                        }
                         final plannedMinutes = endDateTime
                             .difference(startDateTime)
                             .inMinutes;
@@ -655,11 +672,8 @@ class PlannerScreen extends StatelessWidget {
   }
 
   String _formatTimeShort(DateTime time) {
-    final hour = time.hour > 12
-        ? time.hour - 12
-        : (time.hour == 0 ? 12 : time.hour);
+    final hour = time.hour.toString().padLeft(2, '0');
     final minute = time.minute.toString().padLeft(2, '0');
-    final period = time.hour >= 12 ? 'PM' : 'AM';
-    return '$hour:$minute $period';
+    return '$hour:$minute';
   }
 }

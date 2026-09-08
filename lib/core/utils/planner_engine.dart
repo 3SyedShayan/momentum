@@ -95,6 +95,47 @@ class PlannerEngine {
     return occupiedHours;
   }
 
+  static Set<int> getPastHours({
+    DateTime? forDate,
+    DateTime? currentTime,
+  }) {
+    final now = currentTime ?? DateTime.now();
+    final targetDate = forDate ?? now;
+    final targetDay = DateTime(
+      targetDate.year,
+      targetDate.month,
+      targetDate.day,
+    );
+    final currentDay = DateTime(now.year, now.month, now.day);
+
+    if (targetDay.isBefore(currentDay)) {
+      return Set<int>.from(List.generate(24, (i) => i));
+    }
+
+    if (targetDay.isAfter(currentDay)) {
+      return <int>{};
+    }
+
+    final pastHours = <int>{};
+    for (int h = 0; h < 24; h++) {
+      final hourTime = DateTime(
+        targetDate.year,
+        targetDate.month,
+        targetDate.day,
+        h,
+      );
+      if (hourTime.isBefore(now)) {
+        pastHours.add(h);
+      }
+    }
+    return pastHours;
+  }
+
+  static bool isTimePassed(DateTime time, [DateTime? currentTime]) {
+    final now = currentTime ?? DateTime.now();
+    return time.isBefore(now);
+  }
+
   static List<int> getAvailableEndHours({
     required int startHour,
     required Set<int> occupiedHours,
@@ -119,11 +160,12 @@ class PlannerEngine {
     required int startHour,
     required int endHour,
     required Set<int> occupiedHours,
+    Set<int> pastHours = const {},
   }) {
     if (endHour <= startHour) return false;
 
     for (int h = startHour; h < endHour; h++) {
-      if (occupiedHours.contains(h)) {
+      if (occupiedHours.contains(h) || pastHours.contains(h)) {
         return false;
       }
     }
