@@ -40,73 +40,6 @@ class _AddTaskModalState extends State<AddTaskModal> {
   int endHour = 10;
   bool _initialized = false;
 
-  void _initTimes(
-    Set<int> occupiedHours,
-    Set<int> pastHours,
-    _ScreenState state,
-  ) {
-    if (_initialized) return;
-    _initialized = true;
-
-    final unavailable = {...occupiedHours, ...pastHours};
-
-    if (widget.initialStartHour != null &&
-        !unavailable.contains(widget.initialStartHour)) {
-      startHour = widget.initialStartHour!;
-      final availableEnds = state.getAvailableEndHours(startHour, occupiedHours);
-      if (widget.initialEndHour != null &&
-          availableEnds.contains(widget.initialEndHour)) {
-        endHour = widget.initialEndHour!;
-      } else {
-        endHour = availableEnds.isNotEmpty
-            ? availableEnds.first
-            : (startHour + 1 <= 24 ? startHour + 1 : 24);
-      }
-      return;
-    }
-
-    final now = DateTime.now();
-    final isToday = state.selectedDate.year == now.year &&
-        state.selectedDate.month == now.month &&
-        state.selectedDate.day == now.day;
-    final defaultHour = isToday ? (now.hour < 23 ? now.hour + 1 : 0) : 9;
-
-    int candidateStart = defaultHour;
-    if (unavailable.contains(candidateStart)) {
-      candidateStart = -1;
-      for (int h = defaultHour; h < 24; h++) {
-        if (!unavailable.contains(h)) {
-          candidateStart = h;
-          break;
-        }
-      }
-      if (candidateStart == -1 && !isToday) {
-        for (int h = 0; h < defaultHour; h++) {
-          if (!unavailable.contains(h)) {
-            candidateStart = h;
-            break;
-          }
-        }
-      }
-    }
-
-    if (candidateStart != -1) {
-      startHour = candidateStart;
-      final availableEnds = state.getAvailableEndHours(candidateStart, occupiedHours);
-      endHour = availableEnds.isNotEmpty
-          ? availableEnds.first
-          : (candidateStart + 1 <= 24 ? candidateStart + 1 : 24);
-    }
-  }
-
-  String _formatHour(int hour) {
-    if (hour == 0) return '12:00 AM';
-    if (hour == 24) return '12:00 AM (Next Day)';
-    final period = hour >= 12 ? 'PM' : 'AM';
-    final displayHour = hour > 12 ? hour - 12 : hour;
-    return '$displayHour:00 $period';
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = _ScreenState.s(context);
@@ -117,7 +50,17 @@ class _AddTaskModalState extends State<AddTaskModal> {
         final tasks = snapshot.data ?? [];
         final occupiedHours = state.getOccupiedHours(tasks);
         final pastHours = state.getPastHours();
-        _initTimes(occupiedHours, pastHours, state);
+        if (!_initialized) {
+          _initialized = true;
+          final initial = state.getInitialTaskHours(
+            initialStartHour: widget.initialStartHour,
+            initialEndHour: widget.initialEndHour,
+            occupiedHours: occupiedHours,
+            pastHours: pastHours,
+          );
+          startHour = initial.startHour;
+          endHour = initial.endHour;
+        }
 
         final availableEnds = state.getAvailableEndHours(
           startHour,
@@ -317,7 +260,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                       ),
                                     ),
                                     child: Text(
-                                      _formatHour(startHour),
+                                      _ScreenState.formatHour(startHour),
                                       style: AppText.b1,
                                     ),
                                   ),
@@ -381,7 +324,7 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                       ),
                                     ),
                                     child: Text(
-                                      _formatHour(endHour),
+                                      _ScreenState.formatHour(endHour),
                                       style: AppText.b1,
                                     ),
                                   ),

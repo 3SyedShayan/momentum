@@ -37,43 +37,7 @@ class _TimelineGapItem extends StatelessWidget {
     final canSchedule = state.canAddTask && !isGapPassed;
 
     if (isGapPassed) {
-      return IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Left Time Column showing just the time ending
-            // SizedBox(
-            //   width: 52,
-            //   child: Column(
-            //     children: [
-            //       Padding(
-            //         padding: const EdgeInsets.only(top: 2),
-            //         child: Text(
-            //           state.formatTimeShort(gap.startTime),
-            //           style: AppText.b2.cl(
-            //             AppTheme.c.subText.withValues(alpha: 0.5),
-            //           ),
-            //           maxLines: 1,
-            //           overflow: TextOverflow.ellipsis,
-            //         ),
-            //       ),
-            //       if (!isLast)
-            //         Expanded(
-            //           child: Container(
-            //             width: 1.5,
-            //             color: AppTheme.c.border.withValues(alpha: 0.5),
-            //             margin: const EdgeInsets.symmetric(vertical: 2),
-            //           ),
-            //         ),
-            //     ],
-            //   ),
-            // ),
-            // Space.x.t08,
-            // Empty right side - no past slot card, just spacing
-            // const Expanded(child: SizedBox(height: 24)),
-          ],
-        ),
-      );
+      return const SizedBox.shrink();
     }
 
     final availableDurationText =

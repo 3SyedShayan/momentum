@@ -52,6 +52,63 @@ class _ScreenState extends ChangeNotifier {
     );
   }
 
+  ({int startHour, int endHour}) getInitialTaskHours({
+    int? initialStartHour,
+    int? initialEndHour,
+    required Set<int> occupiedHours,
+    required Set<int> pastHours,
+  }) {
+    final unavailable = {...occupiedHours, ...pastHours};
+
+    if (initialStartHour != null && !unavailable.contains(initialStartHour)) {
+      final availableEnds = getAvailableEndHours(
+        initialStartHour,
+        occupiedHours,
+      );
+      final resolvedEnd =
+          (initialEndHour != null && availableEnds.contains(initialEndHour))
+          ? initialEndHour
+          : (availableEnds.isNotEmpty
+                ? availableEnds.first
+                : (initialStartHour + 1 <= 24 ? initialStartHour + 1 : 24));
+      return (startHour: initialStartHour, endHour: resolvedEnd);
+    }
+
+    final now = DateTime.now();
+    final isToday =
+        selectedDate.year == now.year &&
+        selectedDate.month == now.month &&
+        selectedDate.day == now.day;
+    final defaultHour = isToday ? (now.hour < 23 ? now.hour + 1 : 0) : 9;
+
+    int candidateStart = defaultHour;
+    if (unavailable.contains(candidateStart)) {
+      candidateStart = -1;
+      for (int h = defaultHour; h < 24; h++) {
+        if (!unavailable.contains(h)) {
+          candidateStart = h;
+          break;
+        }
+      }
+      if (candidateStart == -1 && !isToday) {
+        for (int h = 0; h < defaultHour; h++) {
+          if (!unavailable.contains(h)) {
+            candidateStart = h;
+            break;
+          }
+        }
+      }
+    }
+
+    final resolvedStart = candidateStart != -1 ? candidateStart : 9;
+    final availableEnds = getAvailableEndHours(resolvedStart, occupiedHours);
+    final resolvedEnd = availableEnds.isNotEmpty
+        ? availableEnds.first
+        : (resolvedStart + 1 <= 24 ? resolvedStart + 1 : 24);
+
+    return (startHour: resolvedStart, endHour: resolvedEnd);
+  }
+
   void submitAddTask(
     BuildContext context, {
     required int startHour,
@@ -152,11 +209,14 @@ class _ScreenState extends ChangeNotifier {
   }
 
   String formatTimeShort(DateTime time) {
-    final hour = time.hour > 12
-        ? time.hour - 12
-        : (time.hour == 0 ? 12 : time.hour);
+    final hour = time.hour.toString().padLeft(2, '0');
     final minute = time.minute.toString().padLeft(2, '0');
-    final period = time.hour >= 12 ? 'PM' : 'AM';
-    return '$hour:$minute $period';
+    return '$hour:$minute';
+  }
+
+  static String formatHour(int hour) {
+    if (hour == 24) return '24:00 (Next Day)';
+    final displayHour = hour.toString().padLeft(2, '0');
+    return '$displayHour:00';
   }
 }

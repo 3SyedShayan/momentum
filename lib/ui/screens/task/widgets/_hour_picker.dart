@@ -45,14 +45,6 @@ class HourPickerModal extends StatelessWidget {
     );
   }
 
-  String _formatHour(int hour) {
-    if (hour == 0) return '12:00 AM';
-    if (hour == 24) return '12:00 AM (Next Day)';
-    final period = hour >= 12 ? 'PM' : 'AM';
-    final displayHour = hour > 12 ? hour - 12 : hour;
-    return '$displayHour:00 $period';
-  }
-
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController(
@@ -110,7 +102,7 @@ class HourPickerModal extends StatelessWidget {
                       ? AppTheme.c.primary.withValues(alpha: 0.1)
                       : null,
                   title: Text(
-                    _formatHour(hour),
+                    _ScreenState.formatHour(hour),
                     style: isDisabled
                         ? AppText.b1.cl(
                             AppTheme.c.subText.withValues(
