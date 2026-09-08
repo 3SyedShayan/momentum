@@ -122,4 +122,104 @@ void main() {
       expect(stats.completionPercentage, 0.5);
     });
   });
+
+  group('PlannerEngine.getPastHours and isTimePassed', () {
+    test('returns all 24 hours when target date is before today', () {
+      final now = DateTime(2026, 9, 8, 14, 30);
+      final yesterday = DateTime(2026, 9, 7);
+      final pastHours = PlannerEngine.getPastHours(
+        forDate: yesterday,
+        currentTime: now,
+      );
+
+      expect(pastHours.length, 24);
+      expect(pastHours, containsAll(List.generate(24, (i) => i)));
+    });
+
+    test('returns empty set when target date is in the future', () {
+      final now = DateTime(2026, 9, 8, 14, 30);
+      final tomorrow = DateTime(2026, 9, 9);
+      final pastHours = PlannerEngine.getPastHours(
+        forDate: tomorrow,
+        currentTime: now,
+      );
+
+      expect(pastHours, isEmpty);
+    });
+
+    test('returns hours before current time for today', () {
+      // At 14:30 (2:30 PM), hours 0 through 14 have started before now
+      final now = DateTime(2026, 9, 8, 14, 30);
+      final today = DateTime(2026, 9, 8);
+      final pastHours = PlannerEngine.getPastHours(
+        forDate: today,
+        currentTime: now,
+      );
+
+      // Hours 0..14 should be past
+      for (int h = 0; h <= 14; h++) {
+        expect(pastHours.contains(h), isTrue, reason: 'Hour $h should be past');
+      }
+      // Hours 15..23 should NOT be past
+      for (int h = 15; h < 24; h++) {
+        expect(
+          pastHours.contains(h),
+          isFalse,
+          reason: 'Hour $h should not be past',
+        );
+      }
+    });
+
+    test('isTimePassed correctly detects past vs future moments', () {
+      final now = DateTime(2026, 9, 8, 14, 30);
+      expect(
+        PlannerEngine.isTimePassed(DateTime(2026, 9, 8, 14, 0), now),
+        isTrue,
+      );
+      expect(
+        PlannerEngine.isTimePassed(DateTime(2026, 9, 8, 15, 0), now),
+        isFalse,
+      );
+    });
+  });
+
+  group('PlannerEngine.isRangeAvailable with pastHours', () {
+    test('rejects range when it overlaps with past hours', () {
+      final occupiedHours = <int>{18};
+      final pastHours = <int>{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
+
+      // Range 10-12 is in pastHours
+      expect(
+        PlannerEngine.isRangeAvailable(
+          startHour: 10,
+          endHour: 12,
+          occupiedHours: occupiedHours,
+          pastHours: pastHours,
+        ),
+        isFalse,
+      );
+
+      // Range 14-16 overlaps with hour 14 in pastHours
+      expect(
+        PlannerEngine.isRangeAvailable(
+          startHour: 14,
+          endHour: 16,
+          occupiedHours: occupiedHours,
+          pastHours: pastHours,
+        ),
+        isFalse,
+      );
+
+      // Range 15-17 is free of both pastHours and occupiedHours
+      expect(
+        PlannerEngine.isRangeAvailable(
+          startHour: 15,
+          endHour: 17,
+          occupiedHours: occupiedHours,
+          pastHours: pastHours,
+        ),
+        isTrue,
+      );
+    });
+  });
 }

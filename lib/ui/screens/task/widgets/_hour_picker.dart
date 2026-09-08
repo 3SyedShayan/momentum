@@ -5,6 +5,8 @@ class HourPickerModal extends StatelessWidget {
     super.key,
     required this.initialHour,
     this.disabledHours = const {},
+    this.pastHours = const {},
+    this.occupiedHours = const {},
     this.minHour = 0,
     this.maxHour = 23,
     this.title = 'Select Hour',
@@ -12,6 +14,8 @@ class HourPickerModal extends StatelessWidget {
 
   final int initialHour;
   final Set<int> disabledHours;
+  final Set<int> pastHours;
+  final Set<int> occupiedHours;
   final int minHour;
   final int maxHour;
   final String title;
@@ -20,6 +24,8 @@ class HourPickerModal extends StatelessWidget {
     BuildContext context, {
     required int initialHour,
     Set<int> disabledHours = const {},
+    Set<int> pastHours = const {},
+    Set<int> occupiedHours = const {},
     int minHour = 0,
     int maxHour = 23,
     String title = 'Select Hour',
@@ -30,6 +36,8 @@ class HourPickerModal extends StatelessWidget {
       builder: (modalContext) => HourPickerModal(
         initialHour: initialHour,
         disabledHours: disabledHours,
+        pastHours: pastHours,
+        occupiedHours: occupiedHours,
         minHour: minHour,
         maxHour: maxHour,
         title: title,
@@ -87,7 +95,10 @@ class HourPickerModal extends StatelessWidget {
               itemBuilder: (context, index) {
                 final hour = minHour + index;
                 final isSelected = hour == initialHour;
-                final isDisabled = disabledHours.contains(hour);
+                final isPast = pastHours.contains(hour);
+                final isOccupied =
+                    occupiedHours.contains(hour) || disabledHours.contains(hour);
+                final isDisabled = isPast || isOccupied;
 
                 return ListTile(
                   dense: true,
@@ -102,26 +113,35 @@ class HourPickerModal extends StatelessWidget {
                     _formatHour(hour),
                     style: isDisabled
                         ? AppText.b1.cl(
-                            AppTheme.c.subText.withValues(alpha: 0.4),
+                            AppTheme.c.subText.withValues(
+                              alpha: isPast ? 0.35 : 0.4,
+                            ),
                           )
                         : (isSelected
                             ? AppText.b1b.cl(AppTheme.c.primary)
                             : AppText.b1),
                   ),
-                  trailing: isDisabled
+                  trailing: isPast
                       ? Text(
-                          'Occupied',
+                          'Passed',
                           style: AppText.l1.cl(
-                            Colors.red.withValues(alpha: 0.7),
+                            AppTheme.c.subText.withValues(alpha: 0.5),
                           ),
                         )
-                      : (isSelected
-                          ? Icon(
-                              LucideIcons.check,
-                              color: AppTheme.c.primary,
-                              size: 18,
+                      : isOccupied
+                          ? Text(
+                              'Occupied',
+                              style: AppText.l1.cl(
+                                Colors.red.withValues(alpha: 0.7),
+                              ),
                             )
-                          : null),
+                          : (isSelected
+                              ? Icon(
+                                  LucideIcons.check,
+                                  color: AppTheme.c.primary,
+                                  size: 18,
+                                )
+                              : null),
                   onTap: isDisabled ? null : () => Navigator.pop(context, hour),
                 );
               },

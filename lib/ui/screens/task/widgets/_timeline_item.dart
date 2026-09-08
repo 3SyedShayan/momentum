@@ -46,12 +46,23 @@ class _TimelineItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                if (!isLast)
-                  Expanded(
-                    child: Container(
-                      width: 1.5,
-                      color: AppTheme.c.border.withValues(alpha: 0.8),
-                      margin: const EdgeInsets.symmetric(vertical: 4),
+                Expanded(
+                  child: Container(
+                    width: 1.5,
+                    color: AppTheme.c.border.withValues(alpha: 0.8),
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                  ),
+                ),
+                if (isLast)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Text(
+                      state.formatTimeShort(task.endTime),
+                      style: AppText.b2.cl(
+                        AppTheme.c.subText.withValues(alpha: 0.5),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
               ],

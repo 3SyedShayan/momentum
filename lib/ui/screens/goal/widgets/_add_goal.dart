@@ -7,10 +7,8 @@ class AddGoal extends StatelessWidget {
     final state = _ScreenState.s(context);
     return showModalBottomSheet(
       context: context,
-      builder: (_) => ChangeNotifierProvider.value(
-        value: state,
-        child: const AddGoal(),
-      ),
+      builder: (_) =>
+          ChangeNotifierProvider.value(value: state, child: const AddGoal()),
     );
   }
 

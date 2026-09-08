@@ -40,12 +40,18 @@ class _AddTaskModalState extends State<AddTaskModal> {
   int endHour = 10;
   bool _initialized = false;
 
-  void _initTimes(Set<int> occupiedHours, _ScreenState state) {
+  void _initTimes(
+    Set<int> occupiedHours,
+    Set<int> pastHours,
+    _ScreenState state,
+  ) {
     if (_initialized) return;
     _initialized = true;
 
+    final unavailable = {...occupiedHours, ...pastHours};
+
     if (widget.initialStartHour != null &&
-        !occupiedHours.contains(widget.initialStartHour)) {
+        !unavailable.contains(widget.initialStartHour)) {
       startHour = widget.initialStartHour!;
       final availableEnds = state.getAvailableEndHours(startHour, occupiedHours);
       if (widget.initialEndHour != null &&
@@ -66,17 +72,17 @@ class _AddTaskModalState extends State<AddTaskModal> {
     final defaultHour = isToday ? (now.hour < 23 ? now.hour + 1 : 0) : 9;
 
     int candidateStart = defaultHour;
-    if (occupiedHours.contains(candidateStart)) {
+    if (unavailable.contains(candidateStart)) {
       candidateStart = -1;
       for (int h = defaultHour; h < 24; h++) {
-        if (!occupiedHours.contains(h)) {
+        if (!unavailable.contains(h)) {
           candidateStart = h;
           break;
         }
       }
-      if (candidateStart == -1) {
+      if (candidateStart == -1 && !isToday) {
         for (int h = 0; h < defaultHour; h++) {
-          if (!occupiedHours.contains(h)) {
+          if (!unavailable.contains(h)) {
             candidateStart = h;
             break;
           }
@@ -110,7 +116,8 @@ class _AddTaskModalState extends State<AddTaskModal> {
       builder: (context, snapshot) {
         final tasks = snapshot.data ?? [];
         final occupiedHours = state.getOccupiedHours(tasks);
-        _initTimes(occupiedHours, state);
+        final pastHours = state.getPastHours();
+        _initTimes(occupiedHours, pastHours, state);
 
         final availableEnds = state.getAvailableEndHours(
           startHour,
@@ -259,10 +266,12 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                 Space.y.t08,
                                 InkWell(
                                   onTap: () async {
+                                    final pastHours = state.getPastHours();
                                     final hour = await HourPickerModal.show(
                                       context,
                                       initialHour: startHour,
-                                      disabledHours: occupiedHours,
+                                      occupiedHours: occupiedHours,
+                                      pastHours: pastHours,
                                       maxHour: 23,
                                       title: 'Select Start Hour',
                                     );
@@ -337,10 +346,13 @@ class _AddTaskModalState extends State<AddTaskModal> {
                                 Space.y.t08,
                                 InkWell(
                                   onTap: () async {
+                                    final pastHours = state.getPastHours();
                                     final hour = await HourPickerModal.show(
                                       context,
                                       initialHour: endHour,
                                       disabledHours: disabledEnds,
+                                      occupiedHours: occupiedHours,
+                                      pastHours: pastHours,
                                       maxHour: 24,
                                       title: 'Select End Hour',
                                     );

@@ -17,7 +17,16 @@ class _ScreenState extends ChangeNotifier {
       selectedDate.day,
     );
     final maxDate = DateTime(today.year, today.month, today.day + 2);
-    return !target.isBefore(today) && !target.isAfter(maxDate);
+    if (target.isBefore(today) || target.isAfter(maxDate)) {
+      return false;
+    }
+    if (target.isAtSameMomentAs(today)) {
+      final pastHours = getPastHours();
+      if (pastHours.length >= 24) {
+        return false;
+      }
+    }
+    return true;
   }
 
   Stream<List<TaskX>> watchAllTasks(DateTime date) {
@@ -30,6 +39,10 @@ class _ScreenState extends ChangeNotifier {
 
   Set<int> getOccupiedHours(List<TaskX> tasks) {
     return PlannerEngine.getOccupiedHours(tasks, forDate: selectedDate);
+  }
+
+  Set<int> getPastHours() {
+    return PlannerEngine.getPastHours(forDate: selectedDate);
   }
 
   List<int> getAvailableEndHours(int startHour, Set<int> occupiedHours) {
@@ -48,14 +61,40 @@ class _ScreenState extends ChangeNotifier {
     if (!canAddTask) return;
     final form = taskFormKey.currentState;
     if (form == null || !form.saveAndValidate()) return;
+
+    final startDateTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      startHour,
+    );
+    final endDateTime = DateTime(
+      selectedDate.year,
+      selectedDate.month,
+      selectedDate.day,
+      endHour,
+    );
+
+    final now = DateTime.now();
+    if (startDateTime.isBefore(now)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Cannot add task for a time that has already passed.'),
+        ),
+      );
+      return;
+    }
+
+    final pastHours = getPastHours();
     final isValid = PlannerEngine.isRangeAvailable(
       startHour: startHour,
       endHour: endHour,
       occupiedHours: occupiedHours,
+      pastHours: pastHours,
     );
     if (!isValid) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Time slot is already occupied.')),
+        const SnackBar(content: Text('Time slot is unavailable or occupied.')),
       );
       return;
     }
@@ -70,18 +109,8 @@ class _ScreenState extends ChangeNotifier {
       title: title,
       description: description,
       category: category,
-      startTime: DateTime(
-        selectedDate.year,
-        selectedDate.month,
-        selectedDate.day,
-        startHour,
-      ),
-      endTime: DateTime(
-        selectedDate.year,
-        selectedDate.month,
-        selectedDate.day,
-        endHour,
-      ),
+      startTime: startDateTime,
+      endTime: endDateTime,
       isCompleted: false,
     );
 
