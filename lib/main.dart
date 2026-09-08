@@ -38,10 +38,7 @@ void main() async {
                 AuthBloc(authRepository: authRepository)
                   ..add(AuthSubscriptionRequested()),
           ),
-          BlocProvider<CategoriesBloc>(
-            create: (context) =>
-                CategoriesBloc(momentumRepository: momentumRepository),
-          ),
+
           BlocProvider<TasksBloc>(
             create: (context) =>
                 TasksBloc(momentumRepository: momentumRepository),
@@ -79,7 +76,6 @@ class _MomentumAppState extends State<MomentumApp> {
       listener: (context, state) {
         if (state is Authenticated) {
           final uid = state.user.uid;
-          context.read<CategoriesBloc>().add(SubscribeCategories(uid));
           context.read<TasksBloc>().add(SubscribeTasks(uid));
           context.read<GoalsBloc>().add(SubscribeGoals(uid));
           context.read<ProfileCubit>().fetchProfile(uid);
