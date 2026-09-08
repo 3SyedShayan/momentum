@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_lucide/flutter_lucide.dart';
-import 'package:momentum/blocs/auth/auth_bloc.dart';
-import 'package:momentum/blocs/auth/auth_event.dart';
-import 'package:momentum/blocs/auth/auth_state.dart';
-import 'package:momentum/blocs/profile/profile_cubit.dart';
-import 'package:momentum/blocs/profile/profile_state.dart';
 import 'package:momentum/configs/configs.dart';
 import 'package:momentum/core/screen/screen.dart';
 import 'package:momentum/ui/widgets/core/screen_header/screen_header.dart';
