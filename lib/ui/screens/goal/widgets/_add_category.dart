@@ -27,7 +27,7 @@ class AddCategoryModal extends StatelessWidget {
             _CategoryFormKeys.color: category!.color,
             _CategoryFormKeys.icon: category!.icon,
           }
-        : _GoalFormData.initialGoalValues();
+        : _GoalFormData.initialCategoryValues();
 
     return FormBuilder(
       key: state.categoryFormKey,
@@ -36,8 +36,27 @@ class AddCategoryModal extends StatelessWidget {
         padding: Space.a.t20,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Add New Category', style: AppText.h2),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  isEditing ? 'Edit Category' : 'Add New Category',
+                  style: AppText.h2,
+                ),
+                if (isEditing)
+                  IconButton(
+                    icon: const Icon(
+                      LucideIcons.trash_2,
+                      color: Colors.red,
+                      size: 20,
+                    ),
+                    onPressed: () =>
+                        confirmDelete(context, category!),
+                  ),
+              ],
+            ),
             Space.y.t16,
             AppFormTextInput(
               name: _CategoryFormKeys.title,
@@ -106,13 +125,56 @@ class AddCategoryModal extends StatelessWidget {
               },
             ),
 
-            Space.y.t16,
+            Space.y.t20,
             AppButton(
               label: isEditing ? 'Update Category' : 'Save Category',
-              onTap: () => state.submitAddCategory(context),
+              onTap: () => state.submitAddCategory(
+                context,
+                existingCategory: category,
+              ),
             ),
+            if (isEditing) ...[
+              Space.y.t12,
+              AppButton(
+                label: 'Delete Category',
+                style: AppButtonStyle.error,
+                icon: LucideIcons.trash_2,
+                onTap: () =>
+                    confirmDelete(context, category!),
+              ),
+            ],
           ],
         ),
+      ),
+    );
+  }
+
+  static void confirmDelete(
+    BuildContext context,
+    CategoryX category,
+  ) {
+    final state = _ScreenState.s(context);
+    showDialog(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        title: const Text('Delete Category'),
+        content: Text('Are you sure you want to delete "${category.name}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogCtx).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(dialogCtx).pop();
+              state.deleteCategory(context, category);
+            },
+            child: const Text(
+              'Delete',
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
       ),
     );
   }

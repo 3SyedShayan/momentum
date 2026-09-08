@@ -90,8 +90,8 @@ class AddGoal extends StatelessWidget {
                                     border: Border.all(
                                       color: isSelected
                                           ? Color(cat.color)
-                                          : Colors.transparent,
-                                      width: 1.5,
+                                          : AppTheme.c.border,
+                                      width: 1.2,
                                     ),
                                   ),
                                   child: Row(

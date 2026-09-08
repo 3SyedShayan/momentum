@@ -22,4 +22,12 @@ class GoalRepo {
     final comp = _toCompanion(goal);
     return GoalProvider.addGoal(comp);
   }
+
+  Future<void> deleteGoal(int id) {
+    return GoalProvider.deleteGoal(id);
+  }
+
+  Future<void> toggleGoalCompletion(int id, bool isCompleted) {
+    return GoalProvider.setGoalCompletion(id, isCompleted);
+  }
 }

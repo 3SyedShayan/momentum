@@ -1,7 +1,6 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
@@ -21,8 +20,6 @@ import 'package:flutter_lucide/flutter_lucide.dart';
 
 part '_state.dart';
 part 'widgets/_header.dart';
-part 'dummy_data/_dummy_goals.dart';
-part 'dummy_data/_dummy_categories.dart';
 part 'widgets/_tabselector.dart';
 part 'widgets/_goalcard.dart';
 part 'widgets/_allcategories.dart';

@@ -6,11 +6,6 @@ class _ScreenState extends ChangeNotifier {
 
   GoalType selectedTab = GoalType.weekly;
 
-  List<GoalX> get goals => allGoals;
-
-  List<GoalX> get currentGoals =>
-      allGoals.where((g) => g.type == selectedTab).toList();
-
   void setTab(GoalType tab) {
     if (selectedTab == tab) return;
     selectedTab = tab;
@@ -21,19 +16,21 @@ class _ScreenState extends ChangeNotifier {
     return GoalRepo.ins.watchAllGoals();
   }
 
-  void addSessionToToday(GoalX item) {
-    final index = allGoals.indexWhere((g) => g.id == item.id);
-    if (index != -1 && (allGoals[index].percentageCompleted ?? 0.0) < 1.0) {
-      final updated = allGoals[index];
-      final newProgress = ((updated.percentageCompleted ?? 0.0) + 0.25).clamp(
-        0.0,
-        1.0,
-      );
-      allGoals[index] = updated.copyWith(
-        percentageCompleted: newProgress,
-        isCompleted: newProgress >= 1.0,
-      );
-      notifyListeners();
+  void deleteCategory(BuildContext context, CategoryX category) {
+    if (category.id != null) {
+      CategoryCubit().deleteCategory(category.id!);
+    }
+    if (context.mounted) context.pop();
+  }
+
+  void deleteGoal(int id) {
+    GoalCubit().deleteGoal(id);
+  }
+
+  void toggleGoalCompletion(GoalX goal) {
+    if (goal.id != null) {
+      final newStatus = !(goal.isCompleted ?? false);
+      GoalCubit().toggleGoalCompletion(goal.id!, newStatus);
     }
   }
 
@@ -58,8 +55,6 @@ class _ScreenState extends ChangeNotifier {
     }
     if (context.mounted) context.pop();
   }
-
-  void editCategory(CategoryX category) {}
 
   void submitAddGoal(BuildContext context) {
     final form = goalFormKey.currentState;

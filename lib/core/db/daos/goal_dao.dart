@@ -41,6 +41,15 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
     return update(goal).replace(entry);
   }
 
+  /// Update goal completion status
+  Future<int> setGoalCompletion(int id, bool isCompleted) {
+    return (update(goal)..where((t) => t.id.equals(id))).write(
+      GoalCompanion(
+        isCompleted: Value(isCompleted),
+      ),
+    );
+  }
+
   Stream<List<GoalWithCategoryData>> watchGoalsWithCategories() {
     final query = select(goal).join([
       innerJoin(category, category.id.equalsExp(goal.categoryId)),

@@ -28,4 +28,20 @@ class GoalCubit extends Cubit<GoalState> {
       );
     }
   }
+
+  void deleteGoal(int id) async {
+    try {
+      await GoalRepo.ins.deleteGoal(id);
+    } catch (e) {
+      e.appLog(level: AppLogLevel.error, tag: 'GoalCubit');
+    }
+  }
+
+  void toggleGoalCompletion(int id, bool isCompleted) async {
+    try {
+      await GoalRepo.ins.toggleGoalCompletion(id, isCompleted);
+    } catch (e) {
+      e.appLog(level: AppLogLevel.error, tag: 'GoalCubit');
+    }
+  }
 }
